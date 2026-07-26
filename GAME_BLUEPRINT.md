@@ -1,7 +1,7 @@
 # GAME_BLUEPRINT.md — the master plan for every game this factory makes
 
 **Read order at the start of any game session: FACTORY.md (toolchain) → this file (what to build
-and why) → PLAYBOOK.md (how to build it) → LESSONS.md (54 binding rules from mistakes already made).**
+and why) → PLAYBOOK.md (how to build it) → LESSONS.md (56 binding rules from mistakes already made).**
 
 Everything here was learned the expensive way on game #1 «بریز و بساز» — through user rejections,
 a 14-agent adversarial audit, a 19-agent design panel, and market research on Cafe Bazaar/Myket.

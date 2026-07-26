@@ -360,3 +360,23 @@ Test BOTH paths headlessly — against a live local server AND against a dead po
 queue survives, no crash occurs, and the UI still opens. Server: `server/scoreboard.py`, one
 process for every game (`/api/<game>/...`), unique nicknames, best-kept-wins so a later worse run
 cannot lower a standing rank.
+
+## L55 — Have the README fact-checked before it is the front door (2026-07-26)
+The first published README credited "Cafe Bazaar (Poolakey)" for the Bazaar plugin as though it
+were official, implied the autoplay bot was one of the 136 GUT tests, and said the project was
+"MIT licensed" when the vendored fonts are SIL OFL. An adversarial review caught all three.
+**RULE:** before publishing a public repo, verify every attribution against the file on disk
+(`plugin.cfg` author, `LICENSE` holder), count metrics rather than estimating them
+(`grep -c "^func test_"`), and separate "what we wrote" from "what we vendored" in both the README
+and a THIRD_PARTY.md. Getting attribution wrong in public is worse than saying less.
+
+## L56 — Publishing checklist for a public repo (2026-07-26)
+Order that worked: (1) scan the tree for secrets *before* `git init` — this one had lived beside a
+keystore, an API key and a GitHub token; (2) `.gitignore` secrets, the ~1 GB Gradle template, build
+artifacts and the server database; (3) drop upstream packages you only use two files from (a 20 MB
+font distribution was 40% of the repo); (4) neutralise machine-specific absolute paths in docs;
+(5) commit with the STUDIO as author and no AI co-author trailer when the owner asks for that;
+(6) push with the token inline, then set a clean remote so no token lands in `.git/config`;
+(7) attach large binaries as Release assets, never as git blobs.
+A token without the `workflow` scope cannot create `.github/workflows/*` — ship the CI file at
+another path with instructions rather than failing the push.

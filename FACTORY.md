@@ -1,6 +1,6 @@
 # Game Factory
 
-> **Before building anything read, in order: this file (toolchain) → GAME_BLUEPRINT.md (the master plan: what every game must have, store policy, shop, notifications, idea backlog) → PLAYBOOK.md (how to build it) → LESSONS.md (54 binding rules from real mistakes).**
+> **Before building anything read, in order: this file (toolchain) → GAME_BLUEPRINT.md (the master plan: what every game must have, store policy, shop, notifications, idea backlog) → PLAYBOOK.md (how to build it) → LESSONS.md (56 binding rules from real mistakes).**
 
 Automated pipeline that produces, tests, and packages bilingual (English/Persian)
 2D games for Android (Google Play), itch.io (PC), and later Steam.
