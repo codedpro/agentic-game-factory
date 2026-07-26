@@ -159,7 +159,7 @@ elsewhere, a shared-with-everyone moment. Same structural properties, no locale 
 
 | Layer | Examples | Repeatable? |
 |---|---|---|
-| Real money → soft currency | coin packs ×3 | ♾ yes |
+| Real money → soft currency | coin packs ×4, an ascending ladder | ♾ yes |
 | Real money → gratitude | «حمایت از بازی» supporter tip, stacking ❤ badge | ♾ yes |
 | Coins → consumables | undo pack, streak shield, treasury key, mission reroll | ♾ yes |
 | Coins → cosmetics | tile themes, card frames | one-off each |
@@ -177,7 +177,10 @@ elsewhere, a shared-with-everyone moment. Same structural properties, no locale 
 
 **Store billing (the reusable pattern — the SDKs themselves are in the market module §7)**
 - Put billing behind an abstraction (`scripts/iap.gd`) that reports `available() == false` when the
-  plugin or key is missing, and **hide the money UI** rather than showing dead buttons.
+  plugin or key is missing. **Keep the money UI visible and disable it with a stated reason**
+  (`unavailable_reason()` → one player-facing line). Hiding it is worse than a dead button: the
+  player concludes the game has no purchases at all, and the first real report from game #1 was
+  exactly that. A disabled button plus "purchases are not active yet" is honest and self-explaining.
 - **Load the store plugin dynamically.** A direct `class_name` reference makes the build fail
   wherever the addon is absent.
 - Native plugins require Godot's **Gradle custom build**, not the prebuilt export template. Set
@@ -188,6 +191,19 @@ elsewhere, a shared-with-everyone moment. Same structural properties, no locale 
   artifact; `pipeline/build_stores.sh` gates each plugin and fails the build on leakage.
 - Never vendor a billing library whose licence you cannot verify — write a thin client instead
   (`games/mergedrop/addons/myket` is a worked example of doing exactly that).
+
+**Designing the coin ladder**
+- **Four tiers, ascending, each with strictly more coins per unit of money than the one below.** A
+  ladder where a bigger pack is worse value is the fastest way to lose trust.
+- Show, on the card: the coin amount in local digits, a **"+N% more"** badge, and at most two
+  highlight tags (`popular` on the mid-high tier, `best` on the top tier). Nothing else.
+- **The badge must understate, never overstate.** Prices are set in the store panel, not in code,
+  so no test can check it — the store-submission doc carries the price ladder and the rule
+  alongside the SKU table so whoever sets prices sees both.
+- Pick coin values that make the whole economy read like real money: item costs in the thousands,
+  packs in the tens of thousands. Small numbers make every purchase feel like a rounding error.
+- **Scale the economy by constants, never by editing tests.** Tests must derive their wallets from
+  `Economy.item_cost(id)` so a retune is a one-line change (LESSONS L62).
 
 
 ## 5. Notifications — policy decided, do not redesign

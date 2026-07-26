@@ -429,3 +429,29 @@ attempted, so a healthy connection still looked broken for the first seconds.
 **RULE:** model connectivity as UNKNOWN / ONLINE / OFFLINE, probe a cheap `/healthz` on startup,
 and show "checking…" until something has actually been tried. Never present an initial default as
 a diagnosis.
+
+
+## L62 — An invisible store is a store that does not exist (2026-07-26, user report)
+The shop hid its coin tab whenever billing was unavailable — defensible as "no dead buttons", and
+completely wrong in practice. The player's report was *"i dont see a way to purchase them"*: on any
+build without the store key (which is every build before the first upload), the game looked like it
+sold nothing at all.
+**RULE:** always render the money UI. When billing is unavailable, list the real catalogue, disable
+the buy buttons, and print ONE player-facing line saying why — driven by a `unavailable_reason()`
+that distinguishes not-android / no-plugin / no-key / store-app-missing. Ship a test that renders
+the tab with no plugin present and asserts every SKU name appears and every buy button is disabled.
+
+## L63 — Retunes must be constant-only; make tests derive their numbers (2026-07-26)
+Scaling the economy 10x broke three tests that had hard-coded `Store.coins = 10000` and expected
+literal balances. The failures were noise, not signal — nothing was actually wrong.
+**RULE:** a test must never restate a number the catalogue already owns. Set the wallet from
+`Economy.item_cost(id)` and assert against `ITEMS[id].amount`. Then a balance retune touches exactly
+one file, and any test that does fail is reporting a real regression.
+
+## L64 — Card layouts need a geometry test, not an eyeball (2026-07-26)
+The new coin cards passed every existing check and still had the "best value" badge drawn under the
+pack title — the layout tests skip anything inside a `ScrollContainer` (correct: scrolled content
+legitimately leaves the viewport), so nothing looked.
+**RULE:** for any hand-positioned card, add a test that walks each card's direct children at three
+viewport sizes and asserts (a) nothing extends past the card's own height and (b) no two children
+overlap by more than a few percent. It found the collision on the first run.

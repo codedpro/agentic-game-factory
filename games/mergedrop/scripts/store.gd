@@ -5,7 +5,7 @@ const PATH := "user://save.cfg"
 const ACH_IDS := ["merge1", "tile64", "tile256", "tile1024", "tile2048",
 	"chain3", "chain5", "score10k", "games25", "daily1"]
 const THEME_IDS := ["classic", "sunset", "neon", "garden"]
-const THEME_COST := {"classic": 0, "sunset": 300, "neon": 500, "garden": 800}
+const THEME_COST := {"classic": 0, "sunset": 3000, "neon": 5000, "garden": 8000}
 
 var best_score := 0
 var sound_on := true
@@ -231,7 +231,7 @@ func unlock(id: String) -> bool:
 	if id in achievements or not id in ACH_IDS:
 		return false
 	achievements.append(id)
-	add_coins(50)
+	add_coins(500)
 	return true
 
 

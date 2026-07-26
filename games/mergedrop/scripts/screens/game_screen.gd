@@ -541,7 +541,7 @@ func _record_over() -> Dictionary:
 		_try_ach("daily1")
 		# The fal is a daily-LOGIN gift now (see main.gd). Finishing the challenge pays
 		# coins scaled by the run, and the run goes to the global board for a rank.
-		var reward: int = clampi(20 + int(board.score / 60.0), 20, 300)
+		var reward: int = clampi(200 + int(board.score / 6.0), 200, 3000)
 		Store.add_coins(reward)
 		_over_coins = reward
 	return _over_fal

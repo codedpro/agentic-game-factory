@@ -18,7 +18,7 @@ Requirements below were researched from Bazaar's developer docs and Myket's know
 | Icon | PNG 1:1, ≥512×512, ≤3 MB, **plain square, no pre-rounded corners/shadow**, identical to launcher icon | `../../games/mergedrop/icon.png` (512²), `icon_store_1024.png` | ✅ |
 | Header image (سرصفحه) | PNG, ratio 5:2, ≥720×288, ≤1 MB | `screenshots/header_720x288.png` (41 KB) | ✅ |
 | Promo screenshot | JPG, 16:9, ≥1152×648, ≤1 MB | `screenshots/promo_1152x648.jpg` (44 KB) | ✅ |
-| Screenshots | ≥1, 5–6 recommended, max 12, ≤1 MB each | `screenshots/01..06_*.png` (1080×1920, ≤240 KB each) | ✅ |
+| Screenshots | ≥1, 5–6 recommended, max 12, ≤1 MB each | `screenshots/01..07_*.png` (1080×1920, ≤900 KB each) | ✅ |
 | Persian name | ≤100 chars, >16 truncates, **must equal on-device name** | «بریز و بساز» (11 chars) — matches APK label | ✅ |
 | Short description | **≤60 chars** | «هر روز یک فال حافظ + پازل اعتیادآور ادغام اعداد» (47) | ✅ |
 | Full description | — | `store_listing_fa.md` | ✅ |
@@ -64,15 +64,23 @@ abstraction and switch on once you complete these steps — **no code changes ne
 been uploaded to your panel, and only you can create the products.
 
 1. Upload `MergeDrop-release.apk` to Pishkhan → your app → **«پرداخت درون‌برنامه‌ای»**.
-2. Create four products with exactly these ids **in BOTH panels** (prices are yours to choose;
-   mark them **consumable** so they can be bought repeatedly):
+2. Create **five** products with exactly these ids **in BOTH panels**, marked **consumable**
+   so they can be bought repeatedly:
 
-   | Product id | What the player gets |
-   |---|---|
-   | `coins_small` | ۵۰۰ سکه |
-   | `coins_medium` | ۱۵۰۰ سکه |
-   | `coins_large` | ۴۰۰۰ سکه |
-   | `supporter_tip` | نشان «حامی بازی» + ۳۰۰ سکه (repeatable) |
+   | Product id | What the player gets | Suggested price |
+   |---|---|---|
+   | `coins_small` | ۵٬۰۰۰ سکه | ۱۹٬۰۰۰ تومان |
+   | `coins_medium` | ۱۵٬۰۰۰ سکه (نشان «۱۰٪ بیشتر») | ۴۹٬۰۰۰ تومان |
+   | `coins_large` | ۴۰٬۰۰۰ سکه (نشان «۲۵٪ بیشتر» + «پرفروش‌ترین») | ۹۹٬۰۰۰ تومان |
+   | `coins_mega` | ۱۰۰٬۰۰۰ سکه (نشان «۴۰٪ بیشتر» + «بهترین ارزش») | ۱۹۹٬۰۰۰ تومان |
+   | `supporter_tip` | نشان «حامی بازی» + ۳٬۰۰۰ سکه (repeatable) | ۲۹٬۰۰۰ تومان |
+
+   **Prices are yours to choose, but keep the ladder honest.** The pack cards advertise
+   «۱۰٪/۲۵٪/۴۰٪ بیشتر», so every tier must give at least that much more per toman than
+   `coins_small` does. The suggested ladder above clears it comfortably (+۱۶٪, +۵۴٪, +۹۱٪).
+   If you price differently and a tier no longer beats its badge, tell me and I will lower the
+   `bonus` number in [`scripts/iap.gd`](../../games/mergedrop/scripts/iap.gd) — an overstated
+   badge is the kind of thing that gets a listing pulled.
 
 3. Copy the **RSA public key** from that tab and send it to me (Bazaar: after uploading a build;
    **Myket**: reserve the package id, then the app box shows a «کلید عمومی / View Public Key»
@@ -80,8 +88,10 @@ been uploaded to your panel, and only you can create the products.
 4. ✅ **The IAP build already exists and is verified**: `MergeDrop-bazaar-iap.apk` (53 MB) is built
    with Godot's Gradle template + the Poolakey plugin, contains
    `com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR` and the Poolakey classes, and is signed with
-   the same release certificate. It behaves identically to the plain build until a key is present —
-   the «سکه» tab stays hidden, so it is safe to submit either APK. Submit this one if you want IAP
+   the same release certificate. It behaves identically to the plain build until a key is present:
+   the «سکه» tab is always visible and lists every pack, but the buy buttons are disabled above a
+   line explaining that purchases are not active yet — no dead button without an explanation. Either
+   APK is safe to submit. Submit this one if you want IAP
    ready to switch on; submit `MergeDrop-release.apk` if you prefer to launch without purchases.
 5. ✅ **Myket has its own build already** — `pipeline/build_stores.sh mergedrop` produces both and
    **fails if either store's billing leaks into the other's APK**. Nothing for you to do here.
@@ -119,7 +129,8 @@ artifacts and **fails the build if either store's billing permission leaks into 
 
 Use the **same package name** (`ir.gamefactory.mergedrop`), the **same keystore**, and the same
 `versionCode` discipline on both. Products are created separately in each panel but keep the same
-ids (`coins_small`, `coins_medium`, `coins_large`, `supporter_tip`) so one build serves both.
+ids (`coins_small`, `coins_medium`, `coins_large`, `coins_mega`, `supporter_tip`) so one build
+serves both.
 
 ## Your steps
 

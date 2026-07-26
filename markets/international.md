@@ -107,8 +107,9 @@ translation reads worse than English to most players.
 
 - **Google Play Billing Library** for IAP; Play enforces a minimum library version on a rolling
   schedule **(verify)**. There is no Godot-official plugin — treat it exactly like the other stores:
-  behind [`scripts/iap.gd`](../games/mergedrop/scripts/iap.gd), plugin loaded dynamically, money UI
-  hidden when unavailable.
+  behind [`scripts/iap.gd`](../games/mergedrop/scripts/iap.gd), plugin loaded dynamically, and the
+  money UI **shown but disabled with a stated reason** when billing is unavailable — never hidden
+  (GAME_BLUEPRINT §4).
 - **Service fee**: tiered, lower for the first tranche of annual revenue and for subscriptions
   **(verify current tiers)**.
 - **Consumables must be consumed** or the SKU stays owned and cannot be re-bought — same rule

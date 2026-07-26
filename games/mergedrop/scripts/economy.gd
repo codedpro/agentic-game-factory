@@ -10,19 +10,22 @@ signal inventory_changed
 signal purchased(id: String)
 
 ## Repeatable coin purchases.
+## Scaled 10x against the original values — every item grants ten times as much and
+## costs ten times as much, and coin rewards were scaled to match, so purchasing power
+## is unchanged while the numbers read like a real economy.
 const ITEMS := {
-	"undo":   {"cost": 120, "amount": 3},   # +3 undos on top of the free ones
-	"shield": {"cost": 250, "amount": 1},   # protects the streak for one missed day
-	"key":    {"cost": 400, "amount": 1},   # unlocks one uncollected treasury verse
-	"reroll": {"cost": 150, "amount": 1},   # swaps one of today's missions
+	"undo":   {"cost": 1200, "amount": 30},  # +30 undos on top of the free ones
+	"shield": {"cost": 2500, "amount": 10},  # each covers one missed day
+	"key":    {"cost": 4000, "amount": 10},  # each unlocks one treasury verse
+	"reroll": {"cost": 1500, "amount": 10},  # each swaps one of today's missions
 }
 
 ## One-off cosmetics for the فال card.
 const FRAMES := {
-	"classic":   {"cost": 0,   "color": Color("f2c230")},
-	"turquoise": {"cost": 600, "color": Color("3fb8b0")},
-	"rosewater": {"cost": 600, "color": Color("e08aa8")},
-	"lapis":     {"cost": 900, "color": Color("6f8cf0")},
+	"classic":   {"cost": 0,     "color": Color("f2c230")},
+	"turquoise": {"cost": 6000,  "color": Color("3fb8b0")},
+	"rosewater": {"cost": 6000,  "color": Color("e08aa8")},
+	"lapis":     {"cost": 9000,  "color": Color("6f8cf0")},
 }
 
 

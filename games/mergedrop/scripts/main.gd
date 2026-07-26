@@ -87,4 +87,4 @@ func _grant_daily_login_gift() -> void:
 		return
 	if Fal.grant_daily(key).is_empty():
 		return
-	Store.add_coins(25)          # a small daily-login bonus alongside it
+	Store.add_coins(250)         # a small daily-login bonus alongside it

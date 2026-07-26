@@ -4,8 +4,10 @@ extends Node
 ## The Poolakey addon is loaded DYNAMICALLY: referencing the `Poolakey` class directly
 ## would make this script fail to parse in any build without the addon, and the plugin
 ## only functions in a Gradle (custom build template) export anyway. With no plugin —
-## desktop, headless CI, or the plain-template APK — `available()` is false, the shop
-## hides the real-money tab, and the game stays fully playable offline.
+## desktop, headless CI, or the plain-template APK — `available()` is false and the shop
+## still lists every pack but disables the buy buttons and prints the reason from
+## `unavailable_reason()`. Hiding the tab instead reads to a player as "this game has no
+## way to buy coins", which is exactly the report that prompted this design.
 ##
 ## Setup that only the account owner can do (see releases/mergedrop/SUBMISSION.md):
 ##   1. Upload a signed release build to Pishkhan → app → «پرداخت درون‌برنامه‌ای».
@@ -22,7 +24,8 @@ const BAZAAR_ADDON := "res://addons/poolakey/poolakey.gd"
 const MYKET_ADDON := "res://addons/myket/myket.gd"
 
 ## RSA public keys are issued per store, only after a build has been uploaded to that panel.
-## Drop them in these files (or set the consts) — no key means the store tab stays hidden.
+## Drop them in these files (or set the consts) — with no key the packs are still listed,
+## but buying is disabled and the shop says why.
 const KEY_FILES := {
 	"bazaar": "user://iap_key_bazaar.txt",
 	"myket": "user://iap_key_myket.txt",
@@ -33,13 +36,20 @@ const PUBLIC_KEYS := {
 }
 
 ## Real-money catalogue. Every entry is CONSUMED after purchase, which is what makes
-## these repeatable forever. SKUs must match the product ids created in the panel.
+## these repeatable forever. SKUs must match the product ids created in the store panel.
+## `bonus` is the extra percentage already included in `coins`, shown as a badge; `tag`
+## marks the row the shop highlights.
 const PRODUCTS := {
-	"coins_small":  {"coins": 500,  "supporter": 0},
-	"coins_medium": {"coins": 1500, "supporter": 0},
-	"coins_large":  {"coins": 4000, "supporter": 0},
-	"supporter_tip": {"coins": 300, "supporter": 1},   # repeatable, cosmetic gratitude
+	"coins_small":   {"coins": 5000,   "supporter": 0, "bonus": 0,  "tag": ""},
+	"coins_medium":  {"coins": 15000,  "supporter": 0, "bonus": 10, "tag": ""},
+	"coins_large":   {"coins": 40000,  "supporter": 0, "bonus": 25, "tag": "popular"},
+	"coins_mega":    {"coins": 100000, "supporter": 0, "bonus": 40, "tag": "best"},
+	"supporter_tip": {"coins": 3000,   "supporter": 1, "bonus": 0,  "tag": "support"},
 }
+
+## Display order — a dictionary does not guarantee one.
+const PRODUCT_ORDER := ["coins_small", "coins_medium", "coins_large", "coins_mega",
+	"supporter_tip"]
 
 var backend := ""              # "bazaar" | "myket" | "" when this build has no billing
 var _api: GDScript = null      # the store's plugin script, loaded dynamically
@@ -90,9 +100,24 @@ func _public_key() -> String:
 	return ""
 
 
-## True only when a real billing backend is connected.
+## True only when a real billing backend is connected and ready to take a purchase.
 func available() -> bool:
 	return _api != null and _connected
+
+
+## Why purchases are not possible right now — drives the message shown in the shop, so a
+## player is never left wondering where the buy button went.
+func unavailable_reason() -> String:
+	if OS.get_name() != "Android":
+		return "not_android"
+	if _api == null and not ResourceLoader.exists(BAZAAR_ADDON) \
+			and not ResourceLoader.exists(MYKET_ADDON):
+		return "no_plugin"
+	if _public_key() == "":
+		return "no_key"
+	if not _connected:
+		return "no_store_app"
+	return ""
 
 
 ## Localised price for a SKU, or "" when unknown.
@@ -148,8 +173,8 @@ func _grant(sku: String) -> void:
 	var p: Dictionary = PRODUCTS.get(sku, {})
 	if p.is_empty():
 		return
-	if p.coins > 0:
-		Store.add_coins(p.coins)
-	if p.supporter > 0:
-		Store.supporter_level += p.supporter
+	if int(p.get("coins", 0)) > 0:
+		Store.add_coins(int(p.coins))
+	if int(p.get("supporter", 0)) > 0:
+		Store.supporter_level += int(p.supporter)
 		Store.save()

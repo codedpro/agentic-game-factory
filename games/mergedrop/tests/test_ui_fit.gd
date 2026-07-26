@@ -4,7 +4,8 @@ extends GutTest
 
 const SCREENS := ["menu", "shop", "records", "fal", "settings", "board", "tasks"]
 const REQUIRED_ICONS := ["play", "daily", "board", "fal", "shop", "records", "settings",
-	"tasks", "history", "coin", "streak", "rank"]
+	"tasks", "history", "coin", "streak", "rank", "cart", "heart", "shield", "key",
+	"dice", "undo", "frame"]
 
 
 func before_each():
@@ -74,8 +75,9 @@ func _collect_buttons(node: Node, out: Array) -> void:
 
 func test_no_emoji_left_in_menu_or_tasks_labels():
 	# Icons are image assets now; emoji in a UI label means a missed conversion.
-	var emoji := ["🪙", "🔥", "🌍", "🎯", "▶", "🗓", "🔮", "🎨", "🏆", "⚙", "📜", "✅"]
-	for name in ["menu", "tasks"]:
+	var emoji := ["🪙", "🔥", "🌍", "🎯", "▶", "🗓", "🔮", "🎨", "🏆", "⚙", "📜", "✅",
+		"🖼", "❤", "🛡", "🗝", "🎲", "⏪"]
+	for name in ["menu", "tasks", "shop"]:
 		get_tree().root.size = Vector2i(720, 1280)
 		var sh = load("res://scripts/main.gd").new()
 		add_child(sh)

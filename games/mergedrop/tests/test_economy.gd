@@ -12,29 +12,31 @@ func before_each():
 
 # ---------- consumables are repeatable forever ----------
 func test_item_can_be_bought_repeatedly():
-	Store.coins = 10000
 	var cost := Economy.item_cost("shield")
+	var per: int = int(Economy.ITEMS.shield.amount)
+	Store.coins = cost * 5
 	for i in 5:
 		assert_true(Economy.buy_item("shield"), "purchase %d must succeed" % i)
-	assert_eq(Economy.count("shield"), 5, "each purchase must stack")
-	assert_eq(Store.coins, 10000 - cost * 5)
+	assert_eq(Economy.count("shield"), per * 5, "each purchase must stack")
+	assert_eq(Store.coins, 0)
 
 
 func test_cannot_buy_without_coins():
-	Store.coins = 10
+	var broke := Economy.item_cost("shield") - 1
+	Store.coins = broke
 	assert_false(Economy.buy_item("shield"))
 	assert_eq(Economy.count("shield"), 0)
-	assert_eq(Store.coins, 10, "a failed purchase must not spend coins")
+	assert_eq(Store.coins, broke, "a failed purchase must not spend coins")
 
 
-func test_undo_pack_grants_three():
-	Store.coins = 10000
+func test_undo_pack_grants_its_stated_amount():
+	Store.coins = Economy.item_cost("undo")
 	Economy.buy_item("undo")
 	assert_eq(Economy.count("undo"), int(Economy.ITEMS.undo.amount))
 
 
 func test_use_item_decrements_and_floors_at_zero():
-	Store.coins = 10000
+	Store.coins = Economy.item_cost("shield")
 	Economy.buy_item("shield")
 	var n := Economy.count("shield")
 	assert_true(Economy.use_item("shield"))
@@ -109,7 +111,7 @@ func test_daily_fal_is_never_purchasable():
 
 # ---------- cosmetics ----------
 func test_frame_purchase_and_selection():
-	Store.coins = 5000
+	Store.coins = int(Economy.FRAMES.lapis.cost)
 	assert_true(Economy.buy_frame("lapis"))
 	assert_true("lapis" in Store.frames_owned)
 	assert_eq(Store.frame_active, "lapis")
@@ -170,7 +172,7 @@ func test_supporter_purchase_is_repeatable_and_cosmetic():
 	IAP._grant("supporter_tip")
 	IAP._grant("supporter_tip")
 	assert_eq(Store.supporter_level, 2, "supporting again must stack the badge")
-	assert_eq(Store.coins, IAP.PRODUCTS.supporter_tip.coins * 2)
+	assert_eq(Store.coins, int(IAP.PRODUCTS.supporter_tip.coins) * 2)
 
 
 # ---------- persistence ----------

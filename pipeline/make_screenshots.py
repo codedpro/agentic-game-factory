@@ -276,6 +276,20 @@ def _fit(txt, max_w, start, min_size=11):
     return s
 
 
+def _title(img, d, name, txt, size, box, color=(255, 255, 255)):
+    """Mirrors UI.title(): text plus a real icon on the trailing side, centred as a group."""
+    x, y, w, h = box
+    probe = ImageDraw.Draw(Image.new("RGB", (4, 4)))
+    tw = probe.textlength(txt, font=font(F_BOLD, size), direction="rtl",
+                          language="fa") / SS
+    ic = size * 1.1
+    gap = size * 0.4
+    group = min(tw + gap + ic, w)
+    left = x + (w - group) / 2
+    text_at(d, (left + group - ic - gap, y + h / 2), txt, size, True, color, "rm")
+    _icon(img, name, left + group - ic, y + (h - ic) / 2, ic, color)
+
+
 def _icon_btn(img, d, x, y, w, h, name, label, accent, bg="#232a3d"):
     """Mirrors UI.icon_button(): dark chip, bright icon, auto-fitted label."""
     _rr(img, (x, y, w, h), min(h * 0.32, 20), fill=hx(bg) + (255,),
@@ -371,6 +385,77 @@ def render_menu():
             ("records", "رکوردها", hx("#9fe8c4")), ("settings", "تنظیمات", hx("#aab4cc"))]):
         _icon_btn(img, d, W / 2 - bw2 / 2 + (i % 2) * (gw + 12),
                   yy + (i // 2) * (gh + 10), gw, gh, nm, lb, ac)
+    return img
+
+
+def render_shop():
+    """The «سکه» tab, mirroring shop_screen._build_coins() on its fs grid.
+
+    Kept in step with the GDScript by hand; the geometry rules it draws (title clear of the
+    tag badge, badge row below the amount, nothing past the card height) are the same ones
+    tests/test_shop.gd asserts against the real scene.
+    """
+    img = Image.new("RGBA", (W * SS, H * SS), hx(THEME["bg"]) + (255,))
+    bg_blobs(img, [(-60, 140, 340), (400, 820, 380)])
+    d = ImageDraw.Draw(img)
+    fs = max(15, min(int(H * 0.02), 25))
+    cx = W / 2
+
+    _title(img, d, "shop", "فروشگاه", 40, (cx - 300, H * 0.035, 600, 54))
+    _title(img, d, "coin", digits(12450), fs + 4, (cx - 200, H * 0.035 + 56, 400, fs * 2),
+           hx(GOLD))
+
+    tabs = [("وسایل", False), ("ظاهر", False), ("سکه", True)]
+    tw = min((W - 40) / 3 - 8, 190)
+    tx = cx - (3 * (tw + 8) - 8) / 2
+    ty = H * 0.035 + 56 + fs * 3.4
+    for label, active in tabs:
+        _rr(img, (tx, ty, tw, fs * 2.4), 12,
+            fill=hx(THEME["accent"] if active else "#3a4160") + (255,))
+        centered(d, (tx, ty, tw, fs * 2.4), label, fs - 1)
+        tx += tw + 8
+
+    w = W - 40
+    y = ty + fs * 3.0
+    packs = [
+        ("بسته کوچک", 5000, 0, None),
+        ("بسته متوسط", 15000, 10, None),
+        ("بسته بزرگ", 40000, 25, ("پرفروش‌ترین", GOLD)),
+        ("بسته ویژه", 100000, 40, ("بهترین ارزش", "#ffc76f")),
+    ]
+    prices = ["۱۹٬۰۰۰ تومان", "۴۹٬۰۰۰ تومان", "۹۹٬۰۰۰ تومان", "۱۹۹٬۰۰۰ تومان"]
+    ch = fs * 6.4
+    btn_w = min(w * 0.42, fs * 8.0)
+    for (name, coins, bonus, tag), price in zip(packs, prices):
+        if y + ch > H - fs * 3.4:
+            break
+        accent = hx(tag[1]) if tag else hx(GOLD)
+        base = "#2b3350" if tag else "#232a3d"
+        _rr(img, (20, y, w, ch), 16, fill=hx(base) + (255,),
+            outline=lighten(base, 0.18) + (255,), width=2)
+        if tag:
+            _rr(img, (20 + fs * 0.8, y + fs * 0.6, btn_w, fs * 1.5), 10, fill=accent + (255,))
+            centered(d, (20 + fs * 0.8, y + fs * 0.6, btn_w, fs * 1.5), tag[0], fs - 4,
+                     True, hx("#161b28"))
+        btn_y = y + (fs * 3.0 if tag else (ch - fs * 2.4) / 2)
+        _icon_btn(img, d, 20 + fs * 0.8, btn_y, btn_w, fs * 2.4, "cart", price,
+                  (255, 255, 255), "#2e7d5b")
+        ic = fs * 2.2
+        _icon(img, "coin", 20 + w - fs * 0.8 - ic, y + fs * 1.0, ic, accent)
+        col_x = fs * 0.8 + btn_w + fs * 0.8
+        col_w = w - col_x - fs * 0.8 - ic - fs * 0.4
+        text_at(d, (20 + col_x + col_w, y + fs * 1.4), name, _fit(name, col_w, fs),
+                True, "white", "rm")
+        amt = "%s سکه" % digits(coins)
+        text_at(d, (20 + col_x + col_w, y + fs * 3.4), amt, _fit(amt, col_w, fs + 4),
+                True, accent, "rm")
+        if bonus:
+            bw = fs * 6.0
+            _rr(img, (20 + w - fs * 0.8 - bw, y + fs * 4.6, bw, fs * 1.4), 10,
+                fill=hx("#2e7d5b") + (255,))
+            centered(d, (20 + w - fs * 0.8 - bw, y + fs * 4.6, bw, fs * 1.4),
+                     "%s٪ بیشتر" % digits(bonus), fs - 4)
+        y += ch + 10
     return img
 
 
@@ -479,6 +564,8 @@ compose(render_board(STATES["daily"]), "چالش روزانه: ۶۰ حرکت",
         "یک چیدمان برای همه، هر روز", "05_daily.png")
 compose(render_menu(), "مأموریت روزانه، سکه و شخصی‌سازی",
         "رکوردت را هر روز بشکن", "06_meta.png")
+compose(render_shop(), "بسته‌های سکه، مستقیم از کافه‌بازار",
+        "هر بسته بزرگ‌تر، ارزش بیشتر", "07_shop.png")
 
 
 # ---------- Bazaar store assets ----------

@@ -206,6 +206,32 @@ func _icon_tex(name: String) -> Texture2D:
 	return tex
 
 
+## A heading: text plus a real icon on the trailing (right) side, centred as one group.
+## Replaces the old "emoji + space + text" prefix, which drew whatever glyph the emoji
+## font happened to map (a coin rendered as a bank) and never matched the icon set.
+func title(icon_name: String, txt: String, size: int, box: Vector2,
+		color := Color.WHITE) -> Control:
+	var holder := Control.new()
+	holder.custom_minimum_size = box
+	holder.size = box
+	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var ic_size: float = size * 1.1
+	var gap: float = size * 0.4
+	var text_w: float = font_bold.get_string_size(
+		txt, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x
+	var group: float = minf(text_w + gap + ic_size, box.x)
+	var left: float = (box.x - group) / 2.0
+	var l := label(txt, size, true, color)
+	l.position = Vector2(left, 0)
+	l.size = Vector2(maxf(group - ic_size - gap, 1.0), box.y)
+	holder.add_child(l)
+	if has_icon(icon_name):
+		var ic := icon(icon_name, ic_size, color)
+		ic.position = Vector2(left + group - ic_size, (box.y - ic_size) / 2.0)
+		holder.add_child(ic)
+	return holder
+
+
 func has_icon(name: String) -> bool:
 	return _icon_tex(name) != null
 

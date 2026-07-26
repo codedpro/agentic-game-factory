@@ -4,12 +4,12 @@ extends Node
 signal mission_done(mission: Dictionary)
 
 const POOL := [
-	{"id": "m_score", "targets": [1500, 2500, 4000], "reward": 60},   # score X in one game
-	{"id": "m_merges", "targets": [30, 50, 80], "reward": 50},        # N merges today
-	{"id": "m_stones", "targets": [3, 5, 8], "reward": 70},           # break N stones today
-	{"id": "m_tile", "targets": [64, 128, 256], "reward": 60},        # make tile V
-	{"id": "m_games", "targets": [2, 3, 5], "reward": 50},            # play N games
-	{"id": "m_chain", "targets": [2, 3, 4], "reward": 70},            # chain of X
+	{"id": "m_score", "targets": [1500, 2500, 4000], "reward": 600},  # score X in one game
+	{"id": "m_merges", "targets": [30, 50, 80], "reward": 500},       # N merges today
+	{"id": "m_stones", "targets": [3, 5, 8], "reward": 700},           # break N stones today
+	{"id": "m_tile", "targets": [64, 128, 256], "reward": 600},        # make tile V
+	{"id": "m_games", "targets": [2, 3, 5], "reward": 500},           # play N games
+	{"id": "m_chain", "targets": [2, 3, 4], "reward": 700},            # chain of X
 ]
 
 # state = {"date": "yyyymmdd", "list": [{id, target, progress, reward, done}]}
