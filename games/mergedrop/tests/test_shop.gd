@@ -44,6 +44,15 @@ func test_catalogue_is_ordered_and_complete():
 	for sku in IAP.PRODUCTS:
 		assert_true(sku in IAP.PRODUCT_ORDER, "%s would never be shown to the player" % sku)
 		assert_ne(I18n.t("sku_" + sku), "sku_" + sku, "%s has no display name" % sku)
+		# the store panels need a Persian description per product — see
+		# releases/mergedrop/iap_products.md, which is generated from these strings
+		var desc_key := "sku_%s_desc" % sku
+		assert_ne(I18n.t(desc_key), desc_key,
+			"%s has no description for the store listing" % sku)
+		assert_true(I18n.T[desc_key].fa.length() > 20,
+			"%s: the Persian description is too short to paste into a store panel" % sku)
+		assert_true(I18n.T["sku_" + sku].en != I18n.T["sku_" + sku].fa,
+			"%s needs a real English name, not the Persian one repeated" % sku)
 
 
 func test_coin_packs_are_listed_without_a_billing_plugin():

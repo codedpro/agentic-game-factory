@@ -66,27 +66,16 @@ Copy from `store_listing_fa.md`:
 
 Both stores only issue the RSA public key once a build is uploaded.
 
-1. Create these **five** products in **both** panels, marked **consumable**:
+1. Create the **five** products, marked **consumable**, in both panels. Ids, Persian
+   categories, Persian + English names, Persian descriptions and suggested prices are all
+   ready to copy in **[`iap_products.md`](iap_products.md)**.
 
-   | Product id | What the player gets | Suggested price |
-   |---|---|---|
-   | `coins_small` | ۵٬۰۰۰ سکه | ۱۹٬۰۰۰ تومان |
-   | `coins_medium` | ۱۵٬۰۰۰ سکه (نشان «۱۰٪ بیشتر») | ۴۹٬۰۰۰ تومان |
-   | `coins_large` | ۴۰٬۰۰۰ سکه (نشان «۲۵٪ بیشتر» + «پرفروش‌ترین») | ۹۹٬۰۰۰ تومان |
-   | `coins_mega` | ۱۰۰٬۰۰۰ سکه (نشان «۴۰٪ بیشتر» + «بهترین ارزش») | ۱۹۹٬۰۰۰ تومان |
-   | `supporter_tip` | نشان «حامی بازی» + ۳٬۰۰۰ سکه (repeatable) | ۲۹٬۰۰۰ تومان |
+2. ✅ **RSA public keys: done.** Both are already in the build and verified in the APKs.
+   The buy buttons switch on by themselves as soon as each panel has the five products.
 
-   **Prices are yours to choose, but keep the ladder honest.** The pack cards advertise
-   «۱۰٪/۲۵٪/۴۰٪ بیشتر», so every tier must give at least that much more per toman than
-   `coins_small` does. The suggested ladder above clears it comfortably (+۱۶٪, +۵۴٪, +۹۱٪).
-   If you price differently and a tier no longer beats its badge, tell me and I will lower the
-   `bonus` number in [`scripts/iap.gd`](../../games/mergedrop/scripts/iap.gd) — an overstated
-   badge is the kind of thing that gets a listing pulled.
-
-2. Copy each store's RSA public key and send it to me. I put each one in its build and the buy
-   buttons switch on. Until then the «سکه» tab still shows every pack with the buttons greyed out
-   and a line saying purchases are not active yet — players can see what is coming, and the rest of
-   the shop runs on earned coins as normal.
+3. **Myket server-to-server key** — kept out of the repo at
+   `<tools>/secrets/myket_access_key.txt`. It is only needed if we add server-side receipt
+   validation; nothing today reads it, and no build contains it.
 
 ## Leaderboard
 

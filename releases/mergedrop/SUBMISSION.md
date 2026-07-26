@@ -64,27 +64,16 @@ abstraction and switch on once you complete these steps — **no code changes ne
 been uploaded to your panel, and only you can create the products.
 
 1. Upload `MergeDrop-release.apk` to Pishkhan → your app → **«پرداخت درون‌برنامه‌ای»**.
-2. Create **five** products with exactly these ids **in BOTH panels**, marked **consumable**
-   so they can be bought repeatedly:
+2. Create **five** products, marked **consumable**, in BOTH panels. Every field each panel
+   asks for — id, Persian category, Persian name, English name, Persian description and a
+   suggested price — is ready to copy in **[`iap_products.md`](iap_products.md)**.
 
-   | Product id | What the player gets | Suggested price |
-   |---|---|---|
-   | `coins_small` | ۵٬۰۰۰ سکه | ۱۹٬۰۰۰ تومان |
-   | `coins_medium` | ۱۵٬۰۰۰ سکه (نشان «۱۰٪ بیشتر») | ۴۹٬۰۰۰ تومان |
-   | `coins_large` | ۴۰٬۰۰۰ سکه (نشان «۲۵٪ بیشتر» + «پرفروش‌ترین») | ۹۹٬۰۰۰ تومان |
-   | `coins_mega` | ۱۰۰٬۰۰۰ سکه (نشان «۴۰٪ بیشتر» + «بهترین ارزش») | ۱۹۹٬۰۰۰ تومان |
-   | `supporter_tip` | نشان «حامی بازی» + ۳٬۰۰۰ سکه (repeatable) | ۲۹٬۰۰۰ تومان |
-
-   **Prices are yours to choose, but keep the ladder honest.** The pack cards advertise
-   «۱۰٪/۲۵٪/۴۰٪ بیشتر», so every tier must give at least that much more per toman than
-   `coins_small` does. The suggested ladder above clears it comfortably (+۱۶٪, +۵۴٪, +۹۱٪).
-   If you price differently and a tier no longer beats its badge, tell me and I will lower the
-   `bonus` number in [`scripts/iap.gd`](../../games/mergedrop/scripts/iap.gd) — an overstated
-   badge is the kind of thing that gets a listing pulled.
-
-3. Copy the **RSA public key** from that tab and send it to me (Bazaar: after uploading a build;
-   **Myket**: reserve the package id, then the app box shows a «کلید عمومی / View Public Key»
-   button). I put each store's key in its build and the «سکه» tab appears automatically.
+3. ✅ **Both RSA public keys are installed.** Bazaar's (1392-bit) and Myket's (1024-bit)
+   are compiled into [`scripts/iap.gd`](../../games/mergedrop/scripts/iap.gd) and verified
+   present in the shipped APKs. Each build selects its store at runtime by asking which
+   native billing singleton exists, so the Bazaar APK never uses Myket's key or vice versa.
+   Nothing further is needed from you here — once the five products exist in a panel, the
+   buy buttons in that store's build are live.
 4. ✅ **The IAP build already exists and is verified**: `MergeDrop-bazaar-iap.apk` (53 MB) is built
    with Godot's Gradle template + the Poolakey plugin, contains
    `com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR` and the Poolakey classes, and is signed with

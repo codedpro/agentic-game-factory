@@ -30,9 +30,13 @@ const KEY_FILES := {
 	"bazaar": "user://iap_key_bazaar.txt",
 	"myket": "user://iap_key_myket.txt",
 }
+## These are PUBLIC keys: they ship inside the APK by design and are extractable from any
+## build, so keeping them in source costs nothing. The store panel issues one per app per
+## store; they are not interchangeable, and the wrong one means every purchase fails
+## signature verification. Server-to-server SECRETS never live here — see THIRD_PARTY.md.
 const PUBLIC_KEYS := {
-	"bazaar": "",
-	"myket": "",
+	"bazaar": "MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwDGP5ZDgsni0d0527y8nsjDpDeBH+iNxGNuGCrotBupSKgp5rJsnnxKPbRq1msxUDJv6GkD/zV/mNHHkl4l80R/wXnfHM7DFXDXYHh5ndK+Sys0kLMdZhRrWPDomQqJuAn+C0Lk84czd2cRE+pzuE0QCZPriijAOFpkRx1mAPP5l72a37DSOzx19pePj/yFb2MyPOHP+ppXGyFuDtty8s1hC8dNVzfHngUMbD/dGvUCAwEAAQ==",
+	"myket": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCFn6JWJrsTkI9RUj7ldofebHZ38kx6paxGOjf4BX3XU60FUklh4yKtcMK7Lr1KRAOa9mSzAyiIDD3HwQ24JIJPm77CuLJzhb6e7uxbuWyz5mRn4mfZr6oOfJFsUWdYtHLcHG8lyQgOHb+q9AYNcczVh5YLW6vTOyrkrX4IrgBh6QIDAQAB",
 }
 
 ## Real-money catalogue. Every entry is CONSUMED after purchase, which is what makes
