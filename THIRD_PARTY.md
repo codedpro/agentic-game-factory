@@ -7,9 +7,9 @@ most common rejection reason on the Iranian app stores this game ships to.
 | Component | Where | Licence |
 |---|---|---|
 | Godot Engine 4.7 | build tool (not vendored) | MIT |
-| GUT — Godot Unit Testing | `games/mergedrop/addons/gut` | MIT |
-| Poolakey Godot plugin (Cafe Bazaar billing) | `games/mergedrop/addons/poolakey` | MIT |
-| Notification Scheduler plugin | `games/mergedrop/addons/NotificationSchedulerPlugin` | MIT |
+| GUT — Godot Unit Testing (© Butch Wesley) | `games/mergedrop/addons/gut` | MIT |
+| Godot Poolakey plugin — Cafe Bazaar billing (© 2024 DexterFstone); wraps Cafe Bazaar's own Poolakey SDK | `games/mergedrop/addons/poolakey` | MIT |
+| Notification Scheduler plugin (© Godot Mobile Plugins / cengiz-pz) | `games/mergedrop/addons/NotificationSchedulerPlugin` | MIT |
 | GMP Shared (helper for the above) | `games/mergedrop/addons/GMPShared` | MIT |
 | Vazirmatn font | `games/mergedrop/assets/fonts` | SIL Open Font License 1.1 |
 | Noto Emoji font | `games/mergedrop/assets/fonts` | SIL Open Font License 1.1 |
@@ -26,6 +26,7 @@ most common rejection reason on the Iranian app stores this game ships to.
 ## Poetry
 
 The classical Persian verses in `games/mergedrop/assets/fal/fal.json` (Hafez, Saadi, Rumi,
-Khayyam, Ferdowsi, Baba Taher) are centuries old and in the public domain. Each verse was
-cross-checked by multiple independent AI models before inclusion; candidates that failed that
-check were discarded rather than shipped.
+Khayyam, Ferdowsi, Baba Taher) are centuries old and in the public domain. Attribution and wording were screened by agreement
+between several independent AI models before inclusion, and candidates that failed were discarded
+rather than shipped. That is a filter, not scholarship — corrections are welcome via an issue.
+Licence details verified July 2026; check for yourself before relying on them.

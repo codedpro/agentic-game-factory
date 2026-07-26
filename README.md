@@ -7,7 +7,8 @@ Drop numbered tiles into columns, merge equal neighbours, chain them for multipl
 rising garbage rows and unbreakable stone tiles push back. Every day the game gives you a
 **فال حافظ** — a classical Persian verse — and puts your run on a global leaderboard.
 
-Made by **1xai Games Studio**. MIT licensed, including the parts that were hardest to get right.
+Made by **1xai Games Studio**. Our code is MIT; vendored fonts are SIL OFL and vendored addons keep
+their own MIT licences — see [THIRD_PARTY.md](THIRD_PARTY.md).
 
 <p align="center">
   <img src="releases/mergedrop/screenshots/02_play.png" width="30%" alt="Beriz o Besaz gameplay — Persian merge puzzle">
@@ -28,17 +29,34 @@ There is very little public, working, cleanly-licensed code for shipping a **God
 | If you need… | Look at |
 |---|---|
 | **Myket in-app purchases in Godot 4** | [`games/mergedrop/addons/myket`](games/mergedrop/addons/myket) — an MIT plugin (Java + AIDL + GDScript) **written from scratch** for this project. Myket's own billing library ships source files with no licence grant, and the existing Godot plugins depend on it, so none were safe to ship. Full source included. |
-| **Cafe Bazaar (Poolakey) purchases** | [`games/mergedrop/scripts/iap.gd`](games/mergedrop/scripts/iap.gd) — one GDScript API drives either store; the plugin is loaded dynamically so builds without it still run. |
+| **Cafe Bazaar purchases** | [`games/mergedrop/scripts/iap.gd`](games/mergedrop/scripts/iap.gd) — one GDScript API drives either store; the plugin is loaded dynamically so builds without it still run. The Bazaar side uses [DexterFstone's MIT Godot wrapper](games/mergedrop/addons/poolakey), which wraps Cafe Bazaar's own Poolakey SDK — we did not write that one. |
 | **Two stores, one codebase** | [`pipeline/build_stores.sh`](pipeline/build_stores.sh) — builds one APK per store and **fails the build** if either store's billing permission or classes leak into the other's APK. |
 | **Persian / RTL UI in Godot** | [`games/mergedrop/scripts/ui_kit.gd`](games/mergedrop/scripts/ui_kit.gd), [`i18n.gd`](games/mergedrop/scripts/i18n.gd) — Persian digits, RTL layout, and a font-fallback test that catches missing glyphs (tofu boxes) before release. |
 | **Jalali (Shamsi) calendar** | [`games/mergedrop/scripts/jalali.gd`](games/mergedrop/scripts/jalali.gd) — conversion, Persian date formatting, Yalda/Nowruz detection, with tests. |
-| **Headless testing for a Godot game** | 136 GUT tests that need no display and no device — including layout-overlap guards, glyph coverage, and a bot that plays the real UI to game over. |
+| **Headless testing for a Godot game** | 136 GUT test functions across 15 files, needing no display and no device — including layout-overlap guards and glyph coverage. A separate headless run (`-- --autoplay`) has a bot play the real UI to game over. |
 | **Local notifications with a policy** | [`games/mergedrop/scripts/notify.gd`](games/mergedrop/scripts/notify.gd) — quiet hours, timezone-correct scheduling, and back-off when reminders go ignored. |
 | **An offline-first leaderboard** | [`server/`](server) — a dependency-free Python server; the client queues scores locally and uploads them when a network appears. |
 
 Every mistake made along the way is written down in **[LESSONS.md](LESSONS.md)** — 54 numbered
 rules, each from a real failure (a release-only hang, a store rejection risk, a timezone bug that
 broke streaks for every player in Iran between midnight and 3:30 AM).
+
+### Using the Myket plugin in your own game
+
+```bash
+cp -r games/mergedrop/addons/myket  <your-project>/addons/
+```
+
+Then enable it in *Project → Project Settings → Plugins*, switch the Android export preset to
+Godot's **Gradle custom build** (a native plugin cannot work with the prebuilt template), and call
+it through the same shape as the Bazaar plugin — `open_connection`, `get_products`,
+`purchase_product`, `consume_product` — see [`iap.gd`](games/mergedrop/scripts/iap.gd) for a
+working driver of both stores.
+
+Prebuilt AARs ship in `addons/myket/bin/`; rebuild them from `addons/myket/src` with
+`./gradlew :plugin:assembleRelease` (JDK 17, Android SDK 36). Built and tested against
+**Godot 4.7.1**; it uses the v2 Android plugin API, so 4.2+ should work, though we have not tested
+older 4.x. Consumables must be consumed or Myket keeps reporting the SKU as owned.
 
 ---
 
@@ -51,8 +69,10 @@ broke streaks for every player in Iran between midnight and 3:30 AM).
   play differently still receive the same tile sequence.
 - **فال حافظ.** Open the game on a new day and receive that day's verse, revealed through a
   «نیت» press-and-hold ceremony and kept in a گنجینه treasury. 80 verses from Hafez, Saadi, Rumi,
-  Khayyam, Ferdowsi and Baba Taher — each cross-checked by multiple independent AI models before
-  being included; candidates that failed were discarded.
+  Khayyam, Ferdowsi and Baba Taher (56 / 10 / 8 / 4 / 1 / 1). The verses are public domain and
+  centuries old. **Disclosure:** attribution and wording were screened by agreement between several
+  independent AI models, and candidates that failed were dropped — a filter, not scholarship. If you
+  spot an error, please open an issue and it will be corrected.
 - **Global leaderboard** with unique nicknames, fully playable offline.
 - **A companion.** «جغد», an owl who reacts to your streak, your record and your world rank.
 - **Economy** with unlimited consumables and cosmetics. No loot boxes, no gacha, nothing that
@@ -60,18 +80,29 @@ broke streaks for every player in Iran between midnight and 3:30 AM).
 
 ---
 
+## One project, several names
+
+You will meet a few identifiers in here; they all refer to this project:
+
+| Name | Where it appears | Why |
+|---|---|---|
+| بریز و بساز / Beriz o Besaz | the game's title and store listing | the player-facing name |
+| `mergedrop` | `games/mergedrop`, build scripts | the internal slug, kept ASCII for tooling |
+| `ir.gamefactory.mergedrop` | the Android package id | frozen — an Android package id cannot change after a store release |
+| 1xai Games Studio | licences, commits | the studio |
+
 ## Layout
 
 ```
 games/mergedrop/     the game (Godot 4.7 project)
   scripts/           pure-logic core, screens, platform adapters
-  tests/             136 GUT tests, all headless
+  tests/             136 headless GUT test functions
   addons/myket/      Myket billing plugin (ours, MIT, source included)
-  addons/poolakey/   Cafe Bazaar billing plugin
+  addons/poolakey/   Cafe Bazaar billing (DexterFstone's MIT wrapper, vendored)
 server/              global scoreboard (Python, no dependencies)
 pipeline/            headless build + QA automation
 templates/           shared pieces for new games
-ci/                  GitHub Actions workflow for the test suite
+ci/                  GitHub Actions workflow for the test suite (not active yet — see ci/README.md)
 ```
 
 Docs: **[GAME_BLUEPRINT.md](GAME_BLUEPRINT.md)** (what a game must ship and why) ·
