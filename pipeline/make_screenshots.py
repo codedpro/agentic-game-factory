@@ -250,40 +250,127 @@ def render_board(state):
     return img
 
 
+def _icon(img, name, x, y, size, color):
+    ic = Image.open(f"{GAME}/assets/icons/{name}.png").convert("RGBA").resize(
+        (int(size * SS), int(size * SS)), Image.LANCZOS)
+    tint = Image.new("RGBA", ic.size, tuple(color) + (255,))
+    tint.putalpha(ic.getchannel("A"))
+    img.alpha_composite(tint, (int(x * SS), int(y * SS)))
+
+
+def _rr(img, box, rad, fill=None, outline=None, width=0):
+    x, y, w, h = box
+    layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    ImageDraw.Draw(layer).rounded_rectangle(
+        [x * SS, y * SS, (x + w) * SS, (y + h) * SS], radius=rad * SS,
+        fill=fill, outline=outline, width=int(width * SS))
+    img.alpha_composite(layer)
+
+
+def _fit(txt, max_w, start, min_size=11):
+    probe = ImageDraw.Draw(Image.new("RGB", (4, 4)))
+    s = start
+    while s > min_size and probe.textlength(
+            txt, font=font(F_BOLD, s), direction="rtl", language="fa") > max_w * SS:
+        s -= 1
+    return s
+
+
+def _icon_btn(img, d, x, y, w, h, name, label, accent, bg="#232a3d"):
+    """Mirrors UI.icon_button(): dark chip, bright icon, auto-fitted label."""
+    _rr(img, (x, y, w, h), min(h * 0.32, 20), fill=hx(bg) + (255,),
+        outline=lighten(bg, 0.14) + (255,), width=2)
+    pad = h * 0.16
+    chip = h - pad * 2
+    _rr(img, (x + w - chip - pad, y + pad, chip, chip), chip * 0.3, fill=(13, 18, 31, 140))
+    _icon(img, name, x + w - chip - pad + chip * 0.19, y + pad + chip * 0.19, chip * 0.62, accent)
+    tw = w - (chip + pad * 2.4) - pad
+    text_at(d, (x + pad + tw / 2, y + h / 2), label, _fit(label, tw, int(h * 0.34)))
+
+
 def render_menu():
-    img = Image.new("RGBA", (W * SS, H * SS), hx(THEME["bg"]) + (255,))
-    bg_blobs(img, [(-40, 60, 340), (400, 380, 360), (-20, 800, 320), (380, 1000, 300)])
+    img = Image.open(f"{GAME}/assets/art/hero_bg.png").convert("RGBA").resize(
+        (W * SS, H * SS), Image.LANCZOS)
+    img.alpha_composite(Image.new("RGBA", img.size, hx(THEME["bg"]) + (140,)))
     d = ImageDraw.Draw(img)
-    rrect(d, (16, 18, 150, 52.8), 14, fill=hx(THEME["panel"]))
-    centered(d, (16, 18, 150, 52.8), "🪙 " + digits(1240), 24, True, hx(GOLD))
-    rrect(d, (W - 226, 18, 210, 52.8), 14, fill=hx(THEME["panel"]))
-    centered(d, (W - 226, 18, 210, 52.8), "🔥 روزهای پیاپی: " + digits(7), 24, True, hx("#ff9d5c"))
 
-    draw_tile(img, d, (W / 2 - 64, 96), 2, 128)
-    centered(d, (40, 236, 640, 80), "بریز و بساز", 64)
-    centered(d, (40, 320, 640, 36), "رکورد: " + digits(8420), 30, True, hx(GOLD))
+    fs = 25
+    h = fs * 2.2
+    w = min(W * 0.27, 165)
+    for (nm, val, col, x, cw) in [("coin", digits(1240), hx("#f2c230"), 14, w),
+                                  ("streak", digits(7), hx("#ff9d5c"), 14 + w + 8, w * 0.76),
+                                  ("rank", digits(12), hx("#7fd8ff"), W - w - 14, w)]:
+        _rr(img, (x, 16, cw, h), 12, fill=hx("#161b28") + (235,))
+        _icon(img, nm, x + cw - h * 0.78, 16 + h * 0.22, h * 0.56, col)
+        text_at(d, (x + 6 + (cw - h * 0.9) / 2, 16 + h / 2), val, fs)
+    y = 16 + h + 8
 
-    mp_w, mfs = 520, 22
-    rrect(d, (100, 368, mp_w, mfs * 8.2), 18, fill=hx(THEME["panel"]))
-    centered(d, (100, 376, mp_w, mfs * 1.8), "🎯 مأموریت‌های امروز", mfs + 2, True, hx(THEME["accent"]))
-    rows = [("✅", "در یک بازی ۲۵۰۰ امتیاز بگیر", "۲۵۰۰/۲۵۰۰"),
-            ("▫", "۵ سنگ بشکن", "۳/۵"),
-            ("▫", "زنجیره ×۳ بساز", "۱/۳")]
-    my = 368 + mfs * 2.2
-    for mark, txt, prog in rows:
-        centered(d, (108, my, mp_w - 16, mfs * 1.9), f"{mark} {txt}  ({prog})", mfs, False,
-                 "white" if mark == "▫" else hx(MUTED))
-        my += mfs * 1.9
+    text_at(d, (W / 2, y + 46), "بریز و بساز", 70, True, "white", stroke=2,
+            stroke_fill=(0, 0, 0, 200))
+    y += 92
+    text_at(d, (W / 2, y + fs * 0.85), "رکورد: " + digits(8420), 28, True, hx(GOLD))
+    y += fs * 2.0
 
-    # mirrors menu_screen.gd: one full-width column (bw=340, bh=87.04, small_h=57.45)
-    bw, bh, small_h, sfs = 340, 87.04, 57.45, 21
-    draw_button(d, (190, 578.4), "▶ بازی", int(bh * 0.4), THEME["accent"], (bw, bh))
-    yy = 578.4 + bh + 14
-    for txt, col in [("🗓 چالش روزانه", "#3a4160"), ("🔮 فال و گنجینه", "#6b4f9e"),
-                     ("🏆 رکوردها", "#3a4160"), ("🎨 شخصی‌سازی", "#3a4160"),
-                     ("⚙ تنظیمات", "#3a4160")]:
-        draw_button(d, (190, yy), txt, sfs, col, (bw, small_h))
-        yy += small_h + 10
+    owl_h = 200
+    owl_w = owl_h * 0.95
+    owl = Image.open(f"{GAME}/assets/art/mascot.png").convert("RGBA")
+    owl.thumbnail((int(owl_w * SS), int(owl_h * SS)), Image.LANCZOS)
+    img.alpha_composite(owl, (int((W - owl_w - 10) * SS), int(y * SS)))
+    bw = W - owl_w - 36
+    _rr(img, (14, y + owl_h * 0.14, bw, owl_h * 0.66), 16, fill=hx("#2b3350") + (255,))
+    text_at(d, (14 + bw / 2, y + owl_h * 0.14 + owl_h * 0.33),
+            "۷ روز پیاپی! نذار امشب بشکنه", fs, False)
+    y += owl_h + 8
+
+    mp_w = min(W * 0.92, 552)
+    mfs = 22
+    head = mfs * 2.6
+    row_h = mfs * 2.5
+    _rr(img, (W / 2 - mp_w / 2, y, mp_w, head + row_h * 3 + mfs * 0.7), 18,
+        fill=hx("#1a2030") + (250,))
+    px = W / 2 - mp_w / 2
+    hb_w = mp_w * 0.38
+    _icon_btn(img, d, px + mfs * 0.7, y + mfs * 0.45, hb_w, mfs * 1.9,
+              "history", "روزهای گذشته", hx("#7fd8ff"), "#232c42")
+    _icon(img, "tasks", px + mp_w - mfs * 2.0, y + mfs * 0.6, mfs * 1.4, hx(THEME["accent"]))
+    title_x = mfs * 0.7 + hb_w + mfs * 0.6
+    tw = mp_w - title_x - mfs * 2.4
+    text_at(d, (px + title_x + tw / 2, y + mfs * 0.5 + mfs * 0.95),
+            "مأموریت‌های امروز", _fit("مأموریت‌های امروز", tw, mfs + 2))
+    my = y + head
+    for (t, prog, tot, pct, done, ic) in [
+            ("در یک بازی ۲۵۰۰ امتیاز بگیر", 2500, 2500, 1.0, True, "records"),
+            ("۵ سنگ بشکن", 3, 5, 0.6, False, "streak"),
+            ("زنجیره ×۳ بساز", 1, 3, 0.33, False, "rank")]:
+        tw2 = mp_w - mfs * 1.6
+        th = row_h - mfs * 0.55
+        _rr(img, (px + mfs * 0.8, my, tw2, th), 10, fill=hx("#0f131e") + (255,))
+        if pct > 0:
+            _rr(img, (px + mfs * 0.8, my, tw2 * pct, th), 10,
+                fill=(hx("#2e7d5b") if done else hx(THEME["accent"])) + (255,))
+        _icon(img, ic, px + mfs * 0.8 + tw2 - th * 0.82, my + th * 0.17, th * 0.66,
+              hx("#9fe8c4") if done else (255, 255, 255))
+        lab = "%s  (%s/%s)" % (t, digits(prog), digits(tot))
+        text_at(d, (px + mfs * 0.8 + 10 + (tw2 - th * 1.25) / 2, my + th / 2), lab,
+                _fit(lab, tw2 - th * 1.3, mfs), True, "white", stroke=1,
+                stroke_fill=(0, 0, 0, 190))
+        my += row_h
+    y += head + row_h * 3 + mfs * 0.7 + 22
+
+    bw2 = min(W * 0.7, 380)
+    avail = max(220, H - y - 24)
+    bh = min(max(avail * 0.2, 54), 96)
+    _icon_btn(img, d, W / 2 - bw2 / 2, y, bw2, bh, "play", "بازی", (255, 255, 255),
+              THEME["accent"])
+    gw = (bw2 - 12) / 2
+    gh = min(max((avail - bh - 24) / 3 - 10, 46), 84)
+    yy = y + bh + 14
+    for i, (nm, lb, ac) in enumerate([
+            ("daily", "چالش روزانه", hx("#6fb3ff")), ("board", "جدول جهانی", hx("#7fd8ff")),
+            ("fal", "فال و گنجینه", hx("#c39bf5")), ("shop", "شخصی‌سازی", hx("#ffc76f")),
+            ("records", "رکوردها", hx("#9fe8c4")), ("settings", "تنظیمات", hx("#aab4cc"))]):
+        _icon_btn(img, d, W / 2 - bw2 / 2 + (i % 2) * (gw + 12),
+                  yy + (i // 2) * (gh + 10), gw, gh, nm, lb, ac)
     return img
 
 
@@ -360,8 +447,18 @@ def compose(game_img, caption, sub=None, fname="shot.png"):
     canvas.paste(Image.alpha_composite(canvas.convert("RGBA"),
                  shadow.filter(ImageFilter.GaussianBlur(18))).convert("RGB"), (0, 0))
     canvas.paste(game, (gx, gy), mask)
-    canvas.save(f"{OUT}/{fname}")
-    print("wrote", fname)
+    path = f"{OUT}/{fname}"
+    canvas.save(path, optimize=True)
+    # Cafe Bazaar rejects screenshots over 1 MB. Quantise until it fits rather than
+    # letting a submission fail on file size.
+    colors = 256
+    while os.path.getsize(path) > 1_000_000 and colors >= 32:
+        canvas.convert("RGB").quantize(colors=colors, method=Image.MEDIANCUT)\
+            .convert("RGB").save(path, optimize=True)
+        colors //= 2
+    size_kb = os.path.getsize(path) // 1024
+    assert os.path.getsize(path) <= 1_000_000, f"{fname} is {size_kb} KB — over the 1 MB store cap"
+    print(f"wrote {fname} ({size_kb} KB)")
 
 
 import datetime

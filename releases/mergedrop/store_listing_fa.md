@@ -22,6 +22,9 @@
 - 🎨 چهار تم رنگی قابل خرید با سکه
 - 🔥 شمارش روزهای پیاپی
 - 🎵 موسیقی پویا که با هیجان بازی اوج می‌گیرد
+- 🌍 جدول امتیاز جهانی با نام دلخواه خودت — آفلاین بازی کن، امتیازت بعداً ثبت می‌شود
+- 🦉 «جغد»، همراه بازی که هوای رکورد و روزهای پیاپی‌ات را دارد
+- 📋 مأموریت‌های روزانه با تاریخچهٔ روزهای گذشته
 - 📤 فالت را با یک لمس برای دوستانت بفرست
 - 📅 تاریخ شمسی و پیام‌های ویژه شب یلدا و نوروز
 - آموزش سریع در اولین اجرا
@@ -53,6 +56,6 @@ Assets for submission:
 - Icon 512×512: `../../games/mergedrop/icon.png`
 - Hi-res icon 1024: `../../games/mergedrop/icon_store_1024.png`
 - Screenshots: 6 × 1080×1920 PNG + header 720×288 + promo 1152×648 JPG — all within Bazaar limits
-- Package: `ir.gamefactory.mergedrop`, versionCode 7, versionName 3.4
+- Package: `ir.gamefactory.mergedrop`, versionCode 13, versionName 5.2
 - Signing cert SHA-256: 1269074d7df258439fb1d07ec43b3a192a2b076520530b1a647d0dd9e03fb242
   (keystore: <tools>/secrets/release.keystore — NEVER lose or leak; Bazaar/Myket updates require this exact signature)

@@ -9,8 +9,8 @@ Requirements below were researched from Bazaar's developer docs and Myket's know
 |---|---|---|---|
 | Package | APK or AAB, **max 150 MB**, targetSdk ≥ 32 (Myket: ≥34 from 23 Oct 2026) | `MergeDrop-release.apk` (53 MB, v3.4 code 7, targetSdk 36, **arm-only** — stores reject x86_64) | ✅ |
 | Emulator test build | not for stores | `MergeDrop-test-emulator.apk` (78 MB, adds x86_64 so PC emulators run it) | ✅ |
-| **Bazaar build** | Gradle build + Poolakey billing + reminders | `MergeDrop-bazaar-iap.apk` — carries `PAY_THROUGH_BAZAAR`, verified to contain Poolakey | ✅ |
-| **Myket build** | same game, reminders, **no Bazaar billing** | `MergeDrop-myket.apk` — verified to contain **zero** Poolakey references and no Bazaar permission | ✅ |
+| **Bazaar build** | Gradle build + Poolakey billing + reminders + leaderboard | `MergeDrop-bazaar-iap.apk` (v5.2, code 13) — carries `PAY_THROUGH_BAZAAR` + `INTERNET`, verified to contain Poolakey and **zero** Myket references | ✅ |
+| **Myket build** | same game, **no Bazaar billing** | `MergeDrop-myket.apk` (v5.2, code 13) — carries `ir.mservices.market.BILLING` + `INTERNET`, verified to contain **zero** Poolakey references | ✅ |
 | Launcher icon | adaptive icon required on Android 8+ | `icon_adaptive_fg.png` + `icon_adaptive_bg.png` (432²) bundled in the APK | ✅ |
 | Privacy policy | must be reachable **inside the app** even if nothing is collected | Settings → حریم خصوصی | ✅ |
 | Sources/credits | «ذکر منابع استفاده شده در برنامه‌ها اجباری‌ست» | Settings → منابع و اعتبارات | ✅ |
@@ -37,6 +37,7 @@ Only the full-feature build (`MergeDrop-bazaar-iap.apk`) declares any. Write the
 | `WAKE_LOCK` | نمایش اعلان در لحظهٔ زمان‌بندی‌شده |
 | `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS` | فقط با زدن دکمهٔ «یادآوری‌ها نمی‌رسند؟» در تنظیمات، برای گوشی‌هایی که یادآوری را متوقف می‌کنند |
 | `PAY_THROUGH_BAZAAR` | خرید درون‌برنامه‌ای از طریق کافه‌بازار |
+| `INTERNET` | ثبت امتیاز در جدول جهانی (بازی بدون اینترنت هم کامل کار می‌کند) |
 
 `MergeDrop-release.apk` declares **no permissions at all** — submit that one if you would rather
 launch with neither purchases nor reminders.
