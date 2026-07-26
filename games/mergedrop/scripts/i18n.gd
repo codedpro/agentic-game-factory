@@ -1,0 +1,224 @@
+extends Node
+## Autoload "I18n" — bilingual strings (Persian-first release) and digit conversion.
+
+signal locale_changed
+
+const FA_DIGITS := ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"]
+
+const T := {
+	"title": {"en": "Beriz o Besaz", "fa": "بریز و بساز"},
+	"tagline": {"en": "Drop. Merge. Chain!", "fa": "بنداز، ادغام کن، زنجیره بساز!"},
+	"play": {"en": "Play", "fa": "بازی"},
+	"daily": {"en": "Daily Challenge", "fa": "چالش روزانه"},
+	"daily_short": {"en": "Daily", "fa": "چالش روزانه"},
+	"records": {"en": "Records", "fa": "رکوردها"},
+	"settings": {"en": "Settings", "fa": "تنظیمات"},
+	"score": {"en": "Score", "fa": "امتیاز"},
+	"best": {"en": "Best", "fa": "رکورد"},
+	"next": {"en": "Next", "fa": "بعدی"},
+	"goal": {"en": "Goal: make tile %s", "fa": "هدف: ساخت کاشی %s"},
+	"goal_done": {"en": "Goal reached! 🎉", "fa": "به هدف رسیدی! 🎉"},
+	"game_over": {"en": "Game Over", "fa": "بازی تمام شد"},
+	"new_best": {"en": "New Best!", "fa": "رکورد جدید!"},
+	"retry": {"en": "Try Again", "fa": "دوباره"},
+	"menu": {"en": "Menu", "fa": "منو"},
+	"back": {"en": "Back", "fa": "بازگشت"},
+	"undo": {"en": "Undo", "fa": "برگرد"},
+	"sound": {"en": "Sound", "fa": "صدای افکت‌ها"},
+	"music": {"en": "Music", "fa": "موسیقی"},
+	"vibration": {"en": "Vibration", "fa": "لرزش"},
+	"on": {"en": "On", "fa": "روشن"},
+	"off": {"en": "Off", "fa": "خاموش"},
+	"reset_progress": {"en": "Reset progress", "fa": "پاک کردن پیشرفت"},
+	"reset_confirm": {"en": "Delete all records and achievements?", "fa": "همه رکوردها و دستاوردها پاک شود؟"},
+	"confirm": {"en": "Yes, delete", "fa": "بله، پاک کن"},
+	"cancel": {"en": "Cancel", "fa": "انصراف"},
+	"about": {"en": "About", "fa": "درباره بازی"},
+	"privacy": {"en": "Privacy", "fa": "حریم خصوصی"},
+	"privacy_text": {"en": "This game collects nothing.", "fa": "این بازی هیچ اطلاعاتی از شما جمع‌آوری، ذخیره یا ارسال نمی‌کند.\nهیچ حسابی لازم نیست، هیچ دسترسی‌ای از شما گرفته نمی‌شود و بازی کاملاً آفلاین کار می‌کند.\nامتیازها و تنظیمات فقط روی همین دستگاه ذخیره می‌شوند و با حذف بازی پاک می‌شوند.\nهیچ تبلیغ و ابزار تحلیلی در بازی وجود ندارد."},
+	"credits": {"en": "Credits & sources", "fa": "منابع و اعتبارات"},
+	"credits_text": {"en": "Poems: classical Persian public domain.", "fa": "اشعار: از دیوان شاعران کلاسیک پارسی (حافظ، سعدی، مولانا، خیام، فردوسی، باباطاهر) — مالکیت عمومی.\nقلم: وزیرمتن (SIL OFL) و Noto Emoji (SIL OFL).\nموتور بازی: Godot Engine 4 (پروانه MIT).\nموسیقی و افکت‌های صوتی: ساختهٔ اختصاصی همین بازی.\nتصاویر: ساختهٔ اختصاصی همین بازی."},
+	"about_text": {"en": "Beriz o Besaz v2 — a Persian merge puzzle.", "fa": "بریز و بساز — نسخه ۲\nیک بازی پازل ایرانی ساخته شده با عشق ❤️"},
+	"top_scores": {"en": "Top Scores", "fa": "بهترین امتیازها"},
+	"achievements": {"en": "Achievements", "fa": "دستاوردها"},
+	"empty_scores": {"en": "No games yet — go play!", "fa": "هنوز بازی نکردی — برو بازی کن!"},
+	"daily_best_today": {"en": "Today's best: %s", "fa": "بهترین امروز: %s"},
+	"ach_unlocked": {"en": "Achievement: %s", "fa": "دستاورد باز شد: %s"},
+	"tutorial_1": {"en": "Tap or drag on a column to drop the tile there.", "fa": "روی هر ستون بزن (یا انگشتت را بکش) تا کاشی همان‌جا بیفتد."},
+	"tutorial_2": {"en": "Equal neighbors merge and double. Chain merges for big scores!", "fa": "کاشی‌های مساویِ کنار هم ادغام می‌شوند و دو برابر می‌شوند.\nزنجیره بساز تا امتیازت چند برابر شود!"},
+	"tutorial_ok": {"en": "Got it!", "fa": "فهمیدم!"},
+	"level": {"en": "Level %s", "fa": "مرحله %s"},
+	"moves": {"en": "Moves: %s", "fa": "حرکت: %s"},
+	"combo": {"en": "Chain x%s!", "fa": "زنجیره ×%s!"},
+	"garbage_warn": {"en": "New row in %s", "fa": "ردیف جدید تا %s"},
+	"daily_rules": {"en": "60 moves — max score! Stones block the board.", "fa": "۶۰ حرکت — بیشترین امتیاز!\nسنگ‌ها را با ادغام کنارشان بشکن."},
+	"missions": {"en": "Today's Missions", "fa": "مأموریت‌های امروز"},
+	"m_score": {"en": "Score %s in one game", "fa": "در یک بازی %s امتیاز بگیر"},
+	"m_merges": {"en": "Make %s merges", "fa": "%s ادغام انجام بده"},
+	"m_stones": {"en": "Break %s stones", "fa": "%s سنگ بشکن"},
+	"m_tile": {"en": "Make tile %s", "fa": "کاشی %s بساز"},
+	"m_games": {"en": "Play %s games", "fa": "%s بار بازی کن"},
+	"m_chain": {"en": "Make a x%s chain", "fa": "زنجیره ×%s بساز"},
+	"mission_done": {"en": "Mission done! +%s coins", "fa": "مأموریت انجام شد! %s+ سکه"},
+	"coins": {"en": "Coins", "fa": "سکه"},
+	"streak": {"en": "Day streak: %s", "fa": "روزهای پیاپی: %s"},
+	"shop": {"en": "Themes", "fa": "شخصی‌سازی"},
+	"buy": {"en": "Buy", "fa": "خرید"},
+	"select": {"en": "Select", "fa": "انتخاب"},
+	"active": {"en": "Active", "fa": "فعال"},
+	"not_enough": {"en": "Not enough coins", "fa": "سکه کافی نیست"},
+	"theme_classic": {"en": "Classic", "fa": "کلاسیک"},
+	"theme_sunset": {"en": "Sunset", "fa": "غروب"},
+	"theme_neon": {"en": "Neon", "fa": "نئون"},
+	"theme_garden": {"en": "Garden", "fa": "باغ"},
+	"fal": {"en": "Hafez & Treasury", "fa": "فال و گنجینه"},
+	"fal_title": {"en": "Your Hafez fortune", "fa": "فال حافظ تو"},
+	"fal_today": {"en": "Today's fal unlocked!", "fa": "فال امروزت باز شد!"},
+	"fal_locked": {"en": "Open the game each day to receive your fal", "fa": "هر روز که بازی را باز کنی، فال آن روز به تو می‌رسد"},
+	"fal_interp": {"en": "Interpretation", "fa": "تعبیر"},
+	"treasury": {"en": "Poetry Treasury", "fa": "گنجینه شعر"},
+	"treasury_locked_hint": {"en": "Reach goals & play daily to collect all poems", "fa": "به هدف‌ها برس و هر روز بازی کن تا همه شعرها را جمع کنی"},
+	"poem_unlocked": {"en": "New poem in your treasury!", "fa": "یک شعر به گنجینه‌ات اضافه شد!"},
+	"share_fal": {"en": "Copy & send my fal", "fa": "کپی و ارسال فال"},
+	"share_result": {"en": "Copy & send result", "fa": "کپی و ارسال نتیجه"},
+	"copied": {"en": "Copied — paste it in Telegram!", "fa": "کپی شد — در تلگرام بفرست!"},
+	"yalda": {"en": "Happy Yalda night!", "fa": "شب یلدا مبارک! 🍉"},
+	"nowruz": {"en": "Happy Nowruz!", "fa": "نوروزت پیروز! 🌱"},
+	"tutorial_3": {"en": "Stones can't merge — destroy them by merging next to them. Watch for new rows rising!", "fa": "سنگ‌ها ادغام نمی‌شوند — با ادغامِ کنارشان نابودشان کن.\nمواظب ردیف‌های جدید باش که از پایین می‌آیند!"},
+	# reminders
+	"notifications": {"en": "Reminders", "fa": "یادآوری"},
+	"notif_time": {"en": "Remind me at", "fa": "ساعت یادآوری"},
+	"notif_daily_title": {"en": "Your fal is waiting", "fa": "فال امروزت منتظر توست ✨"},
+	"notif_daily_body": {"en": "Finish today's challenge and receive today's verse.", "fa": "چالش روزانهٔ امروز را تمام کن و غزل امروز را بگیر."},
+	"notif_streak_title": {"en": "%s days in a row!", "fa": "🔥 %s روز پیاپی"},
+	"notif_streak_body": {"en": "Tonight is your last chance to keep the streak.", "fa": "تا نیمه‌شب فرصت داری که زنجیره‌ات نشکند."},
+	"notif_streak_shield": {"en": "You have a shield — but why spend it?", "fa": "سپر داری، ولی حیف است خرجش کنی — یک بازی کوتاه کافی است."},
+	"notif_comeback_title": {"en": "A new verse is waiting", "fa": "یک غزل تازه در انتظار توست"},
+	"notif_comeback_body": {"en": "Your treasury misses you.", "fa": "گنجینه‌ات منتظر توست — امروز فالت را بگیر."},
+	"notif_fix": {"en": "Reminders not arriving?", "fa": "یادآوری‌ها نمی‌رسند؟"},
+	"notif_fix_hint": {"en": "Some phones block scheduled reminders to save battery.", "fa": "بعضی گوشی‌ها برای صرفه‌جویی در باتری، یادآوری‌ها را متوقف می‌کنند. اینجا بزن تا درستش کنیم."},
+	"notif_permission_hint": {"en": "Allow notifications to get reminders.", "fa": "برای دریافت یادآوری، اجازهٔ اعلان را بده."},
+	# the تفأل ceremony + ledger
+	"niyat_title": {"en": "Make your intention", "fa": "نیت کن"},
+	"niyat_hint": {"en": "Hold your intention, then press and hold to open the divan.", "fa": "نیتت را در دل نگه دار، بعد انگشتت را روی دیوان بگذار و نگه دار."},
+	"niyat_hold": {"en": "Hold to open", "fa": "برای گشودن نگه دار"},
+	"niyat_topic": {"en": "What is on your mind?", "fa": "نیتت دربارهٔ چیست؟"},
+	"topic_none": {"en": "Just my day", "fa": "همین روزم"},
+	"topic_work": {"en": "Work & study", "fa": "کار و درس"},
+	"topic_love": {"en": "Love", "fa": "دل و عشق"},
+	"topic_health": {"en": "Health", "fa": "سلامتی"},
+	"topic_travel": {"en": "A journey", "fa": "سفر"},
+	"topic_choice": {"en": "A decision", "fa": "یک تصمیم"},
+	"ledger": {"en": "Your fal ledger", "fa": "دفتر فال تو"},
+	"ledger_empty": {"en": "No fal yet — finish today's daily challenge.", "fa": "هنوز فالی نگرفته‌ای — چالش روزانه را تمام کن."},
+	"ledger_count": {"en": "%s fals received", "fa": "%s فال گرفته‌ای"},
+	"verse_returned": {"en": "This verse came to you before, on %s.", "fa": "این بیت پیش‌تر هم به تو رسیده بود — %s"},
+	"niyat_was": {"en": "Your intention: %s", "fa": "نیت تو: %s"},
+	# the owl companion
+	"char_welcome": {"en": "Hi! I'm Joghd. Let's play!", "fa": "سلام! من جغدم. بزن بریم!"},
+	"char_idle": {"en": "Ready when you are.", "fa": "هر وقت آماده بودی، شروع کن!"},
+	"char_first_game": {"en": "Your first game — I'll be right here.", "fa": "اولین بازیت! من همین‌جام."},
+	"char_streak_risk": {"en": "%s days in a row — don't break it tonight!", "fa": "%s روز پیاپی! نذار امشب بشکنه 🔥"},
+	"char_done_today": {"en": "Nice, today's done. One more?", "fa": "آفرین، امروزت رو زدی! یکی دیگه؟"},
+	"char_beat_best": {"en": "Your record is %s. Beat it?", "fa": "رکوردت %s است — بشکنیمش؟"},
+	"char_top_rank": {"en": "You're #%s in the world!", "fa": "تو رتبهٔ %s جهانی هستی! 🌍"},
+	"char_pending": {"en": "I'll upload your score when you're online.", "fa": "امتیازت رو وقتی آنلاین شدی می‌فرستم."},
+	"char_new_best": {"en": "A NEW RECORD! I knew you could!", "fa": "رکورد جدید! می‌دونستم می‌تونی! 🎉"},
+	"char_podium": {"en": "Rank %s in the world — incredible!", "fa": "رتبهٔ %s جهان! فوق‌العاده بود!"},
+	"char_so_close": {"en": "So close to your record!", "fa": "چقدر نزدیک بودی به رکوردت!"},
+	"char_good_run": {"en": "Good run! Again?", "fa": "بازی خوبی بود! دوباره؟"},
+	"char_try_again": {"en": "Everyone starts somewhere. Again!", "fa": "اشکالی نداره، دوباره امتحان کن!"},
+	# global scoreboard
+	"leaderboard": {"en": "Global board", "fa": "جدول جهانی"},
+	"nickname": {"en": "Nickname", "fa": "نام تو"},
+	"nickname_hint": {"en": "Pick a unique name for the global board.", "fa": "یک نام یکتا برای جدول جهانی انتخاب کن."},
+	"nickname_taken": {"en": "That name is taken", "fa": "این نام قبلاً گرفته شده"},
+	"nickname_invalid": {"en": "2 to 18 characters", "fa": "بین ۲ تا ۱۸ حرف"},
+	"nickname_saved": {"en": "Saved!", "fa": "ثبت شد!"},
+	"nickname_set": {"en": "Choose a name", "fa": "انتخاب نام"},
+	"offline_note": {"en": "Offline — your score will upload later.", "fa": "آفلاینی — امتیازت بعداً ثبت می‌شود."},
+	"board_empty": {"en": "No scores yet.", "fa": "هنوز امتیازی ثبت نشده."},
+	"your_rank": {"en": "Your rank: %s", "fa": "رتبهٔ تو: %s"},
+	"unranked": {"en": "Play to get ranked", "fa": "بازی کن تا رتبه بگیری"},
+	"pending_upload": {"en": "%s waiting to upload", "fa": "%s امتیاز در صف ثبت"},
+	# shop / economy
+	"tab_items": {"en": "Items", "fa": "ابزارها"},
+	"tab_themes": {"en": "Looks", "fa": "ظاهر"},
+	"tab_coins": {"en": "Coins", "fa": "سکه"},
+	"owned": {"en": "You have: %s", "fa": "داری: %s"},
+	"bought": {"en": "Purchased!", "fa": "خریداری شد!"},
+	"purchase_failed": {"en": "Purchase failed", "fa": "خرید انجام نشد"},
+	"items_hint": {"en": "Items are unlimited — buy as many as you like.", "fa": "ابزارها محدودیت ندارند؛ هر چند بار که بخواهی می‌توانی بخری."},
+	"iap_note": {"en": "Purchases go through Cafe Bazaar.", "fa": "پرداخت از طریق کافه‌بازار انجام می‌شود. سکه‌ها بلافاصله به حساب تو اضافه می‌شوند."},
+	"supporter_badge": {"en": "Supporter ×%s", "fa": "حامی بازی ×%s"},
+	"item_undo": {"en": "Undo pack", "fa": "بستهٔ برگرد"},
+	"item_undo_icon": {"en": "⏪", "fa": "⏪"},
+	"item_undo_desc": {"en": "Three more undos.", "fa": "سه بار «برگرد» بیشتر برای بازی‌های بعدی."},
+	"item_shield": {"en": "Streak shield", "fa": "سپر روزهای پیاپی"},
+	"item_shield_icon": {"en": "🛡", "fa": "🛡"},
+	"item_shield_desc": {"en": "Keeps your streak if you miss one day.", "fa": "اگر یک روز بازی نکنی، زنجیرهٔ روزهای پیاپی‌ات نمی‌شکند."},
+	"item_key": {"en": "Treasury key", "fa": "کلید گنجینه"},
+	"item_key_icon": {"en": "🗝", "fa": "🗝"},
+	"item_key_desc": {"en": "Unlocks one more poem in your treasury.", "fa": "یک شعر تازه از گنجینه را باز می‌کند (فال روزانه همیشه رایگان است)."},
+	"item_reroll": {"en": "Mission swap", "fa": "تعویض مأموریت"},
+	"item_reroll_icon": {"en": "🎲", "fa": "🎲"},
+	"item_reroll_desc": {"en": "Swap one of today's missions.", "fa": "یکی از مأموریت‌های امروز را با مأموریت دیگری عوض کن."},
+	"use_key": {"en": "Use a key", "fa": "استفاده از کلید"},
+	"no_key": {"en": "You have no keys", "fa": "کلید نداری"},
+	"theme_desc": {"en": "Tile colour palette.", "fa": "پالت رنگ کاشی‌ها و پس‌زمینه."},
+	"frame_desc": {"en": "Frame for your fal card.", "fa": "قاب کارت فال تو."},
+	"frame_classic": {"en": "Gold frame", "fa": "قاب طلایی"},
+	"frame_turquoise": {"en": "Turquoise frame", "fa": "قاب فیروزه‌ای"},
+	"frame_rosewater": {"en": "Rosewater frame", "fa": "قاب گلاب"},
+	"frame_lapis": {"en": "Lapis frame", "fa": "قاب لاجوردی"},
+	"sku_coins_small": {"en": "Small coin pack", "fa": "بستهٔ کوچک سکه"},
+	"sku_coins_small_desc": {"en": "500 coins.", "fa": "۵۰۰ سکه"},
+	"sku_coins_medium": {"en": "Medium coin pack", "fa": "بستهٔ متوسط سکه"},
+	"sku_coins_medium_desc": {"en": "1500 coins.", "fa": "۱۵۰۰ سکه"},
+	"sku_coins_large": {"en": "Large coin pack", "fa": "بستهٔ بزرگ سکه"},
+	"sku_coins_large_desc": {"en": "4000 coins.", "fa": "۴۰۰۰ سکه"},
+	"sku_supporter_tip": {"en": "Support the game", "fa": "حمایت از بازی"},
+	"sku_supporter_tip_desc": {"en": "A thank-you badge and 300 coins. Repeatable.", "fa": "نشان «حامی بازی» + ۳۰۰ سکه. هر چند بار که بخواهی می‌توانی حمایت کنی. ❤"},
+	"shield_saved": {"en": "A shield saved your streak!", "fa": "سپرت زنجیرهٔ روزهای پیاپی را نجات داد! 🛡"},
+	"undo_extra": {"en": "Extra undo used", "fa": "از بستهٔ برگرد استفاده شد"},
+	# achievements
+	"ach_merge1": {"en": "First merge", "fa": "اولین ادغام"},
+	"ach_tile64": {"en": "Make tile 64", "fa": "ساخت کاشی ۶۴"},
+	"ach_tile256": {"en": "Make tile 256", "fa": "ساخت کاشی ۲۵۶"},
+	"ach_tile1024": {"en": "Make tile 1024", "fa": "ساخت کاشی ۱۰۲۴"},
+	"ach_tile2048": {"en": "Make tile 2048", "fa": "ساخت کاشی ۲۰۴۸"},
+	"ach_chain3": {"en": "3x chain", "fa": "زنجیره ۳تایی"},
+	"ach_chain5": {"en": "5x chain", "fa": "زنجیره ۵تایی"},
+	"ach_score10k": {"en": "Score 10,000", "fa": "امتیاز ۱۰٬۰۰۰"},
+	"ach_games25": {"en": "Play 25 games", "fa": "۲۵ بار بازی"},
+	"ach_daily1": {"en": "Play a daily challenge", "fa": "شرکت در چالش روزانه"},
+}
+
+var locale := "fa"
+
+
+func set_locale(loc: String) -> void:
+	if loc in ["en", "fa"] and loc != locale:
+		locale = loc
+		locale_changed.emit()
+
+
+func toggle() -> void:
+	set_locale("fa" if locale == "en" else "en")
+
+
+func t(key: String) -> String:
+	if T.has(key):
+		return T[key][locale]
+	return key
+
+
+## Format a number using Persian digits when locale is fa.
+func digits(n: int) -> String:
+	var s := str(n)
+	if locale != "fa":
+		return s
+	var out := ""
+	for ch in s:
+		out += FA_DIGITS[ch.to_int()] if ch >= "0" and ch <= "9" else ch
+	return out

@@ -1,0 +1,16 @@
+config_version=5
+
+[application]
+
+config/name="SmokeTest"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.7")
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gut/plugin.cfg")
+
+[rendering]
+
+renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

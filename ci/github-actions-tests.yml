@@ -1,0 +1,33 @@
+name: tests
+
+# Runs the game's GUT suite headlessly — no device, no display.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  gut:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch Godot 4.7.1 (headless)
+        run: |
+          curl -sSL -o godot.zip \
+            https://github.com/godotengine/godot/releases/download/4.7.1-stable/Godot_v4.7.1-stable_linux.x86_64.zip
+          unzip -q godot.zip
+          mv Godot_v4.7.1-stable_linux.x86_64 godot
+          chmod +x godot
+
+      - name: Import project
+        working-directory: games/mergedrop
+        run: ../../godot --headless --import . || true
+
+      - name: Run tests
+        working-directory: games/mergedrop
+        run: |
+          ../../godot --headless --path . \
+            -s addons/gut/gut_cmdln.gd -gdir=res://tests -ginclude_subdirs -gexit \
+            | tee gut.log
+          grep -q "All tests passed" gut.log

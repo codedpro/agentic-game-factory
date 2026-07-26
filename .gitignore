@@ -1,0 +1,41 @@
+# --- secrets: never commit anything from here ---
+*.keystore
+*.jks
+*.env
+!pipeline/env.sh
+iap_key*.txt
+
+# --- Godot ---
+.godot/
+*.import.bak
+export_presets.cfg.bak
+
+# --- Android custom build template + Gradle output (regenerated, ~1 GB) ---
+games/*/android/
+!games/*/android/.gdignore
+
+# --- build artifacts (published as GitHub Releases instead of git blobs) ---
+releases/*/*.apk
+releases/*/*.apk.idsig
+releases/*/*.exe
+releases/*/*.pck
+releases/*/*.x86_64
+releases/*/*.sh
+releases/*/debug/
+
+# --- server runtime data ---
+server/*.db
+server/*.db-journal
+
+# --- plugin build intermediates ---
+games/*/addons/*/src/**/build/
+**/.gradle/
+
+# --- upstream font distribution (20 MB): only the two TTFs the game uses are vendored,
+# in games/*/assets/fonts. Re-fetch with:
+#   curl -sL -o v.zip https://github.com/rastikerdar/vazirmatn/releases/latest/download/vazirmatn-v33.003.zip
+assets/fonts/vazirmatn/
+
+# --- reports and scratch ---
+reports/
+*.log
