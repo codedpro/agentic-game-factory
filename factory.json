@@ -1,0 +1,30 @@
+{
+  "$comment": "The factory's only switchboard. Change values here — never fork a doc.",
+
+  "markets": ["international"],
+  "$markets": {
+    "purpose": "Which store ecosystems a game targets. Drives store specs, billing SDK, listing rules, localisation and cultural design.",
+    "default": ["international"],
+    "allowed": ["international", "iran"],
+    "howToChange": "Say which market(s) to cover, e.g. 'target the Iran market' or 'both'. The agent sets this field and reads only the matching markets/<name>.md.",
+    "modules": "markets/<name>.md — one file per market, all following markets/_TEMPLATE.md"
+  },
+
+  "languages": {
+    "primary": "en",
+    "additional": [],
+    "$comment": "Primary UI language. Market modules may require others (Iran ⇒ fa). Never assume a language from the market alone — check the module."
+  },
+
+  "engine": "godot-4.7",
+  "studio": "1xai Games Studio",
+
+  "$readingOrder": [
+    "AGENTS.md — start here: how to run the factory",
+    "factory.json — this file: what to build for",
+    "markets/<selected>.md — the only place store facts live",
+    "GAME_BLUEPRINT.md — what every game must ship (market-agnostic)",
+    "PLAYBOOK.md — how to build it (market-agnostic)",
+    "LESSONS.md — binding rules from real failures"
+  ]
+}

@@ -1,168 +1,159 @@
-# بریز و بساز — Beriz o Besaz
+# Agentic Game Factory
 
-**A Persian, offline-first merge puzzle for Android, built with Godot 4.7 — published as a working
-reference for shipping to Cafe Bazaar and Myket.**
+**An AI agent builds complete mobile games end to end — design, code, art, music, automated tests,
+store assets, monetisation and a signed release — with a human involved at only two gates.**
 
-Drop numbered tiles into columns, merge equal neighbours, chain them for multiplied scores while
-rising garbage rows and unbreakable stone tiles push back. Every day the game gives you a
-**فال حافظ** — a classical Persian verse — and puts your run on a global leaderboard.
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Engine: Godot 4.7](https://img.shields.io/badge/engine-Godot%204.7-478cbf.svg)](https://godotengine.org)
+[![Tests: 136 headless](https://img.shields.io/badge/tests-136%20headless-brightgreen.svg)](games/mergedrop/tests)
+[![Markets: pluggable](https://img.shields.io/badge/markets-pluggable-orange.svg)](markets/)
 
-Made by **1xai Games Studio**. Our code is MIT; vendored fonts are SIL OFL and vendored addons keep
-their own MIT licences — see [THIRD_PARTY.md](THIRD_PARTY.md).
+This is not a prompt collection. It is the working machinery — procedures, guardrails, headless
+build and QA automation, store packaging — plus **56 numbered rules distilled from real failures**,
+and a complete game as proof that the machinery produces something real.
 
-<p align="center">
-  <img src="releases/mergedrop/screenshots/02_play.png" width="30%" alt="Beriz o Besaz gameplay — Persian merge puzzle">
-  <img src="releases/mergedrop/screenshots/03_pressure.png" width="30%" alt="Rising garbage rows and stone tiles">
-  <img src="releases/mergedrop/screenshots/01_fal.png" width="30%" alt="Daily Hafez fal card in Persian">
-</p>
-
-**[⬇ Download the APK](../../releases/latest)** — four builds: Cafe Bazaar, Myket, a PC-emulator
-build, and one with no permissions at all.
+An agent starts at [**AGENTS.md**](AGENTS.md), reads which market it is building for from
+[`factory.json`](factory.json), and goes.
 
 ---
 
-## Why this repository might be useful to you
+## How it works
 
-There is very little public, working, cleanly-licensed code for shipping a **Godot 4** game to the
-**Iranian Android stores**. This repo is the whole thing, not a snippet:
+```
+concept → human approval → pure game logic + tests → screens → generated art & audio
+        → feature baseline → QA gates → store package → milestone build → feedback → LESSONS.md
+```
 
-| If you need… | Look at |
-|---|---|
-| **Myket in-app purchases in Godot 4** | [`games/mergedrop/addons/myket`](games/mergedrop/addons/myket) — an MIT plugin (Java + AIDL + GDScript) **written from scratch** for this project. Myket's own billing library ships source files with no licence grant, and the existing Godot plugins depend on it, so none were safe to ship. Full source included. |
-| **Cafe Bazaar purchases** | [`games/mergedrop/scripts/iap.gd`](games/mergedrop/scripts/iap.gd) — one GDScript API drives either store; the plugin is loaded dynamically so builds without it still run. The Bazaar side uses [DexterFstone's MIT Godot wrapper](games/mergedrop/addons/poolakey), which wraps Cafe Bazaar's own Poolakey SDK — we did not write that one. |
-| **Two stores, one codebase** | [`pipeline/build_stores.sh`](pipeline/build_stores.sh) — builds one APK per store and **fails the build** if either store's billing permission or classes leak into the other's APK. |
-| **Persian / RTL UI in Godot** | [`games/mergedrop/scripts/ui_kit.gd`](games/mergedrop/scripts/ui_kit.gd), [`i18n.gd`](games/mergedrop/scripts/i18n.gd) — Persian digits, RTL layout, and a font-fallback test that catches missing glyphs (tofu boxes) before release. |
-| **Jalali (Shamsi) calendar** | [`games/mergedrop/scripts/jalali.gd`](games/mergedrop/scripts/jalali.gd) — conversion, Persian date formatting, Yalda/Nowruz detection, with tests. |
-| **Headless testing for a Godot game** | 136 GUT test functions across 15 files, needing no display and no device — including layout-overlap guards and glyph coverage. A separate headless run (`-- --autoplay`) has a bot play the real UI to game over. |
-| **Local notifications with a policy** | [`games/mergedrop/scripts/notify.gd`](games/mergedrop/scripts/notify.gd) — quiet hours, timezone-correct scheduling, and back-off when reminders go ignored. |
-| **An offline-first leaderboard** | [`server/`](server) — a dependency-free Python server; the client queues scores locally and uploads them when a network appears. |
+The human decides two things: **is this concept worth building**, and **does this build feel
+right**. Everything else — architecture, implementation, testing, asset generation, store
+compliance, packaging — is the agent's.
 
-Every mistake made along the way is written down in **[LESSONS.md](LESSONS.md)** — 54 numbered
-rules, each from a real failure (a release-only hang, a store rejection risk, a timezone bug that
-broke streaks for every player in Iran between midnight and 3:30 AM).
-
-### Using the Myket plugin in your own game
+Two commands are the whole quality bar:
 
 ```bash
-cp -r games/mergedrop/addons/myket  <your-project>/addons/
+pipeline/check_game.sh <slug>     # import, unit tests, smoke run, autoplay bot, exports
+pipeline/build_stores.sh <slug>   # one artifact per store, with cross-store leakage checks
 ```
 
-Then enable it in *Project → Project Settings → Plugins*, switch the Android export preset to
-Godot's **Gradle custom build** (a native plugin cannot work with the prebuilt template), and call
-it through the same shape as the Bazaar plugin — `open_connection`, `get_products`,
-`purchase_product`, `consume_product` — see [`iap.gd`](games/mergedrop/scripts/iap.gd) for a
-working driver of both stores.
+### What makes it actually work
 
-Prebuilt AARs ship in `addons/myket/bin/`; rebuild them from `addons/myket/src` with
-`./gradlew :plugin:assembleRelease` (JDK 17, Android SDK 36). Built and tested against
-**Godot 4.7.1**; it uses the v2 Android plugin API, so 4.2+ should work, though we have not tested
-older 4.x. Consumables must be consumed or Myket keeps reporting the SKU as owned.
-
----
-
-## The game
-
-- **Merge puzzle with real pressure.** Levels push new rows up from the bottom; stone tiles cannot
-  merge and must be destroyed by merging beside them. Every run eventually ends.
-- **Daily challenge.** 60 moves on a date-seeded board that is *identical for every player in the
-  country* — with [a test](games/mergedrop/tests/test_shared_board.gd) proving two players who
-  play differently still receive the same tile sequence.
-- **فال حافظ.** Open the game on a new day and receive that day's verse, revealed through a
-  «نیت» press-and-hold ceremony and kept in a گنجینه treasury. 80 verses from Hafez, Saadi, Rumi,
-  Khayyam, Ferdowsi and Baba Taher (56 / 10 / 8 / 4 / 1 / 1). The verses are public domain and
-  centuries old. **Disclosure:** attribution and wording were screened by agreement between several
-  independent AI models, and candidates that failed were dropped — a filter, not scholarship. If you
-  spot an error, please open an issue and it will be corrected.
-- **Global leaderboard** with unique nicknames, fully playable offline.
-- **A companion.** «جغد», an owl who reacts to your streak, your record and your world rank.
-- **Economy** with unlimited consumables and cosmetics. No loot boxes, no gacha, nothing that
-  affects fairness — Iranian stores ban gambling-style monetisation.
+- **All game rules live in a pure, scene-free class.** That one decision is why 136 tests run with
+  no display and no device — an agent can verify its own work without a human or a phone.
+- **A bot plays the real UI.** Unit tests miss "the button does nothing"; a headless run drives the
+  same handlers a finger does, to game over, three times.
+- **Guards for the bugs an agent cannot see:** layout-overlap tests at four aspect ratios, font
+  glyph coverage (no tofu boxes), scroll-blocking detection, and a screenshot composer that doubles
+  as a layout oracle.
+- **Platform features hide behind `available()`** — billing, notifications, network. A missing
+  plugin makes a feature invisible, never a crash.
+- **Every failure becomes a numbered rule.** [LESSONS.md](LESSONS.md) is why the second game costs
+  less than the first.
 
 ---
 
-## One project, several names
+## Markets are pluggable — international by default
 
-You will meet a few identifiers in here; they all refer to this project:
+Store rules, billing SDKs, listing limits, compliance, language and cultural design live in
+**market modules**, and nowhere else:
 
-| Name | Where it appears | Why |
+```jsonc
+// factory.json
+{ "markets": ["international"] }   // the default: English-first, worldwide
+```
+
+| Module | Stores | Language |
 |---|---|---|
-| بریز و بساز / Beriz o Besaz | the game's title and store listing | the player-facing name |
-| `mergedrop` | `games/mergedrop`, build scripts | the internal slug, kept ASCII for tooling |
-| `ir.gamefactory.mergedrop` | the Android package id | frozen — an Android package id cannot change after a store release |
-| 1xai Games Studio | licences, commits | the studio |
+| [markets/international.md](markets/international.md) | Google Play, itch.io, Steam | English **(default)** |
+| [markets/iran.md](markets/iran.md) | Cafe Bazaar, Myket | Persian |
 
-## Layout
+Say *"target the Iran market"* or *"cover both"* and the agent switches the field and reads a
+different module. Adding a market is **one file** — copy [`_TEMPLATE.md`](markets/_TEMPLATE.md) and
+fill eleven sections. No core document is ever forked for a market, and nothing locale-specific is
+applied unless its module is selected.
 
-```
-games/mergedrop/     the game (Godot 4.7 project)
-  scripts/           pure-logic core, screens, platform adapters
-  tests/             136 headless GUT test functions
-  addons/myket/      Myket billing plugin (ours, MIT, source included)
-  addons/poolakey/   Cafe Bazaar billing (DexterFstone's MIT wrapper, vendored)
-server/              global scoreboard (Python, no dependencies)
-pipeline/            headless build + QA automation
-templates/           shared pieces for new games
-ci/                  GitHub Actions workflow for the test suite (not active yet — see ci/README.md)
-```
+---
 
-Docs: **[GAME_BLUEPRINT.md](GAME_BLUEPRINT.md)** (what a game must ship and why) ·
-**[PLAYBOOK.md](PLAYBOOK.md)** (how it is built) · **[LESSONS.md](LESSONS.md)** (54 binding rules) ·
-**[ENGAGEMENT.md](ENGAGEMENT.md)** (retention design) · **[THIRD_PARTY.md](THIRD_PARTY.md)** (licences).
+## The proof: a complete game
+
+[`games/mergedrop`](games/mergedrop) — an offline-first merge puzzle built through this factory for
+the Iran module and packaged for two stores.
+
+<p align="center">
+  <img src="releases/mergedrop/screenshots/02_play.png" width="30%" alt="Gameplay of a puzzle game built by an AI agent with Godot 4">
+  <img src="releases/mergedrop/screenshots/03_pressure.png" width="30%" alt="Escalating difficulty: rising rows and stone tiles">
+  <img src="releases/mergedrop/screenshots/06_meta.png" width="30%" alt="Menu with companion character, daily missions and progress">
+</p>
+
+Built by the agent: the merge engine and its difficulty curve, a daily challenge with a *provably*
+identical board for every player, a companion character that reacts to your streak and rank, an
+economy, local reminders with a tested policy, an offline-first global leaderboard, a synthesised
+two-stem soundtrack, generated art, and store listings.
+
+**[⬇ Download the APKs](../../releases/latest)** · four builds, all signed.
+
+---
+
+## Reusable pieces
+
+| Component | What it is |
+|---|---|
+| [`addons/myket`](games/mergedrop/addons/myket) | A **Myket in-app billing plugin for Godot 4** (Java + AIDL + GDScript), written from scratch and MIT — none with a clean licence existed. Source included. |
+| [`scripts/iap.gd`](games/mergedrop/scripts/iap.gd) | One billing API driving multiple stores, loading plugins dynamically so builds without them still run. |
+| [`pipeline/build_stores.sh`](pipeline/build_stores.sh) | One artifact per store; **fails the build** if a store's billing permission or classes leak into another's. |
+| [`server/`](server) | Dependency-free Python leaderboard; the client queues scores offline and uploads when a network appears. |
+| [`scripts/jalali.gd`](games/mergedrop/scripts/jalali.gd) | Jalali/Shamsi calendar in pure GDScript, with tests. |
+| [`scripts/notify.gd`](games/mergedrop/scripts/notify.gd) | Local reminders with a *tested* policy: quiet hours, timezone-correct scheduling, back-off when ignored. |
+| [`pipeline/make_screenshots.py`](pipeline/make_screenshots.py) | Renders store screenshots by mirroring the game's own layout constants — and catches layout bugs doing it. |
+
+---
+
+## Documentation
+
+| File | Purpose |
+|---|---|
+| [AGENTS.md](AGENTS.md) | **Start here.** How the factory runs, and the market switch. |
+| [factory.json](factory.json) | The only switchboard: markets, language, engine. |
+| [markets/](markets/) | Store facts — the only place they live. |
+| [GAME_BLUEPRINT.md](GAME_BLUEPRINT.md) | What every game must ship, and why. Market-agnostic. |
+| [PLAYBOOK.md](PLAYBOOK.md) | How to build it, step by step. |
+| [LESSONS.md](LESSONS.md) | 56 binding rules from real failures. |
+| [ENGAGEMENT.md](ENGAGEMENT.md) | Retention design patterns. |
+| [FACTORY.md](FACTORY.md) | Toolchain and machine setup. |
+| [THIRD_PARTY.md](THIRD_PARTY.md) | Vendored components and their licences. |
 
 ---
 
 ## Build and test
 
-Everything runs headlessly — no editor, no display, no device.
+Everything is headless — no editor, no display, no device.
 
 ```bash
-# tests
 cd games/mergedrop
 godot --headless --path . -s addons/gut/gut_cmdln.gd -gdir=res://tests -ginclude_subdirs -gexit
-
-# a bot plays the real UI to game over three times
-godot --headless --path . -- --autoplay
-
-# full gate: import, tests, smoke run, autoplay, exports
-pipeline/check_game.sh mergedrop
-
-# one APK per store, with cross-store leakage checks
-pipeline/build_stores.sh mergedrop
+godot --headless --path . -- --autoplay     # a bot plays the real UI to game over
 ```
 
-The Android builds need Godot's Gradle template (`android/build/`) plus a JDK 17 and the Android
-SDK; the store presets and the reasoning behind them are documented in
-[`releases/mergedrop/SUBMISSION.md`](releases/mergedrop/SUBMISSION.md).
-
-## Scoreboard server
-
-```bash
-cd server
-PORT=3000 python3 scoreboard.py
-```
-
-Routes are namespaced per game (`/api/<game>/…`), so one process serves several titles: claim a
-unique nickname, submit a score (best-kept-wins, so a later worse run never lowers a rank), fetch a
-board with your own position. See [`server/README.md`](server/README.md). The game treats it as
-entirely optional — with the server down, play is unaffected and scores upload later.
+Android builds need Godot's Gradle template, JDK 17 and the Android SDK. The leaderboard server is
+`cd server && PORT=3000 python3 scoreboard.py`.
 
 ---
 
-## فارسی
+## Honest scope
 
-**بریز و بساز** یک بازی پازل ایرانی برای اندروید است که با موتور گودو ۴ ساخته شده: کاشی‌های عددی را
-در ستون‌ها بینداز، کاشی‌های مساوی را ادغام کن و زنجیره بساز. هر روز یک **فال حافظ** می‌گیری و
-رکوردت روی جدول جهانی ثبت می‌شود. بازی کاملاً آفلاین کار می‌کند و بدون تبلیغ است.
-
-این مخزن علاوه بر خود بازی، ابزارهای انتشار روی **کافه‌بازار** و **مایکت** را هم دارد — از جمله یک
-افزونهٔ **پرداخت درون‌برنامه‌ای مایکت** برای گودو ۴ که مخصوص همین پروژه و با پروانهٔ MIT نوشته شده،
-تقویم **شمسی (جلالی)**، رابط کاربری **راست‌به‌چپ فارسی** و آزمون‌های خودکار بدون نیاز به دستگاه.
+- The agent writes the code, tests, art, audio and store material. **A human still creates store
+  accounts, pays fees, holds the signing key and presses publish** — every market module lists
+  those explicitly as human-only.
+- The included game is packaged and verified, and **not yet published to a store**.
+- In-app purchases are integrated and verified inside the built package, but a real purchase can
+  only be exercised on a device with the store app installed and products created.
+- The CI workflow ships at [`ci/`](ci) and is **not active** — enabling it needs a token with the
+  `workflow` scope.
 
 ---
 
 ## Licence
 
-MIT — see [LICENSE](LICENSE). Vendored components keep their own licences, listed in
-[THIRD_PARTY.md](THIRD_PARTY.md). The classical Persian poetry is public domain.
+MIT — see [LICENSE](LICENSE). Vendored fonts are SIL OFL and vendored addons keep their own MIT
+licences under their authors; see [THIRD_PARTY.md](THIRD_PARTY.md).
 
 © 2026 **1xai Games Studio**

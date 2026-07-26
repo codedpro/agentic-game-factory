@@ -1,4 +1,9 @@
-# ENGAGEMENT.md — innovation & retention plan for «بریز و بساز»
+# ENGAGEMENT.md — retention design
+
+Worked example: «بریز و بساز» (Iran module). The *patterns* are market-agnostic — daily ritual,
+collection, streak, seasons, social proof — while the specific cultural content shown here comes
+from [`markets/iran.md`](markets/iran.md). For an international game, keep the patterns and replace
+the cultural content with a signature mechanic of your own.
 
 ## The USP (shipped in v3): فال حافظ + گنجینه شعر
 **The claim no other game can make:** «تنها بازی‌ای که هر روز یک فال حافظ واقعی به تو هدیه می‌دهد»

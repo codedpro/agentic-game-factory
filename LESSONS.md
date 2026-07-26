@@ -1,9 +1,14 @@
 # LESSONS.md — mistake database (append-only)
 
 Every entry: what happened → root cause → **RULE** all future builds must follow.
-Read together with PLAYBOOK.md before building any game. Never repeat an entry here.
+Read with [AGENTS.md](AGENTS.md) and [PLAYBOOK.md](PLAYBOOK.md) before building anything.
+Never repeat an entry here.
 
-## L1 — Black screen on emulator (2026-07-25, MergeDrop v1)
+Most rules are **universal**. A few are tied to one store ecosystem and are marked
+`[market:<name>]` — those are summarised in that market's module
+([`markets/`](markets/)); the rule text is kept here because the *reasoning* generalises.
+
+## L1 — Black screen on emulator (2026) [market:iran]
 Shipped arm64-v8a-only APK; user's PC emulator is x86_64 and its arm translation showed black screen forever.
 **RULE:** Test/universal APKs always include `arm64-v8a + armeabi-v7a + x86_64`. Store builds may split per-ABI.
 
@@ -53,7 +58,7 @@ v1 had only board + score and the user immediately rejected it as not a real gam
 settings (sound/music/vibration), goals/progression, achievements, records screen, daily challenge,
 undo or comparable mercy mechanic, juice (animations/sfx/floating scores/haptics).
 
-## L12 — Names must be genuinely Persian (2026-07-25, user feedback)
+## L12 — Names must be genuinely Persian (2026) [market:iran]
 "MergeDrop"/transliterations rejected. Market is Bazaar/Myket.
 **RULE:** every game gets a real Persian name (e.g. «بریز و بساز»), Persian APK label
 (`package/name`), Persian store listing. Internal ids/folders stay ASCII.
@@ -198,7 +203,7 @@ build hangs**. It survived on the daily game-over screen (the USP path) after tw
 **RULE:** grep for every `create_tween().set_loops()` after any UI change and confirm each is bound
 to the node it animates. Treat debug-only warnings as release-hang candidates, not noise.
 
-## L36 — Store builds and emulator builds need different ABIs (2026-07-25)
+## L36 — Store builds and emulator builds need different ABIs (2026) [market:iran]
 Bazaar/Myket accept only armeabi-v7a / arm64-v8a / All, but PC emulators need x86_64 (L1).
 **RULE:** ship two presets — a store preset (arm only; 53 MB vs 78 MB here) and an `AndroidTest`
 preset with x86_64 for the user's emulator. Never send the store the test APK.
@@ -209,7 +214,7 @@ preset with x86_64 for the user's emulator. Never send the store the test APK.
 sourced from `tools/secrets/keystore.env`. After any signing change, re-check the certificate
 SHA-256 matches previous releases — a different key permanently breaks updates for installed users.
 
-## L38 — Iranian stores mandate in-app privacy + sources (2026-07-25)
+## L38 — Iranian stores mandate in-app privacy + sources (2026) [market:iran]
 Bazaar's #1 and #2 rejection reasons are copyright and privacy. A privacy policy must be reachable
 INSIDE the app even when nothing is collected, and «ذکر منابع استفاده شده» is compulsory.
 **RULE:** every game ships Settings → حریم خصوصی and Settings → منابع و اعتبارات listing every
@@ -239,7 +244,7 @@ diverged. The share text promised «چیدمان امروز برای همه یک
 on the DROP INDEX, never on player state, and ship a test that plays the same seed two different
 ways and asserts identical tile sequences. Verify the test fails without the fix.
 
-## L42 — Bazaar IAP: what is actually required (2026-07-26, researched)
+## L42 — Bazaar IAP: what is actually required (2026) [market:iran]
 Official SDK is **Poolakey**; a maintained Godot 4 plugin exists (DexterFstone/godot-poolakey,
 Asset Library 3525) which injects an AAR + JitPack dependency — so it **only works with Godot's
 Gradle/custom build template**, not the prebuilt one. The RSA public key appears in Pishkhan only
@@ -250,7 +255,7 @@ coexist in one APK — ship two builds.
 key is missing, load the plugin script dynamically (a direct `class_name` reference breaks the
 build without the addon), and hide money UI rather than showing dead buttons.
 
-## L43 — Avoid randomised paid rewards on Iranian stores (2026-07-26)
+## L43 — Avoid randomised paid rewards on Iranian stores (2026) [market:iran]
 Bazaar's content rules ban gambling/betting outright and publish no loot-box carve-out.
 **RULE:** sell fixed, known quantities only — no gacha, no random paid unlocks. Keep the ritual
 content (the daily fal) permanently unbuyable so monetisation can never look like paying for luck.
@@ -302,7 +307,7 @@ cancel, and needs `create_notification_channel()` before anything posts.
 POLICY layer pure and separately tested so a wrong binding costs a rewrite of ~40 lines, not the
 feature. Deterministic notification ids make "no bulk cancel" a non-issue.
 
-## L49 — Godot v2 Android export plugins inject into EVERY Android export (2026-07-26)
+## L49 — Godot v2 Android export plugins inject into EVERY Android export (2026) [market:iran]
 Setting `gradle_build/plugins/GodotPoolakey=false` on the Myket preset did nothing: that flag only
 governs legacy v1 plugins. A v2 `EditorExportPlugin` adds its AAR — and every permission in that
 AAR's manifest — to any Android export while the addon is enabled in the project. The Myket APK
@@ -314,7 +319,7 @@ therefore shipped `com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR`, which Myk
 store's permission or classes leak into the other store's APK (`aapt dump badging` + a dex string
 scan). Verify by counting SDK references in both APKs — 349 vs 0 is the proof, not the intent.
 
-## L50 — Myket billing: write the client, don't vendor one (2026-07-26)
+## L50 — Myket billing: write the client, don't vendor one (2026) [market:iran]
 Myket ships only a legacy AIDL billing library whose original source files carry **no licence
 header and no repo LICENSE**; the one MIT-licensed Godot plugin for Myket still pulls that library
 in as a Gradle dependency, so the shipped APK would contain unlicensed code — the exact copyright

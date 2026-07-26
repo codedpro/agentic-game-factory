@@ -1,6 +1,8 @@
 # Game Factory
 
-> **Before building anything read, in order: this file (toolchain) → GAME_BLUEPRINT.md (the master plan: what every game must have, store policy, shop, notifications, idea backlog) → PLAYBOOK.md (how to build it) → LESSONS.md (56 binding rules from real mistakes).**
+> **This file documents the TOOLCHAIN only.** Start at [AGENTS.md](AGENTS.md), then
+> [factory.json](factory.json) (which market), then [markets/](markets/) (store facts), then
+> [GAME_BLUEPRINT.md](GAME_BLUEPRINT.md), [PLAYBOOK.md](PLAYBOOK.md) and [LESSONS.md](LESSONS.md).
 
 Automated pipeline that produces, tests, and packages bilingual (English/Persian)
 2D games for Android (Google Play), itch.io (PC), and later Steam.
@@ -61,21 +63,18 @@ $GODOT --headless --path . --export-debug "Linux"
 3. **Release checks** — export succeeds for all targets, APK badging correct (`aapt dump badging`),
    version code bumped, both locales load, Persian strings render (font has glyphs).
 
-## Publishing state (PIVOTED 2026-07-25)
+## Publishing state
 
-- **Primary targets: Cafe Bazaar + Myket (Iranian Android stores). Games are Persian-only,
-  easy to play, engaging.** User will create developer accounts at submission time.
-- Release keystore: `<tools>/secrets/release.keystore` (alias `gamefactory`,
-  pass in export_presets.cfg). CRITICAL: same signature required for all future updates — never regenerate.
-- Google Play / itch.io / Steam: deferred.
-- AI image generation: **working** — base URL `https://1xai.ir/v1`, OpenAI-compatible,
-  key at `<tools>/secrets/image_api.env`. Image models: gpt-image-1-mini (cheap),
-  gpt-image-1 / gpt-image-2 (quality). Returns b64_json. Also hosts claude/gemini/gpt chat models.
-  Tip: image models render Western digits even when asked for Persian — generate blank art,
-  stamp Persian text with PIL + Vazirmatn instead.
-- Store screenshots: DONE — `pipeline/make_screenshots.py` renders real board states dumped by
-  `games/<slug>/tools/dump_states.gd`, mirroring ui_kit.gd constants. PIL here has libraqm, so
-  Persian shaping/bidi works via `direction="rtl"`; emoji need explicit font-run fallback.
+Store facts, fees, submission steps and billing SDKs live in the **market modules**
+([`markets/`](markets/)) — not here. The default market is **international**.
+
+Machine-local paths this toolchain expects:
+- Release keystore: `<tools>/secrets/release.keystore` (password via env, see `pipeline/env.sh`).
+  **Same signature forever** — a new key makes updates impossible for installed users.
+- Image generation for art: an OpenAI-compatible endpoint configured in `<tools>/secrets/`.
+- Screenshots: `pipeline/make_screenshots.py` renders real board states dumped by
+  `games/<slug>/tools/dump_states.gd`, mirroring the game's own layout constants.
+
 
 ## Status log
 

@@ -1,21 +1,26 @@
 # GAME_BLUEPRINT.md — the master plan for every game this factory makes
 
-**Read order at the start of any game session: FACTORY.md (toolchain) → this file (what to build
-and why) → PLAYBOOK.md (how to build it) → LESSONS.md (56 binding rules from mistakes already made).**
+**Read order: [AGENTS.md](AGENTS.md) → [factory.json](factory.json) (which market) →
+[markets/&lt;selected&gt;.md](markets/) (store facts) → this file (what to build) →
+[PLAYBOOK.md](PLAYBOOK.md) (how) → [LESSONS.md](LESSONS.md) (56 binding rules).**
 
-Everything here was learned the expensive way on game #1 «بریز و بساز» — through user rejections,
-a 14-agent adversarial audit, a 19-agent design panel, and market research on Cafe Bazaar/Myket.
-**Do not re-derive, re-research or re-litigate any of it. Start from here.**
+This file is **market-agnostic**. Anything specific to a store ecosystem — listing limits, billing
+SDKs, compliance, language, cultural design — lives in a market module and nowhere else. The
+default market is **international (English-first)**; nothing here assumes a locale.
+
+Everything below was learned the expensive way shipping a real game: user rejections, a 14-agent
+adversarial audit, a 19-agent design panel, and store research. **Do not re-derive it.**
 
 ---
 
 ## 0. The one-paragraph brief
 
-We make Persian-only, offline, free mobile games for **Cafe Bazaar + Myket**. The user has no
-game-dev experience and is involved at exactly two gates: **concept approval** and **milestone
-testing**. Every game must be easy to learn in seconds, get genuinely hard, give a reason to
-return *tomorrow* that isn't the puzzle itself, and be culturally Iranian in a way a foreign
-studio structurally cannot copy.
+An AI agent designs, builds, tests and packages complete offline-capable mobile games end to end.
+The human is involved at exactly two gates: **concept approval** and **milestone testing**. Every
+game must be learnable in seconds, become genuinely hard, and give a reason to return *tomorrow*
+that is not the core loop itself. Which stores it targets, which language it speaks and which
+cultural hook it uses all come from the selected market module — read
+[`factory.json`](factory.json) first, then [`markets/`](markets/).
 
 ---
 
@@ -114,9 +119,14 @@ tests/            # GUT
 
 ---
 
-## 3. The cultural hook — how to pick one
+## 3. The cultural / identity hook — how to pick one
 
-Game #1's USP: **فال حافظ**. Finish the daily challenge → receive that day's real Hafez verse with a
+> Market-specific hooks (and whether the market expects one at all) are defined in
+> [`markets/<selected>.md` §9](markets/). The international default expects **no** cultural
+> hook — there the differentiator must come from mechanics, presentation or meta-game instead.
+> What follows is the method, plus the worked example that produced it.
+
+Worked example (Iran module): **فال حافظ**. Finish the daily challenge → receive that day's real Hafez verse with a
 تعبیر on an ornate card, dated in the Persian calendar; goal milestones unlock more verses into a
 گنجینه collection; a نیت (intention) press-and-hold ceremony precedes the reveal; a دفتر فال ledger
 remembers every fal and tells you when a verse returns to you.
@@ -129,14 +139,14 @@ remembers every fal and tells you when a verse returns to you.
 - It creates a **shared national moment** (same verse for everyone that day) → conversation → shares.
 - It owns a **search-intent gap**: fal apps sit in برنامه/سرگرمی, we sit in بازی.
 
-**Candidate hooks for future games** (not yet used): شاهنامه storytelling, ضرب‌المثل‌ها, Persian music
-radif, خوشنویسی, تقویم/مناسبت‌ها, آشپزی ایرانی, بازی‌های محلی (گل یا پوچ، هفت‌سنگ، الک‌دولک), معما و چیستان.
+**For an international game**, the equivalent of a cultural hook is a **signature mechanic or
+ritual that is yours**: a daily artifact the player keeps, a collection that cannot be restarted
+elsewhere, a shared-with-everyone moment. Same structural properties, no locale required.
 
 **Rules**
-- Frame it **literary/cultural, never divinatory**. Ban طالع‌بینی/پیشگویی/سرنوشت from all copy — it is
-  both store-risky and cheap.
-- **Verify every quoted cultural text with ≥2 independent AI models** before shipping (LESSONS L19).
-  On game #1, 39 of 103 drafted verses failed and were dropped.
+- If a market module names cultural material, treat it as **content with provenance**, not decoration.
+- **Verify every quoted real-world text (poetry, quotes, history) with ≥2 independent sources**
+  before shipping (LESSONS L19). In the worked example 39 of 103 candidates failed and were dropped.
 - Pool must be big enough that a full cycle exceeds a season, and the daily draw must walk a fixed
   shuffled pool with a **stride coprime to the pool size** so no item repeats within one cycle.
 - The ritual content is **never purchasable**. Ever.
@@ -155,40 +165,30 @@ radif, خوشنویسی, تقویم/مناسبت‌ها, آشپزی ایرانی
 | Coins → cosmetics | tile themes, card frames | one-off each |
 
 **Hard rules**
-- **No gacha, no loot boxes, no randomised paid rewards.** Bazaar bans gambling outright and
-  publishes no loot-box carve-out. Sell fixed, known quantities only.
+- **No gacha, no loot boxes, no randomised paid rewards.** Some markets ban gambling-style
+  monetisation outright with no loot-box carve-out, and others require odds disclosure — selling
+  fixed, known quantities is compliant everywhere and is simply the honest option. Check
+  [`markets/<selected>.md` §7](markets/).
 - **Nothing pay-to-win** and nothing that affects a shared/competitive board.
 - **The ritual content is never for sale** — ship a test that asserts no catalogue entry grants it.
-- Free vs paid is **immutable after publish** on Bazaar. Always publish free with IAP.
+- Some stores freeze the free-vs-paid choice at publish (see the market module §7). Publishing free with IAP keeps every option open.
 - Consumables **must be `consume`d** after purchase or the store reports "already owned" and the
   SKU can never be bought again.
 
-**Myket IAP integration (solved, reusable)**
-- Myket publishes only a legacy AIDL billing library with **no licence grant** — do not vendor it,
-  and do not use plugins that depend on it (LESSONS L50).
-- Ship `games/mergedrop/addons/myket` instead: our own MIT plugin (Java + AIDL + GDScript face
-  mirroring Poolakey's API). Copy it to the next game as-is.
-- Permission `ir.mservices.market.BILLING`, bind action `ir.mservices.market.InAppBillingService.BIND`,
-  package `ir.mservices.market`, plus a `<queries>` entry (Android 11+ or the bind silently fails).
-- Myket panel: reserve the package id first, then the app box exposes the public key. Products
-  carry a consumable flag set at creation; consumables must be consumed to be re-buyable.
+**Store billing (the reusable pattern — the SDKs themselves are in the market module §7)**
+- Put billing behind an abstraction (`scripts/iap.gd`) that reports `available() == false` when the
+  plugin or key is missing, and **hide the money UI** rather than showing dead buttons.
+- **Load the store plugin dynamically.** A direct `class_name` reference makes the build fail
+  wherever the addon is absent.
+- Native plugins require Godot's **Gradle custom build**, not the prebuilt export template. Set
+  `compress_native_libraries=true` or the APK balloons (53 MB → 147 MB in one measured case).
+- **Consumables must be consumed** or the store reports "already owned" and the SKU can never be
+  re-bought — that is what makes repeat purchases work.
+- **One build per store.** A store's billing permission must never appear in another store's
+  artifact; `pipeline/build_stores.sh` gates each plugin and fails the build on leakage.
+- Never vendor a billing library whose licence you cannot verify — write a thin client instead
+  (`games/mergedrop/addons/myket` is a worked example of doing exactly that).
 
-**Bazaar IAP integration (solved, reusable)**
-- SDK: **Poolakey**. Godot 4 plugin: `DexterFstone/godot-poolakey` (Asset Library 3525) — already
-  vendored at `games/mergedrop/addons/poolakey`.
-- Requires **Godot's Gradle build** (`use_gradle_build=true`) — no native plugin works with the
-  prebuilt template. Install template by extracting `export_templates/<ver>/android_source.zip`
-  into `android/build/`, `chmod +x android/build/gradlew`, write `android/.build_version` + `.gdignore`.
-- **Set `compress_native_libraries=true`** or the APK balloons 53 MB → 147 MB (LESSONS L44).
-- The **RSA public key** appears in Pishkhan only after a release build is uploaded — the user must
-  fetch it. Until then `IAP.available()` is false and the money UI hides itself.
-- **Bazaar and Myket billing permissions cannot coexist in one APK** → two builds, produced by
-  `pipeline/build_stores.sh <slug>`. Each store's plugin is gated inside its vendored `plugin.gd`
-  on `GF_STORE`, because a v2 export plugin otherwise injects itself into every Android export
-  (LESSONS L49). The script asserts no cross-store leakage and refuses to pass if it finds any.
-- Revenue share was ~15% up to ~1B تومان/yr (2021 figure) — verify live in the panel.
-
----
 
 ## 5. Notifications — policy decided, do not redesign
 
@@ -222,24 +222,18 @@ unit-tested; the platform half schedules with the OS and is absent on desktop/CI
 
 ---
 
-## 6. Store compliance — Cafe Bazaar + Myket (researched, current as of July 2026)
+## 6. Store compliance
 
-Full detail in `releases/<slug>/SUBMISSION.md`. The build-shaping essentials:
+**Lives entirely in the market module** — see [`markets/<selected>.md`](markets/) sections 3–6 and
+10 for package limits, asset dimensions, listing text limits, permissions, privacy and the ranked
+rejection reasons. Nothing store-specific belongs in this file.
 
-- **targetSdk ≥ 32** (Myket: ≥34 for new apps/updates from 23 Oct 2026). APK ≤ **150 MB**.
-- Store APK is **arm-only** (armeabi-v7a + arm64-v8a). x86_64 is not accepted — but PC emulators
-  need it, so keep a separate `AndroidTest` preset for the user's testing.
-- Icon: **plain square** PNG ≥512² (Bazaar adds its own radius/shadow), identical to the launcher
-  icon; ship **adaptive** icons (432² fg/bg) or Android 8+ letterboxes it.
-- Header 720×288 PNG 5:2 ≤1 MB; promo 1152×648 JPG 16:9 ≤1 MB; screenshots ≤1 MB each.
-- Persian short description **≤60 chars**; app name ≤16 chars before truncation; the store name must
-  equal the on-device name.
-- **In-app privacy policy and a منابع/اعتبارات (credits) screen are mandatory**, even collecting nothing.
-- **Copyright is Bazaar's #1 rejection reason** — document every asset's licence in SUBMISSION.md.
-- Declare **no permissions** unless truly needed; unnecessary permissions are a top-4 rejection reason.
-- Annual fee 400,000 ریال; review ≤3 business days (Thu/Fri excluded).
+What is universal:
+- Ship the **smallest** artifact that works, and check its size against the market's cap.
+- Every permission needs a written justification, or drop the feature.
+- Document every asset's licence; copyright is the most common rejection reason in every market.
+- Verify the built artifact rather than trusting the build config — inspect the package.
 
----
 
 ## 7. Testing — the layers that caught real bugs
 
@@ -306,11 +300,13 @@ from here instead of brainstorming again.**
 
 ---
 
-## 10. Things the user has told us (standing instructions)
+## 10. Standing instructions
 
-- Persian-only, Bazaar/Myket, easy to play, deeply engaging.
+- **Default to the international market, English-first.** Only apply a locale's language, calendar,
+  billing and cultural design when its market module is selected in `factory.json`.
 - The user does not want to be involved except concept approval and milestone testing.
 - Every game needs something **no other game in the world has**, and a real reason to choose it.
-- Shop with **infinitely purchasable** items connected to Bazaar billing.
+- Never fork a document to describe a different market — add or edit a market module instead.
+- Shop with **infinitely purchasable** items connected to the market's billing SDK.
 - **Notifications to bring users back**, like a real app.
 - Learn from mistakes; never rediscover them — that is what LESSONS.md and this file are for.

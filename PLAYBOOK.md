@@ -1,14 +1,15 @@
 # PLAYBOOK.md — master build guide for every factory game
 
-This is the build procedure. **GAME_BLUEPRINT.md is the master plan** — it decides WHAT to build
+This is the build procedure, and it is market-agnostic. **GAME_BLUEPRINT.md is the master plan** — it decides WHAT to build
 (feature baseline, cultural hook, shop/monetisation, notifications, store policy, vetted idea
 backlog); this file covers HOW. Read FACTORY.md → GAME_BLUEPRINT.md → this file → LESSONS.md.
 Every rule in LESSONS.md is binding.
 
-## 0. Product frame (Bazaar/Myket market)
-- Persian-only UI, real Persian name, Persian digits everywhere, RTL-correct.
+## 0. Product frame
 - Easy to learn in seconds (one-hand portrait), engaging for weeks (see Feature baseline).
-- Free, offline, no ads in v1. Package id `ir.gamefactory.<slug>` (ASCII), APK label Persian.
+- Free, offline-capable, no ads in v1. Package id `<tld>.<studio>.<slug>` (ASCII).
+- **Language, script direction, calendar and store come from the selected market module**
+  ([`factory.json`](factory.json) → [`markets/`](markets/)). Default: international, English-first.
 
 ## 1. Project setup (copy from games/mergedrop, it embodies all rules)
 project.godot must have:
