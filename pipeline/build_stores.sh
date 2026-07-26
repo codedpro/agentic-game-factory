@@ -38,6 +38,11 @@ build() {   # preset, GF_STORE value, output file, permission that MUST be prese
 	if [ -n "$want" ] && ! grep -q "$want" <<<"$perms"; then
 		echo "MISSING PERMISSION $want in $out"; fail=1
 	fi
+	# A game that talks to a server must declare INTERNET, or Android blocks every
+	# request and the client can only report "offline" (see LESSONS L60).
+	if [ -f "$GAME/scripts/online.gd" ] && ! grep -q "android.permission.INTERNET" <<<"$perms"; then
+		echo "MISSING android.permission.INTERNET — networking will silently fail"; fail=1
+	fi
 	echo "ok: $(du -h "$OUT/$out" | cut -f1)  $(grep -c . <<<"$perms") permissions"
 }
 

@@ -140,6 +140,7 @@ const T := {
 	"nickname_invalid": {"en": "2 to 18 characters", "fa": "بین ۲ تا ۱۸ حرف"},
 	"nickname_saved": {"en": "Saved!", "fa": "ثبت شد!"},
 	"nickname_set": {"en": "Choose a name", "fa": "انتخاب نام"},
+	"checking_note": {"en": "Checking connection…", "fa": "در حال بررسی اتصال…"},
 	"offline_note": {"en": "Offline — your score will upload later.", "fa": "آفلاینی — امتیازت بعداً ثبت می‌شود."},
 	"board_empty": {"en": "No scores yet.", "fa": "هنوز امتیازی ثبت نشده."},
 	"your_rank": {"en": "Your rank: %s", "fa": "رتبهٔ تو: %s"},

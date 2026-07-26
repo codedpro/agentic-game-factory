@@ -109,7 +109,9 @@ func _build_nickname(cx: float, top: float, fs: int, v: Vector2) -> void:
 
 func _status_text() -> String:
 	var bits: Array = []
-	if not Online.online:
+	if Online.state == Online.Net.UNKNOWN:
+		bits.append(I18n.t("checking_note"))
+	elif Online.state == Online.Net.OFFLINE:
 		bits.append(I18n.t("offline_note"))
 	if not Store.pending_scores.is_empty():
 		bits.append(I18n.t("pending_upload") % I18n.digits(Store.pending_scores.size()))
@@ -162,7 +164,9 @@ func _on_board(ok: bool, board: Dictionary) -> void:
 	var fs := int(clampf(v.y * 0.02, 15, 25))
 	var top: Array = board.get("top", []) if ok else []
 	if top.is_empty():
-		var empty := UI.label(I18n.t("board_empty") if ok else I18n.t("offline_note"),
+		var empty := UI.label(I18n.t("board_empty") if ok else (
+			I18n.t("checking_note") if Online.state == Online.Net.UNKNOWN
+			else I18n.t("offline_note")),
 			fs, false, UI.MUTED)
 		empty.custom_minimum_size = Vector2(v.x - 40, fs * 3)
 		_rows.add_child(empty)

@@ -413,3 +413,19 @@ text simply did not fit.
 word-wrapping if even the floor size is too wide. Ship `tests/test_ui_fit.gd`: it walks every
 screen and fails when any label needs more width than its box, and separately fails when UI chrome
 still contains an emoji instead of a real icon asset (character dialogue is exempt by node name).
+
+## L60 — A networked game needs android.permission.INTERNET (2026-07-26, user report)
+The leaderboard reported "offline" on a device that was online, because the APK declared **no
+INTERNET permission**. Minimising permissions for store compliance was correct — but a network
+feature was added later and the permission was never added back. Android then blocks every request,
+and an offline-first client cannot tell that apart from a real outage.
+**RULE:** `permissions/internet=true` in every Android preset the moment a game talks to a server,
+and `pipeline/build_stores.sh` now FAILS the build when `scripts/online.gd` exists but the built
+APK lacks INTERNET. Verified by removing the permission and watching the build refuse.
+
+## L61 — "Unknown" is not "offline" (2026-07-26, user report)
+The status line rendered `online == false` as "you are offline" before any request had even been
+attempted, so a healthy connection still looked broken for the first seconds.
+**RULE:** model connectivity as UNKNOWN / ONLINE / OFFLINE, probe a cheap `/healthz` on startup,
+and show "checking…" until something has actually been tried. Never present an initial default as
+a diagnosis.

@@ -100,6 +100,8 @@ translation reads worse than English to most players.
   The leaderboard in `server/` stores a random install id and a nickname — no personal data — which
   keeps this simple; keep it that way.
 - Every Android permission needs justification; declare none unless a feature requires it.
+  **But do declare what you actually use**: a game with any server call needs
+  `android.permission.INTERNET`, or Android blocks it silently (LESSONS L60).
 
 ## 7. Monetisation
 

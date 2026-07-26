@@ -20,7 +20,9 @@ var base_url := DEFAULT_BASE
 var device_id := ""
 var nickname := ""
 var last_rank := 0
-var online := false          # last contact succeeded
+enum Net { UNKNOWN, ONLINE, OFFLINE }
+var state: int = Net.UNKNOWN   # nothing has been attempted yet — not the same as offline
+var online := false            # last contact succeeded
 var _busy := false
 
 
@@ -36,8 +38,15 @@ func _ready() -> void:
 		Store.device_id = device_id
 		Store.save()
 	nickname = Store.nickname
-	# Try to drain anything earned while offline, but never on the critical path.
+	# Establish connectivity early so the UI never shows a guess, and drain anything
+	# earned offline. Both are best-effort and never block play.
+	ping.call_deferred()
 	flush.call_deferred()
+
+
+## Cheap connectivity probe against the server's health endpoint.
+func ping() -> void:
+	_request(HTTPClient.METHOD_GET, "/healthz", {}, func(_ok, _code, _data): pass)
 
 
 func _new_device_id() -> String:
@@ -71,9 +80,10 @@ func _request(method: int, path: String, body: Dictionary, cb: Callable) -> void
 			var j = JSON.parse_string(data.get_string_from_utf8())
 			if j is Dictionary:
 				parsed = j
-		var was := online
+		var was := state
 		online = result == HTTPRequest.RESULT_SUCCESS
-		if was != online:
+		state = Net.ONLINE if online else Net.OFFLINE
+		if was != state:
 			sync_state_changed.emit()
 		cb.call(ok, code, parsed)
 		http.queue_free())
@@ -85,6 +95,8 @@ func _request(method: int, path: String, body: Dictionary, cb: Callable) -> void
 		err = http.request(url, [], method)
 	if err != OK:
 		online = false
+		state = Net.OFFLINE
+		sync_state_changed.emit()
 		cb.call(false, 0, {})
 		http.queue_free()
 
