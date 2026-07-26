@@ -5,11 +5,11 @@ store assets, monetisation and a signed release — with a human involved at onl
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Engine: Godot 4.7](https://img.shields.io/badge/engine-Godot%204.7-478cbf.svg)](https://godotengine.org)
-[![Tests: 136 headless](https://img.shields.io/badge/tests-136%20headless-brightgreen.svg)](games/mergedrop/tests)
+[![Tests: 146 headless](https://img.shields.io/badge/tests-146%20headless-brightgreen.svg)](games/mergedrop/tests)
 [![Markets: pluggable](https://img.shields.io/badge/markets-pluggable-orange.svg)](markets/)
 
 This is not a prompt collection. It is the working machinery — procedures, guardrails, headless
-build and QA automation, store packaging — plus **57 numbered rules distilled from real failures**,
+build and QA automation, store packaging — plus **59 numbered rules distilled from real failures**,
 and a complete game as proof that the machinery produces something real.
 
 An agent starts at [**AGENTS.md**](AGENTS.md), reads which market it is building for from
@@ -37,7 +37,7 @@ pipeline/build_stores.sh <slug>   # one artifact per store, with cross-store lea
 
 ### What makes it actually work
 
-- **All game rules live in a pure, scene-free class.** That one decision is why 136 tests run with
+- **All game rules live in a pure, scene-free class.** That one decision is why 146 tests run with
   no display and no device — an agent can verify its own work without a human or a phone.
 - **A bot plays the real UI.** Unit tests miss "the button does nothing"; a headless run drives the
   same handlers a finger does, to game over, three times.
@@ -116,7 +116,7 @@ two-stem soundtrack, generated art, and store listings.
 | [markets/](markets/) | Store facts — the only place they live. |
 | [GAME_BLUEPRINT.md](GAME_BLUEPRINT.md) | What every game must ship, and why. Market-agnostic. |
 | [PLAYBOOK.md](PLAYBOOK.md) | How to build it, step by step. |
-| [LESSONS.md](LESSONS.md) | 57 binding rules from real failures. |
+| [LESSONS.md](LESSONS.md) | 59 binding rules from real failures. |
 | [ENGAGEMENT.md](ENGAGEMENT.md) | Retention design patterns. |
 | [FACTORY.md](FACTORY.md) | Toolchain and machine setup. |
 | [THIRD_PARTY.md](THIRD_PARTY.md) | Vendored components and their licences. |

@@ -34,6 +34,7 @@ var notify_last_planned := ""
 var device_id := ""                 # random per-install id for the scoreboard; no personal data
 var nickname := ""                  # unique global-scoreboard name
 var pending_scores: Dictionary = {} # mode -> best score earned while offline
+var mission_history: Array = []     # [{d, done, total, items}] newest last, capped
 var frames_owned: Array = ["classic"]
 var frame_active := "classic"
 
@@ -85,6 +86,7 @@ func load_data() -> void:
 	device_id = cf.get_value("game", "device_id", "")
 	nickname = cf.get_value("game", "nickname", "")
 	pending_scores = cf.get_value("game", "pending_scores", {})
+	mission_history = cf.get_value("game", "mission_history", [])
 	frames_owned = cf.get_value("game", "frames_owned", ["classic"])
 	frame_active = cf.get_value("game", "frame_active", "classic")
 	I18n.locale = cf.get_value("game", "locale", "fa")
@@ -122,6 +124,7 @@ func save() -> void:
 	cf.set_value("game", "device_id", device_id)
 	cf.set_value("game", "nickname", nickname)
 	cf.set_value("game", "pending_scores", pending_scores)
+	cf.set_value("game", "mission_history", mission_history)
 	cf.set_value("game", "frames_owned", frames_owned)
 	cf.set_value("game", "frame_active", frame_active)
 	cf.set_value("game", "missions", Missions.state)

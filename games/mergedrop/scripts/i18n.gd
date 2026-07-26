@@ -128,6 +128,10 @@ const T := {
 	"char_so_close": {"en": "So close to your record!", "fa": "چقدر نزدیک بودی به رکوردت!"},
 	"char_good_run": {"en": "Good run! Again?", "fa": "بازی خوبی بود! دوباره؟"},
 	"char_try_again": {"en": "Everyone starts somewhere. Again!", "fa": "اشکالی نداره، دوباره امتحان کن!"},
+	"tasks_history": {"en": "Past days", "fa": "روزهای گذشته"},
+	"tasks_history_empty": {"en": "No past days yet — come back tomorrow.", "fa": "هنوز روز گذشته‌ای ثبت نشده — فردا برگرد."},
+	"tasks_done_count": {"en": "%s of %s done", "fa": "%s از %s انجام شد"},
+	"tasks_today": {"en": "Today", "fa": "امروز"},
 	# global scoreboard
 	"leaderboard": {"en": "Global board", "fa": "جدول جهانی"},
 	"nickname": {"en": "Nickname", "fa": "نام تو"},

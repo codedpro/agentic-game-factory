@@ -3,8 +3,10 @@
 **The default market.** English-first, worldwide distribution. Selected automatically unless the
 human names another market — see [`factory.json`](../factory.json).
 
-> Figures marked **(verify)** move often; confirm in the store's own console before relying on
-> them. Everything else is structural and changes rarely.
+> **Verification status.** Checked against each store's own documentation in **July 2026**. Google
+> Play changed a lot in the first half of 2026 (fees, developer verification, billing library).
+> Anything still unconfirmed is marked **(unverified)** — treat those as "check the console", not
+> as fact.
 
 ## 1. Stores in this market
 
@@ -13,7 +15,8 @@ human names another market — see [`factory.json`](../factory.json).
 | **Google Play** | The default global Android store | Any Android game meant for a general audience. Highest reach, strictest process. |
 | **itch.io** | Indie-focused, web + desktop + Android | Free to start, no review queue. The natural first release for a small game and for playtesting. |
 | **Steam** | PC/desktop | Only if the game genuinely suits desktop. Has a per-title fee and a review process. |
-| Amazon Appstore / Samsung Galaxy Store | Secondary Android | Cheap incremental reach; the same APK usually works. |
+| **Samsung Galaxy Store** | Secondary Android | Cheap incremental reach; the same APK usually works. Revenue share moved to **80/20 in the developer's favour on 15 May 2025**. |
+| ~~Amazon Appstore~~ | **dead** | Amazon **shut down its Android app store on 20 August 2025**. Do not build for it. |
 | F-Droid | FOSS Android | Only if the game is fully open-source with no proprietary blobs. |
 
 Default plan for a new game: **itch.io first** (free, instant, real feedback), **Google Play** as the
@@ -25,9 +28,28 @@ main release, others opportunistically.
 
 | Store | Cost | Notes |
 |---|---|---|
-| Google Play | One-time developer registration fee **(verify — historically $25)** | Identity verification required. Personal (non-organisation) accounts have additional pre-launch testing requirements **(verify current rules — these changed recently and are the most common surprise)**. |
-| itch.io | Free | Account, then upload. No review. |
-| Steam | Per-title **Steam Direct** fee **(verify — historically $100, recoupable after revenue threshold)** | Company/tax details required before payout. |
+| Google Play | **US$25, one-time** (not annual) | Card must be in the developer's legal name; **prepaid cards are rejected**. Account type is chosen once: **Personal** (government ID + device verification) or **Organization** (needs a **D-U-N-S number** and a verified website). |
+| itch.io | **Free** — no account, listing or per-project fee | Choose a payment mode: direct (your PayPal/Stripe, you are merchant of record and handle VAT) or **itch Payouts** (itch is merchant of record and remits VAT; tax interview required or a **30% US withholding** default applies; **$5** minimum, **7-day** hold, first payout reviewed in **10–14 days**). |
+| Steam | **US$100 per title** (Steam Direct), recoupable at **US$1,000** adjusted gross revenue *(recoupment threshold unverified)* | Company/tax identity and a tax interview before payout. Store-presence review **1–5 days** *(unverified)*. |
+
+### The Google Play testing gate — plan around this
+
+Personal accounts **created after 13 November 2023** must run a closed test with **at least 12
+testers opted in continuously for 14 days** before the production track unlocks. (Google reduced
+this from 20 to 12 on **11 December 2024**.)
+
+- **Organization accounts are exempt** — if the human can register as an organization, this
+  single choice removes the biggest scheduling obstacle to shipping.
+- The 14 days must be *continuous*; dropping below 12 opted-in testers resets the clock.
+- Closed and open testing still work throughout, so the agent can keep building and iterating.
+
+### Android developer verification (from 2026)
+
+Apps must be registered by a verified developer to install on certified devices — enforced
+**30 September 2026** in **Brazil, Indonesia, Singapore and Thailand**, global from 2027. Google
+states ~99% of Play apps are auto-registered, but **anything distributed outside Play** (a direct
+APK download, an itch.io build) must be registered manually. This affects the loose per-store APKs
+this factory produces.
 
 ## 3. Package requirements
 
@@ -40,6 +62,8 @@ main release, others opportunistically.
 - ABIs: `arm64-v8a` + `armeabi-v7a`. `x86_64` is only needed for emulator/testing builds.
 - Size: AAB compressed download limits are generous **(verify)** — a small 2D game is nowhere near.
 - itch.io/Steam: plain zipped builds; no signing requirement.
+- **Steam cannot take an Android APK.** A Steam SKU is a new platform target — desktop export,
+  keyboard/mouse/gamepad input, windowing and options — not another upload script.
 
 ## 4. Store assets
 
@@ -90,8 +114,9 @@ translation reads worse than English to most players.
 - Loot boxes/gacha are *permitted* on Play but require **odds disclosure**, and some jurisdictions
   regulate them. This factory's standing rule is to sell fixed, known quantities anyway
   (GAME_BLUEPRINT §4) — simpler, honest, and portable to markets that ban them outright.
-- itch.io: pay-what-you-want or fixed price, with a revenue share you choose. Steam: standard
-  revenue share with volume tiers **(verify)**.
+- **itch.io**: creator-set revenue share, **0–100%**, default **10%** to itch (taken before
+  processor fees). Pay-what-you-want supported.
+- **Steam**: standard revenue share with volume tiers *(current tiers unverified)*.
 
 ## 8. Localisation
 
@@ -130,5 +155,18 @@ build, listing text within limits, privacy-policy text, data-safety answers draf
 drafted, permission justifications, release notes, `releases/<slug>/SUBMISSION.md`.
 
 **Human-only:** developer account and identity verification, the registration fee, hosting the
-privacy policy at a public URL, accepting store agreements, uploading the build, creating IAP
-products, and pressing publish.
+privacy policy at a public URL, accepting store agreements, the tax interview, creating IAP
+products, taking payouts, and pressing publish.
+
+### itch.io is the one storefront an agent can drive end to end
+
+After a one-time human setup (account, payment mode, **creating the project page**, minting an API
+key), `butler` needs no interactive login — so build → upload → publish is fully automatable:
+
+```bash
+export BUTLER_API_KEY=...            # from itch.io/user/settings/api-keys
+butler push <build> studio/game:android --userversion 1.4.0 --if-changed
+butler status studio/game
+```
+
+`butler` uploads files to an **existing** page; it cannot create the page. That is the boundary.

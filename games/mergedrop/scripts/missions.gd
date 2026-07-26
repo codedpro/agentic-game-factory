@@ -20,6 +20,9 @@ func ensure_today() -> void:
 	var today := Time.get_date_string_from_system().replace("-", "")
 	if state.get("date", "") == today:
 		return
+	# archive the day that just ended before replacing it, so the player can look back
+	if state.has("date") and state.has("list"):
+		_archive(state)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = int(today)
 	var pool := POOL.duplicate()
@@ -31,6 +34,46 @@ func ensure_today() -> void:
 			"progress": 0, "reward": pick.reward, "done": false})
 	state = {"date": today, "list": list}
 	Store.save_soon()
+
+
+## Keep a rolling record of past days: date, how many were completed, and what they were.
+func _archive(day: Dictionary) -> void:
+	var date: String = str(day.get("date", ""))
+	if date == "":
+		return
+	for e in Store.mission_history:
+		if str(e.get("d", "")) == date:
+			return                      # already archived
+	var list: Array = day.get("list", [])
+	var done := 0
+	var items: Array = []
+	for mn in list:
+		if mn.get("done", false):
+			done += 1
+		items.append({"id": mn.get("id", ""), "target": mn.get("target", 0),
+			"progress": mn.get("progress", 0), "done": mn.get("done", false)})
+	Store.mission_history.append({"d": date, "done": done, "total": list.size(), "items": items})
+	if Store.mission_history.size() > 60:
+		Store.mission_history = Store.mission_history.slice(Store.mission_history.size() - 60)
+
+
+## Past days, newest first.
+func history() -> Array:
+	var h: Array = Store.mission_history.duplicate()
+	h.reverse()
+	return h
+
+
+## Which icon represents a mission type.
+func icon_for(id: String) -> String:
+	match id:
+		"m_score": return "records"
+		"m_merges": return "play"
+		"m_stones": return "streak"
+		"m_tile": return "coin"
+		"m_games": return "daily"
+		"m_chain": return "rank"
+	return "tasks"
 
 
 func list_today() -> Array:

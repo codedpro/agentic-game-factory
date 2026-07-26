@@ -395,3 +395,21 @@ following a fixed 11-section schema; `factory.json` selects which are active (de
 `international`). Core docs reference the selected module generically and stay locale-free. Adding
 a market must be one new file with zero edits elsewhere — if something will not fit, the split is
 wrong. Never assume a language from a market name; read the module.
+
+## L58 — Icon and label must not share a colour (2026-07-26, user report)
+Buttons put a tinted icon on a chip filled with the *same* tint, so the icons were invisible; the
+tasks panel title also overlapped its own history button. Both were obvious the moment the screen
+was rendered and invisible in code review.
+**RULE:** an icon chip is always a dark plate (`Color(0.05,0.07,0.12,0.55)`) with a bright icon on
+it — never tint both from one colour. Lay out a header by giving each element a disjoint x-range,
+never two centred boxes over the same span. **Render the screen and look at it** before calling a
+UI change done; `pipeline/make_screenshots.py` mirrors the real layout constants for exactly this.
+
+## L59 — Fit the text to the box, never clip it (2026-07-26, user report)
+Fixed font sizes plus `clip_text` silently truncated Persian labels — the user saw buttons whose
+text simply did not fit.
+**RULE:** use `UI.icon_button()`, which measures the string
+(`font.get_string_size(...)`), shrinks the font until it fits the available width, and falls back to
+word-wrapping if even the floor size is too wide. Ship `tests/test_ui_fit.gd`: it walks every
+screen and fails when any label needs more width than its box, and separately fails when UI chrome
+still contains an emoji instead of a real icon asset (character dialogue is exempt by node name).

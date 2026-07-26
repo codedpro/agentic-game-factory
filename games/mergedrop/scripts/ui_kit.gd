@@ -177,6 +177,103 @@ func tile(value: int, size: float, alpha := 1.0) -> Panel:
 	return p
 
 
+## ---------------------------------------------------------------- icons
+
+const ICON_DIR := "res://assets/icons/"
+var _icon_cache := {}
+
+
+## A tintable icon. Art is a white silhouette with alpha, so `color` fully controls it.
+func icon(name: String, size: float, color := Color.WHITE) -> TextureRect:
+	var tex := _icon_tex(name)
+	var t := TextureRect.new()
+	t.texture = tex
+	t.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	t.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	t.custom_minimum_size = Vector2(size, size)
+	t.size = Vector2(size, size)
+	t.modulate = color
+	t.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return t
+
+
+func _icon_tex(name: String) -> Texture2D:
+	if _icon_cache.has(name):
+		return _icon_cache[name]
+	var path := ICON_DIR + name + ".png"
+	var tex: Texture2D = load(path) if ResourceLoader.exists(path) else null
+	_icon_cache[name] = tex
+	return tex
+
+
+func has_icon(name: String) -> bool:
+	return _icon_tex(name) != null
+
+
+## Largest font size at which `text` still fits `max_w`. Persian labels are long, and a
+## clipped label is worse than a slightly smaller one (user feedback).
+func fit_font_size(text: String, max_w: float, start_size: int, min_size := 11) -> int:
+	var f := font_bold
+	var s := start_size
+	while s > min_size and f.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, s).x > max_w:
+		s -= 1
+	return s
+
+
+## A button with a real icon and a label that always fits. This replaces emoji-in-text
+## buttons: the icon sits in its own tinted chip and never competes with the text.
+func icon_button(icon_name: String, text: String, cb: Callable, box: Vector2,
+		bg := Color("232a3d"), accent_col := Color.TRANSPARENT) -> Button:
+	var b := Button.new()
+	b.custom_minimum_size = box
+	b.size = box
+	b.mouse_filter = Control.MOUSE_FILTER_STOP
+	var tint: Color = accent() if accent_col == Color.TRANSPARENT else accent_col
+
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = bg
+	sb.set_corner_radius_all(int(minf(box.y * 0.32, 20)))
+	sb.set_border_width_all(2)
+	sb.border_color = bg.lightened(0.14)
+	sb.border_width_top = 3
+	sb.shadow_color = Color(0, 0, 0, 0.35)
+	sb.shadow_size = 4
+	sb.shadow_offset = Vector2(0, 2)
+	b.add_theme_stylebox_override("normal", sb)
+	var hov: StyleBoxFlat = sb.duplicate()
+	hov.bg_color = bg.lightened(0.10)
+	hov.border_color = tint
+	b.add_theme_stylebox_override("hover", hov)
+	b.add_theme_stylebox_override("pressed", hov)
+	b.add_theme_stylebox_override("focus", sb)
+	b.pressed.connect(cb)
+
+	var pad: float = box.y * 0.16
+	var chip: float = box.y - pad * 2.0
+	# icon chip on the trailing side (RTL-friendly: sits at the right edge)
+	if has_icon(icon_name):
+		var holder := panel(Color(0.05, 0.07, 0.12, 0.55), int(chip * 0.3))
+		holder.size = Vector2(chip, chip)
+		holder.position = Vector2(box.x - chip - pad, pad)
+		b.add_child(holder)
+		var ic := icon(icon_name, chip * 0.62, tint)
+		ic.position = Vector2(chip * 0.19, chip * 0.19)
+		holder.add_child(ic)
+
+	var text_w: float = box.x - (chip + pad * 2.4 if has_icon(icon_name) else pad * 2.0) - pad
+	var size := fit_font_size(text, text_w, int(box.y * 0.34))
+	var l := label(text, size, true)
+	l.position = Vector2(pad, 0)
+	l.size = Vector2(text_w, box.y)
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# A label that cannot fit even at the smallest size wraps rather than overflowing.
+	if font_bold.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x > text_w:
+		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	b.add_child(l)
+	return b
+
+
 ## Soft drifting glow blobs — call on any screen for a living background.
 func animate_bg(parent: Control, count := 5) -> void:
 	var v := vp()

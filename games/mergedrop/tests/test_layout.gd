@@ -9,7 +9,7 @@ const SIZES := [
 	Vector2i(1080, 2400),  # 20:9 very tall modern phone
 	Vector2i(800, 1280),   # 16:10 short
 ]
-const SCREENS := ["menu", "settings", "records", "shop", "fal"]
+const SCREENS := ["menu", "settings", "records", "shop", "fal", "board", "tasks"]
 
 
 func before_each():
@@ -20,10 +20,21 @@ func before_each():
 ## Visible, labelled buttons that the screen positions by hand.
 ## Buttons inside a ScrollContainer are skipped: they scroll, so extending past the
 ## viewport is correct, and invisible full-rect hit areas legitimately cover rows.
+## An icon_button carries its caption in a child Label rather than Button.text, so the
+## effective label is either.
+func _button_caption(b: Button) -> String:
+	if b.text.strip_edges() != "":
+		return b.text.strip_edges()
+	for c in b.get_children():
+		if c is Label and c.text.strip_edges() != "":
+			return c.text.strip_edges()
+	return ""
+
+
 func _laid_out_buttons(node: Node, out: Array, in_scroll := false) -> void:
 	for c in node.get_children():
 		var scrolled: bool = in_scroll or c is ScrollContainer
-		if c is Button and c.visible and c.text.strip_edges() != "" and not scrolled:
+		if c is Button and c.visible and not scrolled and _button_caption(c) != "":
 			out.append(c)
 		_laid_out_buttons(c, out, scrolled)
 
@@ -61,7 +72,7 @@ func test_no_overlapping_buttons():
 					var b := _rect(btns[j]).grow(-1.0)
 					assert_false(a.intersects(b),
 						"%s @%s: '%s' %s overlaps '%s' %s" %
-						[name, size, btns[i].text, a, btns[j].text, b])
+						[name, size, _button_caption(btns[i]), a, _button_caption(btns[j]), b])
 			sh.free()
 
 
@@ -75,11 +86,11 @@ func test_buttons_stay_inside_viewport():
 			for b in btns:
 				var rect := _rect(b)
 				assert_gte(rect.position.x, -2.0,
-					"%s @%s: '%s' off left %s" % [name, size, b.text, rect])
+					"%s @%s: '%s' off left %s" % [name, size, _button_caption(b), rect])
 				assert_lte(rect.position.x + rect.size.x, v.x + 2.0,
-					"%s @%s: '%s' off right %s (vp %s)" % [name, size, b.text, rect, v])
+					"%s @%s: '%s' off right %s (vp %s)" % [name, size, _button_caption(b), rect, v])
 				assert_lte(rect.position.y + rect.size.y, v.y + 2.0,
-					"%s @%s: '%s' off bottom %s (vp %s)" % [name, size, b.text, rect, v])
+					"%s @%s: '%s' off bottom %s (vp %s)" % [name, size, _button_caption(b), rect, v])
 			sh.free()
 
 

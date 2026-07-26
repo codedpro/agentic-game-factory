@@ -191,3 +191,60 @@ func test_inventory_and_cosmetics_survive_a_save_round_trip():
 	assert_eq(Economy.count("shield"), 2)
 	assert_eq(Store.supporter_level, 3)
 	assert_eq(Store.frame_active, "lapis")
+
+
+# ---------- task history ----------
+func test_finished_day_is_archived_when_the_day_rolls_over():
+	Store.mission_history = []
+	Missions.state = {"date": "20260101", "list": [
+		{"id": "m_merges", "target": 50, "progress": 50, "reward": 50, "done": true},
+		{"id": "m_stones", "target": 5, "progress": 2, "reward": 70, "done": false}]}
+	Missions.run_key = ""
+	Missions.ensure_today()          # a different day: the old one must be archived
+	assert_eq(Store.mission_history.size(), 1, "yesterday must be kept, not discarded")
+	var day: Dictionary = Store.mission_history[0]
+	assert_eq(day.d, "20260101")
+	assert_eq(int(day.done), 1)
+	assert_eq(int(day.total), 2)
+	assert_eq(day.items.size(), 2, "the tasks themselves are kept, not just a count")
+
+
+func test_a_day_is_never_archived_twice():
+	Store.mission_history = []
+	Missions.state = {"date": "20260101", "list": [
+		{"id": "m_games", "target": 3, "progress": 3, "reward": 50, "done": true}]}
+	Missions.run_key = ""
+	Missions.ensure_today()
+	var n := Store.mission_history.size()
+	Missions.state = {"date": "20260101", "list": Missions.state.list}
+	Missions.ensure_today()
+	assert_eq(Store.mission_history.size(), n, "re-rolling must not duplicate a day")
+
+
+func test_history_is_bounded_and_newest_first():
+	Store.mission_history = []
+	for i in 70:
+		Store.mission_history.append({"d": "2026010%d" % i, "done": 0, "total": 3, "items": []})
+	Missions.state = {"date": "20251231", "list": [
+		{"id": "m_games", "target": 2, "progress": 0, "reward": 50, "done": false}]}
+	Missions.run_key = ""
+	Missions.ensure_today()
+	assert_lte(Store.mission_history.size(), 60, "history must not grow without bound")
+	var h := Missions.history()
+	assert_eq(h[0].d, Store.mission_history[Store.mission_history.size() - 1].d,
+		"history() returns newest first for display")
+
+
+func test_history_survives_a_save_round_trip():
+	Store.mission_history = [{"d": "20260101", "done": 2, "total": 3, "items": []}]
+	Store.save()
+	Store.mission_history = []
+	Store.load_data()
+	assert_eq(Store.mission_history.size(), 1)
+	assert_eq(int(Store.mission_history[0].done), 2)
+
+
+func test_every_mission_type_has_an_icon():
+	for m in Missions.POOL:
+		var name: String = Missions.icon_for(m.id)
+		assert_true(UI.has_icon(name), "mission %s maps to missing icon %s" % [m.id, name])

@@ -9,6 +9,7 @@ const SCREENS := {
 	"shop": "res://scripts/screens/shop_screen.gd",
 	"fal": "res://scripts/screens/fal_screen.gd",
 	"board": "res://scripts/screens/board_screen.gd",
+	"tasks": "res://scripts/screens/tasks_screen.gd",
 }
 
 var current_name := ""

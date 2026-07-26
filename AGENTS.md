@@ -12,7 +12,7 @@ writing code.
    dimensions, listing rules, billing SDKs, compliance, language, cultural expectations.
 4. **[`GAME_BLUEPRINT.md`](GAME_BLUEPRINT.md)** — what every game must ship, and why.
 5. **[`PLAYBOOK.md`](PLAYBOOK.md)** — how to build it.
-6. **[`LESSONS.md`](LESSONS.md)** — 57 numbered rules from real failures. Every one is binding.
+6. **[`LESSONS.md`](LESSONS.md)** — 59 numbered rules from real failures. Every one is binding.
 
 ## The market switch — the one thing to get right
 
@@ -62,7 +62,7 @@ pipeline/build_stores.sh <slug>   # one artifact per market/store, with leakage 
 ## Non-negotiables
 
 - **Put all game rules in a pure, scene-free class** so they can be tested headlessly. That single
-  decision is why 136 tests run with no display and no device.
+  decision is why 146 tests run with no display and no device.
 - **Platform features hide behind `available()`** — billing, notifications, network. Missing plugin
   means the feature is invisible, never a crash.
 - **Renderers are idempotent**; one-shot progression is latched separately.
