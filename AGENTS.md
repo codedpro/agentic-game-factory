@@ -12,7 +12,7 @@ writing code.
    dimensions, listing rules, billing SDKs, compliance, language, cultural expectations.
 4. **[`GAME_BLUEPRINT.md`](GAME_BLUEPRINT.md)** — what every game must ship, and why.
 5. **[`PLAYBOOK.md`](PLAYBOOK.md)** — how to build it.
-6. **[`LESSONS.md`](LESSONS.md)** — 56 numbered rules from real failures. Every one is binding.
+6. **[`LESSONS.md`](LESSONS.md)** — 57 numbered rules from real failures. Every one is binding.
 
 ## The market switch — the one thing to get right
 

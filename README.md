@@ -9,7 +9,7 @@ store assets, monetisation and a signed release — with a human involved at onl
 [![Markets: pluggable](https://img.shields.io/badge/markets-pluggable-orange.svg)](markets/)
 
 This is not a prompt collection. It is the working machinery — procedures, guardrails, headless
-build and QA automation, store packaging — plus **56 numbered rules distilled from real failures**,
+build and QA automation, store packaging — plus **57 numbered rules distilled from real failures**,
 and a complete game as proof that the machinery produces something real.
 
 An agent starts at [**AGENTS.md**](AGENTS.md), reads which market it is building for from
@@ -116,7 +116,7 @@ two-stem soundtrack, generated art, and store listings.
 | [markets/](markets/) | Store facts — the only place they live. |
 | [GAME_BLUEPRINT.md](GAME_BLUEPRINT.md) | What every game must ship, and why. Market-agnostic. |
 | [PLAYBOOK.md](PLAYBOOK.md) | How to build it, step by step. |
-| [LESSONS.md](LESSONS.md) | 56 binding rules from real failures. |
+| [LESSONS.md](LESSONS.md) | 57 binding rules from real failures. |
 | [ENGAGEMENT.md](ENGAGEMENT.md) | Retention design patterns. |
 | [FACTORY.md](FACTORY.md) | Toolchain and machine setup. |
 | [THIRD_PARTY.md](THIRD_PARTY.md) | Vendored components and their licences. |

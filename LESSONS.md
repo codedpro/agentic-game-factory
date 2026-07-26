@@ -385,3 +385,13 @@ font distribution was 40% of the repo); (4) neutralise machine-specific absolute
 (7) attach large binaries as Release assets, never as git blobs.
 A token without the `workflow` scope cannot create `.github/workflows/*` — ship the CI file at
 another path with instructions rather than failing the push.
+
+## L57 — Keep market facts in one module, never in the core docs (2026-07-26)
+The blueprint, playbook and engagement docs had absorbed Cafe Bazaar/Myket specifics, Persian
+language assumptions and Iranian cultural design. Retargeting the factory would have meant editing
+every document — and the same would be true for the market after that.
+**RULE:** all store, language, calendar, billing and cultural facts live in `markets/<name>.md`
+following a fixed 11-section schema; `factory.json` selects which are active (default:
+`international`). Core docs reference the selected module generically and stay locale-free. Adding
+a market must be one new file with zero edits elsewhere — if something will not fit, the split is
+wrong. Never assume a language from a market name; read the module.
