@@ -39,3 +39,7 @@ assets/fonts/vazirmatn/
 # --- reports and scratch ---
 reports/
 *.log
+
+# --- Python bytecode ---
+__pycache__/
+*.pyc
