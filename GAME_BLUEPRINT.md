@@ -206,6 +206,30 @@ elsewhere, a shared-with-everyone moment. Same structural properties, no locale 
   `Economy.item_cost(id)` so a retune is a one-line change (LESSONS L62).
 
 
+## 4b. Accounts & receipt validation — decided, do not redesign
+
+**An account is required only to BUY.** Playing, scoring, the leaderboard, the daily ritual
+and spending earned currency all work signed out and offline. A game that demands an email
+before it will let someone play has lost players it never counted.
+
+- **Email + password, hashed with scrypt** (n=2^14, per-user salt), compared in constant
+  time. The password reaches the server once and is never stored client-side; what persists
+  is a session token, and only its SHA-256 lives in the database.
+- **Registration must not double as login.** Re-registering an existing address returns 409
+  and no token, or it becomes an oracle for which addresses exist.
+- **Unknown account and wrong password must be indistinguishable** — same error, and hash a
+  throwaway password when there is no such account so timing does not leak either.
+- **Throttle by email AND by IP.** Either alone leaves an obvious hole.
+- **Receipts are verified server-side** (`server/purchases.py`), because a patched client can
+  call the grant path directly. Three outcomes, never two — see LESSONS L65.
+- **Grant first, verify after.** The store already took the money; the client credits coins
+  immediately and queues the receipt in `Store.pending_receipts`, which survives restarts and
+  a wiped save. Only an explicit store denial ends the retry.
+- **Receipts are idempotent** — a `(game, store, purchase_token)` primary key means a replay
+  credits nothing, and one account cannot redeem another's receipt.
+- **Never claim a check you did not perform.** Where a store has no server API available, the
+  response says `verified: false` rather than implying validation happened.
+
 ## 5. Notifications — policy decided, do not redesign
 
 Local only (no server, no push, no Firebase). The POLICY lives in pure GDScript (`notify.gd`) and is

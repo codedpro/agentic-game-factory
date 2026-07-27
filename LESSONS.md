@@ -455,3 +455,38 @@ legitimately leaves the viewport), so nothing looked.
 **RULE:** for any hand-positioned card, add a test that walks each card's direct children at three
 viewport sizes and asserts (a) nothing extends past the card's own height and (b) no two children
 overlap by more than a few percent. It found the collision on the first run.
+
+
+## L65 — "Store unreachable" is not "receipt is fake" (2026-07-27)
+Receipt validation has three outcomes, not two, and collapsing them costs real money: the
+store CONFIRMS, the store DENIES, or we could not ask. Treating the third as a denial means
+refusing a player the store has already charged.
+**RULE:** the validator raises a distinct `StoreUnreachable` for network failure, timeout,
+and — critically — for `401/403`, because a rejected access key is OUR fault, not the
+player's. The client grants coins the moment the store reports success and queues the
+receipt; only an explicit denial stops the retry. Test both branches by name.
+
+## L66 — Verify a third-party API's contract before writing against it (2026-07-27)
+Myket's validation endpoint was implemented from a confirmed contract, not from memory:
+probing with a real key + bogus token returned `400 InvalidToken`, while a wrong key
+returned `401 Unauthorized`. That one difference is the whole basis for telling a fake
+receipt apart from a broken credential.
+**RULE:** before coding against an undocumented or half-remembered API, send it two
+requests that should fail differently. If you cannot tell the failures apart, you cannot
+write the error handling, and a guessed endpoint will silently deny paying customers.
+
+## L67 — Public key in the repo, secret key outside it (2026-07-27)
+A store hands out two very different things: an RSA PUBLIC key that ships inside the APK
+by design, and a server-to-server access key that must never leave the server.
+**RULE:** public keys live in source (they are extractable from any build anyway, so
+hiding them buys nothing). Secrets are read from an env var or a file outside the tree,
+and a build-time grep proves the secret appears in no artifact. Never let the two share
+a naming convention that invites confusion — one is `PUBLIC_KEYS`, the other is a path.
+
+## L68 — Unverified email means no password recovery — say so on the form (2026-07-27)
+The human asked for accounts without email verification. That is a legitimate choice, but
+it has a consequence that cannot be engineered away: with no proof of address ownership,
+a reset link is an account-takeover primitive, so there can be no password reset at all.
+**RULE:** when a product decision removes a capability users expect, state it in the UI at
+the moment of the decision — here, above the password field, before it is chosen — not in
+a FAQ. Ship a test asserting the warning is present on the sign-up form.

@@ -187,6 +187,15 @@ func _build_coins(col: VBoxContainer, v: Vector2, fs: int) -> void:
 	# Two columns per card: the action on the left (tag badge above the buy button), the
 	# product on the right (name, amount, bonus badge, coin icon). Keeping them in separate
 	# x-ranges is what stops the price sitting on top of the coin amount.
+	var acct := UI.icon_button("heart",
+		I18n.t("signed_in_as") % Account.email if Account.signed_in()
+			else I18n.t("account_needed_to_buy"),
+		func(): shell.show_screen("account", {"then": "shop"}),
+		Vector2(w, fs * 2.6),
+		Color("1e2a24") if Account.signed_in() else Color("3a4160"),
+		Color("9fe8c4") if Account.signed_in() else UI.GOLD)
+	col.add_child(acct)
+
 	for sku in IAP.PRODUCT_ORDER:
 		var p: Dictionary = IAP.PRODUCTS.get(sku, {})
 		if p.is_empty():
@@ -197,6 +206,7 @@ func _build_coins(col: VBoxContainer, v: Vector2, fs: int) -> void:
 			Color("ffc76f") if tag == "best" else UI.GOLD)
 		var h: float = fs * 6.4
 		var card := UI.panel(Color("2b3350") if tag != "" else Color("232a3d"), 16)
+		card.name = "CoinCard_" + sku        # tests select cards by name, not by shape
 		card.custom_minimum_size = Vector2(w, h)
 		col.add_child(card)
 
@@ -259,9 +269,15 @@ func _build_coins(col: VBoxContainer, v: Vector2, fs: int) -> void:
 	col.add_child(note)
 
 
+## A coin purchase needs an account, so a receipt can be tied to someone and verified
+## server-side. Nothing else in the game does — earned coins spend fine signed out.
 func _buy_sku(sku: String) -> void:
 	if IAP.unavailable_reason() != "":
 		_toast(I18n.t("iap_unavailable"), true)
+		return
+	if not Account.signed_in():
+		_toast(I18n.t("account_needed_to_buy"))
+		shell.show_screen("account", {"then": "shop"})
 		return
 	IAP.purchase(sku)
 

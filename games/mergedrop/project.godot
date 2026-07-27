@@ -20,6 +20,8 @@ Share="*res://scripts/share.gd"
 IAP="*res://scripts/iap.gd"
 Economy="*res://scripts/economy.gd"
 Online="*res://scripts/online.gd"
+Account="*res://scripts/account.gd"
+Purchases="*res://scripts/purchases.gd"
 Char="*res://scripts/character.gd"
 Notify="*res://scripts/notify.gd"
 

@@ -34,6 +34,9 @@ var notify_last_planned := ""
 var device_id := ""                 # random per-install id for the scoreboard; no personal data
 var nickname := ""                  # unique global-scoreboard name
 var pending_scores: Dictionary = {} # mode -> best score earned while offline
+var account_email := ""             # sign-in identifier; required only to buy
+var account_token := ""             # session token, NOT a password — the password is never stored
+var pending_receipts: Array = []    # [{sku, t, store}] paid but not yet server-verified
 var mission_history: Array = []     # [{d, done, total, items}] newest last, capped
 var frames_owned: Array = ["classic"]
 var frame_active := "classic"
@@ -86,6 +89,9 @@ func load_data() -> void:
 	device_id = cf.get_value("game", "device_id", "")
 	nickname = cf.get_value("game", "nickname", "")
 	pending_scores = cf.get_value("game", "pending_scores", {})
+	account_email = cf.get_value("game", "account_email", "")
+	account_token = cf.get_value("game", "account_token", "")
+	pending_receipts = cf.get_value("game", "pending_receipts", [])
 	mission_history = cf.get_value("game", "mission_history", [])
 	frames_owned = cf.get_value("game", "frames_owned", ["classic"])
 	frame_active = cf.get_value("game", "frame_active", "classic")
@@ -124,6 +130,9 @@ func save() -> void:
 	cf.set_value("game", "device_id", device_id)
 	cf.set_value("game", "nickname", nickname)
 	cf.set_value("game", "pending_scores", pending_scores)
+	cf.set_value("game", "account_email", account_email)
+	cf.set_value("game", "account_token", account_token)
+	cf.set_value("game", "pending_receipts", pending_receipts)
 	cf.set_value("game", "mission_history", mission_history)
 	cf.set_value("game", "frames_owned", frames_owned)
 	cf.set_value("game", "frame_active", frame_active)
@@ -272,6 +281,8 @@ func reset_progress() -> void:
 	# valid server-side, so the player keeps their leaderboard name. Unsent scores are
 	# part of the reset progress and are dropped.
 	pending_scores = {}
+	# The account and any receipt still awaiting verification are deliberately NOT reset:
+	# the player paid real money, and wiping local progress must not cost them that.
 	frames_owned = ["classic"]
 	frame_active = "classic"
 	first_run = true

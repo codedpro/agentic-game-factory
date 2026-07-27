@@ -10,6 +10,13 @@ namespaced by game slug, so one server serves every game the factory makes:
     GET  /api/<game>/me?device_id=                           -> your nickname + best
     GET  /healthz
 
+Accounts and paid receipts live in their own modules, but share this process and DB:
+
+    POST /api/<game>/register|login|logout      -> accounts.py
+    GET  /api/<game>/account?token=             -> accounts.py
+    POST /api/<game>/verify_purchase            -> purchases.py
+    GET  /api/<game>/purchases?token=           -> purchases.py
+
 Design rules:
   * The GAME must work with this server down — the client treats every call as optional.
   * A device_id is a random string the client generates; no accounts, no personal data.
@@ -25,12 +32,17 @@ import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse, parse_qs
 
+import accounts
+import purchases
+
 DB_PATH = os.environ.get("SCOREBOARD_DB", os.path.join(os.path.dirname(__file__), "scores.db"))
 PORT = int(os.environ.get("PORT", "3000"))
 MAX_SCORE = 100_000_000
 NICK_RE = re.compile(r"^[\w؀-ۿ][\w؀-ۿ ._-]{1,18}$", re.UNICODE)
 RATE_WINDOW = 60
 RATE_MAX = 60
+# Android package per game slug — needed to ask a store about a receipt.
+PACKAGES = {"mergedrop": "ir.gamefactory.mergedrop"}
 
 _lock = threading.Lock()
 _hits: dict[str, list[float]] = {}
@@ -68,6 +80,8 @@ def init_db():
                 ON scores(game, mode, score DESC);
             """
         )
+        accounts.init_db(conn)
+        purchases.init_db(conn)
 
 
 def rate_limited(ip: str) -> bool:
@@ -125,6 +139,17 @@ class Handler(BaseHTTPRequestHandler):
             return self.board(parts[1], q)
         if len(parts) == 3 and parts[0] == "api" and parts[2] == "me":
             return self.me(parts[1], q)
+        if len(parts) == 3 and parts[0] == "api" and parts[2] == "account":
+            with db() as conn:
+                code, payload = accounts.account(conn, parts[1], q.get("token", [""])[0])
+            return self._send(code, payload)
+        if len(parts) == 3 and parts[0] == "api" and parts[2] == "purchases":
+            with db() as conn:
+                owner = accounts.session_owner(conn, parts[1], q.get("token", [""])[0])
+                if owner is None:
+                    return self._send(401, {"error": "not_logged_in"})
+                code, payload = purchases.history(conn, parts[1], owner)
+            return self._send(code, payload)
         self._send(404, {"error": "not_found"})
 
     def do_POST(self):
@@ -135,9 +160,34 @@ class Handler(BaseHTTPRequestHandler):
             return self.claim_nickname(parts[1])
         if len(parts) == 3 and parts[0] == "api" and parts[2] == "score":
             return self.submit_score(parts[1])
+        if len(parts) == 3 and parts[0] == "api" and parts[2] in (
+                "register", "login", "logout", "verify_purchase"):
+            return self.account_route(parts[1], parts[2])
         self._send(404, {"error": "not_found"})
 
     # ---------- handlers ----------
+    def account_route(self, game: str, action: str):
+        body = self._body()
+        ip = self.client_address[0]
+        with db() as conn:
+            if action == "register":
+                code, payload = accounts.register(conn, game, body, ip)
+            elif action == "login":
+                code, payload = accounts.login(conn, game, body, ip)
+            elif action == "logout":
+                code, payload = accounts.logout(conn, game, body)
+            else:
+                owner = accounts.session_owner(conn, game, str(body.get("token", "")))
+                if owner is None:
+                    code, payload = 401, {"error": "not_logged_in"}
+                else:
+                    package = PACKAGES.get(game, "")
+                    if not package:
+                        code, payload = 400, {"error": "unknown_game"}
+                    else:
+                        code, payload = purchases.verify(conn, game, package, body, owner)
+        self._send(code, payload)
+
     def claim_nickname(self, game: str):
         d = self._body()
         device = str(d.get("device_id", "")).strip()

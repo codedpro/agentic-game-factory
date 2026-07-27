@@ -459,6 +459,54 @@ def render_shop():
     return img
 
 
+def render_account():
+    """The sign-up form, mirroring account_screen._build_form()."""
+    img = Image.new("RGBA", (W * SS, H * SS), hx(THEME["bg"]) + (255,))
+    bg_blobs(img, [(-50, 160, 340), (410, 830, 370)])
+    d = ImageDraw.Draw(img)
+    fs = max(15, min(int(H * 0.02), 25))
+    cx = W / 2
+    _title(img, d, "heart", "حساب کاربری", 40, (cx - 300, H * 0.04, 600, 54))
+
+    w = W - 40
+    y = H * 0.04 + 64
+
+    def note(text, color, bg, h_mult=4.0):
+        nonlocal y
+        h = fs * h_mult
+        _rr(img, (20, y, w, h), 14, fill=hx(bg) + (255,))
+        lines = wrap(text, fs - 3, w - 36, bold=False)
+        ly = y + (h - len(lines) * (fs - 3) * 1.5) / 2 + (fs - 3) * 0.75
+        for ln in lines:
+            text_at(d, (20 + w - 18, ly), ln, fs - 3, False, hx(color), "rm")
+            ly += (fs - 3) * 1.5
+        y += h + 12
+
+    def field(label, hint):
+        nonlocal y
+        h = fs * 5.4
+        _rr(img, (20, y, w, h), 14, fill=hx("#232a3d") + (255,))
+        text_at(d, (20 + w - 14, y + fs * 1.25), label, fs - 2, True, hx(MUTED), "rm")
+        _rr(img, (36, y + fs * 2.3, w - 32, fs * 2.6), 8, fill=hx("#151a28") + (255,),
+            outline=hx("#3a4160") + (255,), width=1)
+        text_at(d, (44, y + fs * 3.6), hint, fs, False, hx("#6d7794"), "lm",
+                path=F_REG)
+        y += h + 12
+
+    note("حساب فقط برای خرید سکه لازم است. بازی، رکوردها و فال بدون حساب هم کامل کار می‌کنند.",
+         "#9fe8c4", "#1e2a24")
+    field("ایمیل", "you@example.com")
+    field("رمز عبور", "••••••••")
+    _icon_btn(img, d, 20, y, w, fs * 2.8, "heart", "ساخت حساب", (255, 255, 255), "#2e7d5b")
+    y += fs * 2.8 + 12
+    _rr(img, (20, y, w, fs * 2.4), 12, fill=hx("#3a4160") + (255,))
+    centered(d, (20, y, w, fs * 2.4), "قبلاً حساب ساخته‌ام", fs - 3)
+    y += fs * 2.4 + 12
+    note("هیچ ایمیلی برای تو فرستاده نمی‌شود و ایمیلت تأیید نمی‌شود. رمزت را جایی امن نگه دار؛ "
+         "امکان بازیابی رمز وجود ندارد.", "#ffc76f", "#2a2230", 4.6)
+    return img
+
+
 def render_fal(poem):
     img = Image.new("RGBA", (W * SS, H * SS), (10, 8, 23, 255))
     bg_blobs(img, [(-40, 200, 360), (380, 800, 380)])
@@ -566,6 +614,8 @@ compose(render_menu(), "مأموریت روزانه، سکه و شخصی‌سا�
         "رکوردت را هر روز بشکن", "06_meta.png")
 compose(render_shop(), "بسته‌های سکه، مستقیم از کافه‌بازار",
         "هر بسته بزرگ‌تر، ارزش بیشتر", "07_shop.png")
+compose(render_account(), "حساب فقط برای خرید",
+        "بازی و رکوردها بدون حساب کار می‌کنند", "08_account.png")
 
 
 # ---------- Bazaar store assets ----------

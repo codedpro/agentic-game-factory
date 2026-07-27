@@ -1,36 +1,55 @@
-# Scoreboard server
+# Scoreboard, accounts and receipt validation
 
-One tiny, dependency-free Python server for every game the factory makes. Offline-first by
-design: the games treat it as optional and stay fully playable when it is unreachable.
-
-## Run
+One dependency-free Python process (stdlib only) serving every game the factory makes.
+Runs on port 3000; point a subdomain at it (`mergedrop.1xai.ir` today).
 
 ```bash
-cd <repo>/server
-PORT=3000 python3 scoreboard.py          # listens on 0.0.0.0:3000, SQLite at ./scores.db
+cd server && python3 scoreboard.py          # PORT and SCOREBOARD_DB override the defaults
+python3 test_server.py                      # 30 tests, no network needed
 ```
 
-Point a subdomain at this port, e.g. `mergedrop.1xai.ir` → `<this machine>:3000`.
-Routes are namespaced per game, so the same server also serves future games:
+## Routes
 
 | Route | Purpose |
 |---|---|
-| `POST /api/<game>/nickname` | claim a globally unique nickname (`{device_id, nickname}`) |
-| `POST /api/<game>/score` | submit a score (`{device_id, score, mode}`), best-kept-wins |
-| `GET /api/<game>/board?mode=&limit=&device_id=` | top scores + your own rank |
-| `GET /api/<game>/me?device_id=` | your nickname and bests |
-| `GET /healthz` | liveness |
+| `GET  /healthz` | liveness |
+| `POST /api/<game>/nickname` | claim a unique leaderboard name |
+| `POST /api/<game>/score` | submit a score (best-kept-wins) |
+| `GET  /api/<game>/board` | top scores + your rank |
+| `GET  /api/<game>/me` | your nickname and bests |
+| `POST /api/<game>/register` \| `login` \| `logout` | email + password accounts |
+| `GET  /api/<game>/account?token=` | who am I |
+| `POST /api/<game>/verify_purchase` | server-side receipt validation |
+| `GET  /api/<game>/purchases?token=` | your receipt history |
 
-## Behaviour that matters
+## The rules this server exists to enforce
 
-- **Unique nicknames**, case-insensitive per game; a second device claiming a taken name gets 409.
-- **Best-kept-wins**: a later, worse run can never lower a standing rank.
-- **No accounts, no personal data** — just a random per-install `device_id` the client generates.
-- Rate limited to 60 writes/minute per IP; scores above 100,000,000 are rejected.
-- Persian nicknames are supported and validated (2–18 characters).
+* **The game must work with this process dead.** Every client call is optional; scores and
+  receipts queue locally and reconcile later.
+* **An account is needed only to buy.** Never to play, score, or collect the daily ritual.
+* **Passwords**: scrypt (n=2^14, r=8, p=1), per-user 16-byte salt, constant-time compare.
+  Sessions are random 32-byte tokens stored only as a SHA-256 hash.
+* **Emails are not verified**, by product decision — so there is deliberately **no password
+  reset**, because a reset link to an unproven address is an account-takeover primitive.
+* **Receipt validation has three outcomes**: confirmed, denied, or *unknown*. Unknown
+  (network down, our access key rejected) returns `503` so the client keeps the receipt and
+  retries. Denying a paying customer on a timeout is the one unacceptable failure.
 
-## Client side
+## Secrets
 
-`games/<slug>/scripts/online.gd` queues scores locally when offline and flushes them on the next
-successful contact. Override the server per install by writing a URL into `user://server.txt`
-(used for local testing against `http://127.0.0.1:3000`).
+The Myket server-to-server access key is read from `MYKET_ACCESS_KEY` or
+`MYKET_KEY_FILE` (default `<tools>/secrets/myket_access_key.txt`). It is **not** in this
+repository and **not** in any APK — a grep over every built artifact confirms it.
+
+Cafe Bazaar receipts are **not** server-verified: its developer API needs an OAuth client
+id, secret and refresh token from the Pishkhan panel, which we do not have. Those receipts
+are recorded with `verified: false` rather than pretending a check happened. Poolakey still
+validates Bazaar's signature on the device.
+
+## Backups
+
+`scores.db` holds real player data. Back it up before any deploy:
+
+```bash
+cp server/scores.db <tools>/secrets/scores-backup-$(date +%Y%m%d-%H%M%S).db
+```

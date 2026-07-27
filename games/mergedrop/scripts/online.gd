@@ -101,6 +101,12 @@ func _request(method: int, path: String, body: Dictionary, cb: Callable) -> void
 		http.queue_free()
 
 
+## Reusable JSON POST for the account and purchase modules. Same offline semantics as
+## every other call here: the callback always fires, failure is never fatal.
+func post_json(path: String, body: Dictionary, cb: Callable) -> void:
+	_request(HTTPClient.METHOD_POST, path, body, cb)
+
+
 ## Claim a unique nickname. Emits nickname_result; the game continues either way.
 func claim_nickname(n: String) -> void:
 	var t := n.strip_edges()

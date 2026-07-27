@@ -106,16 +106,13 @@ func test_bonus_tiers_increase_with_price():
 		last = c
 
 
+## Coin cards are tagged by shop_screen (CoinCard_<sku>). Selecting them by name keeps
+## this test measuring the cards themselves rather than whatever container they sit in —
+## an earlier shape-based guess silently started matching the tab's own VBox.
 func _cards(node: Node, out: Array) -> void:
 	for c in node.get_children():
-		# a coin card is a panel tall enough to hold the fs grid, carrying a buy button
-		if c is Control and not (c is Button):
-			var has_buy := false
-			for g in c.get_children():
-				if g is Button:
-					has_buy = true
-			if has_buy and c.get_child_count() >= 3:
-				out.append(c)
+		if c is Control and String(c.name).begins_with("CoinCard_"):
+			out.append(c)
 		_cards(c, out)
 
 
