@@ -33,6 +33,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse, parse_qs
 
 import accounts
+import bazaar
 import purchases
 
 DB_PATH = os.environ.get("SCOREBOARD_DB", os.path.join(os.path.dirname(__file__), "scores.db"))
@@ -135,6 +136,8 @@ class Handler(BaseHTTPRequestHandler):
         parts, q = self._parts()
         if parts == ["healthz"]:
             return self._send(200, {"ok": True})
+        if parts[:2] == ["oauth", "bazaar"]:
+            return self.bazaar_oauth(parts, q)
         if len(parts) == 3 and parts[0] == "api" and parts[2] == "board":
             return self.board(parts[1], q)
         if len(parts) == 3 and parts[0] == "api" and parts[2] == "me":
@@ -166,6 +169,46 @@ class Handler(BaseHTTPRequestHandler):
         self._send(404, {"error": "not_found"})
 
     # ---------- handlers ----------
+    def _html(self, code: int, title: str, detail: str):
+        """The OAuth redirect lands in a BROWSER, so it gets a page, not JSON."""
+        body = ("<!doctype html><meta charset=utf-8>"
+                "<meta name=viewport content='width=device-width,initial-scale=1'>"
+                "<title>%s</title>"
+                "<body style=\"background:#161b28;color:#e8edf7;font:16px/1.6 system-ui,"
+                "sans-serif;display:grid;place-items:center;min-height:90vh;margin:0\">"
+                "<div style='max-width:34rem;padding:2rem;text-align:center'>"
+                "<h1 style='font-size:1.3rem'>%s</h1><p style='color:#9aa6bf'>%s</p>"
+                "</div>" % (title, title, detail)).encode()
+        self.send_response(code)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def bazaar_oauth(self, parts: list, q: dict):
+        if parts[2:] == ["start"]:
+            if not bazaar.configured():
+                return self._html(500, "Not configured",
+                                  "No Bazaar OAuth client is set up on this server.")
+            return self._html(200, "Bazaar authorisation",
+                              "Open this URL to approve access:<br><br>"
+                              "<a style='color:#7fd8ff' href='%s'>%s</a>"
+                              % (bazaar.consent_url(), bazaar.consent_url()))
+        err = q.get("error", [""])[0]
+        if err:
+            return self._html(400, "Authorisation refused", err)
+        code = q.get("code", [""])[0]
+        if not code:
+            return self._html(400, "Missing code",
+                              "Bazaar did not send an authorisation code.")
+        try:
+            bazaar.exchange_code(code)
+        except bazaar.Unknown as exc:
+            return self._html(502, "Could not complete linking", str(exc)[:300])
+        return self._html(200, "Bazaar linked",
+                          "Purchases from Cafe Bazaar are now verified server-side. "
+                          "You can close this page.")
+
     def account_route(self, game: str, action: str):
         body = self._body()
         ip = self.client_address[0]

@@ -16,6 +16,7 @@ import unittest
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import accounts
+import bazaar
 import purchases
 
 
@@ -280,6 +281,111 @@ class MyketApiContract(unittest.TestCase):
                 purchases.check_myket("pkg", "sku", "tok")
         finally:
             purchases._myket_key_cache = None
+
+
+class BazaarOAuth(unittest.TestCase):
+    """The same three-outcome rule as Myket: confirmed / denied / unknown."""
+
+    def setUp(self):
+        bazaar.reset_cache()
+        self._real = bazaar._access
+        bazaar._access = lambda: "fake-access-token"
+
+    def tearDown(self):
+        bazaar._access = self._real
+        bazaar.reset_cache()
+
+    def _http_error(self, code, body=""):
+        import urllib.error
+
+        def fake(url, timeout=0):
+            raise urllib.error.HTTPError(
+                getattr(url, "full_url", str(url)), code, "err", {}, _FakeBody(body))
+        return fake
+
+    def test_404_is_a_denial(self):
+        real = bazaar.urllib.request.urlopen
+        bazaar.urllib.request.urlopen = self._http_error(404)
+        try:
+            self.assertFalse(bazaar.check_purchase("pkg", "sku", "bogus"))
+        finally:
+            bazaar.urllib.request.urlopen = real
+
+    def test_401_is_unknown_not_a_denial(self):
+        real = bazaar.urllib.request.urlopen
+        bazaar.urllib.request.urlopen = self._http_error(401, "token expired")
+        try:
+            with self.assertRaises(bazaar.Unknown):
+                bazaar.check_purchase("pkg", "sku", "whatever")
+        finally:
+            bazaar.urllib.request.urlopen = real
+
+    def test_network_failure_is_unknown(self):
+        import urllib.error
+        real = bazaar.urllib.request.urlopen
+
+        def boom(url, timeout=0):
+            raise urllib.error.URLError("connection refused")
+        bazaar.urllib.request.urlopen = boom
+        try:
+            with self.assertRaises(bazaar.Unknown):
+                bazaar.check_purchase("pkg", "sku", "whatever")
+        finally:
+            bazaar.urllib.request.urlopen = real
+
+    def test_unlinked_client_cannot_mint_a_token(self):
+        bazaar._access = self._real
+        real_cfg = bazaar._config
+        bazaar._config = lambda: {"client_id": "x", "client_secret": "y"}
+        try:
+            with self.assertRaises(bazaar.Unknown):
+                bazaar._access()
+        finally:
+            bazaar._config = real_cfg
+
+
+class BazaarFallback(unittest.TestCase):
+    """Before consent, Bazaar receipts must be recorded honestly, never denied."""
+
+    def setUp(self):
+        self.conn = memdb()
+        self.body = {"store": "bazaar", "product_id": "coins_large",
+                     "purchase_token": "bz-x", "device_id": "d"}
+        self._linked = bazaar.linked
+
+    def tearDown(self):
+        bazaar.linked = self._linked
+
+    def test_unlinked_records_but_does_not_claim_verification(self):
+        bazaar.linked = lambda: False
+        code, payload = purchases.verify(self.conn, "mergedrop", "pkg", self.body, "a@b.co")
+        self.assertEqual(code, 200)
+        self.assertTrue(payload["granted"])
+        self.assertFalse(payload["verified"])
+
+    def test_linked_and_denied_refuses_the_receipt(self):
+        bazaar.linked = lambda: True
+        real = bazaar.check_purchase
+        bazaar.check_purchase = lambda p, s, t: False
+        try:
+            code, payload = purchases.verify(
+                self.conn, "mergedrop", "pkg", self.body, "a@b.co")
+            self.assertEqual(code, 402)
+        finally:
+            bazaar.check_purchase = real
+
+    def test_linked_but_unreachable_keeps_the_receipt(self):
+        bazaar.linked = lambda: True
+        real = bazaar.check_purchase
+
+        def boom(p, s, t):
+            raise bazaar.Unknown("timeout")
+        bazaar.check_purchase = boom
+        try:
+            code, _ = purchases.verify(self.conn, "mergedrop", "pkg", self.body, "a@b.co")
+            self.assertEqual(code, 503, "a timeout must not deny a paying player")
+        finally:
+            bazaar.check_purchase = real
 
 
 class _FakeBody:

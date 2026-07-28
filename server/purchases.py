@@ -20,11 +20,10 @@ against the live service on 2026-07-27: authentication is the `X-Access-Token` h
 `400 InvalidToken`, and a wrong or missing key returns `401 Unauthorized` — which is what
 lets us tell "fake receipt" apart from "our credentials broke".
 
-**Cafe Bazaar** validation is NOT implemented: its developer API needs an OAuth client id,
-secret and refresh token from the Pishkhan panel, which we do not have. Bazaar receipts
-are therefore accepted on the strength of Poolakey's on-device signature check and
-recorded here for audit. This is stated in the response as `verified: false` rather than
-quietly pretending the receipt was checked.
+**Cafe Bazaar** is verified through its OAuth developer API (`bazaar.py`). Until the
+one-time human consent step has been completed there is no refresh token, so receipts fall
+back to Poolakey's on-device signature check and are recorded with `verified: false` —
+stated plainly rather than implying a check that did not happen.
 """
 import json
 import os
@@ -32,6 +31,8 @@ import sqlite3
 import time
 import urllib.error
 import urllib.request
+
+import bazaar
 
 MYKET_API = os.environ.get(
     "MYKET_API", "https://developer.myket.ir/api/applications")
@@ -152,8 +153,16 @@ def verify(conn: sqlite3.Connection, game: str, package: str, body: dict,
         if not real:
             return 402, {"error": "invalid_receipt"}
         verified = 1
+    elif bazaar.linked():
+        try:
+            real = bazaar.check_purchase(package, product_id, purchase_token)
+        except bazaar.Unknown as exc:
+            return 503, {"error": "store_unreachable", "detail": str(exc)[:200]}
+        if not real:
+            return 402, {"error": "invalid_receipt"}
+        verified = 1
     else:
-        # Bazaar: recorded, but honestly flagged as not server-verified (see module docs).
+        # Consent not yet granted: fall back to Poolakey's on-device check and say so.
         verified = 0
 
     conn.execute(
