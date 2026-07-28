@@ -46,10 +46,61 @@ id, secret and refresh token from the Pishkhan panel, which we do not have. Thos
 are recorded with `verified: false` rather than pretending a check happened. Poolakey still
 validates Bazaar's signature on the device.
 
-## Backups
+## Running it so it stays running
 
-`scores.db` holds real player data. Back it up before any deploy:
+Two supported ways. Both keep the database and the secrets **outside** the deployed
+artifact, which is what makes a redeploy safe.
+
+### Docker (preferred where Docker exists)
 
 ```bash
-cp server/scores.db <tools>/secrets/scores-backup-$(date +%Y%m%d-%H%M%S).db
+cd server && docker compose up -d
 ```
+
+* `restart: unless-stopped` brings the container back after a crash **and** after a host
+  reboot.
+* The database lives in the named volume `gamefactory-scoreboard-data`, so
+  `docker compose down` and image rebuilds lose nothing.
+* Secrets are bind-mounted from the host, never baked into an image. The mount is
+  writable because the one-time Bazaar OAuth consent writes a refresh token back.
+* Published on `127.0.0.1:3000` only — nginx terminates TLS in front of it. Binding
+  `0.0.0.0` would expose plaintext HTTP and let anyone bypass TLS with passwords in the
+  clear.
+* Runs as uid 10001 with a read-only root filesystem and all capabilities dropped.
+
+### systemd (what this host uses — Docker is not installed here)
+
+```bash
+cp server/systemd/*.service server/systemd/*.timer ~/.config/systemd/user/
+systemctl --user daemon-reload
+systemctl --user enable --now gamefactory-scoreboard.service
+loginctl enable-linger "$USER"     # REQUIRED, or the service dies at logout
+```
+
+`enable-linger` is the step people miss: without it a user service does not start at
+boot and stops when the session ends.
+
+Verify it actually recovers rather than trusting the config:
+
+```bash
+kill -9 $(systemctl --user show -p MainPID --value gamefactory-scoreboard.service)
+sleep 5 && curl -s https://mergedrop.1xai.ir/healthz   # expect {"ok": true}
+```
+
+## Backups
+
+The database holds player accounts and **paid receipts**, so losing it costs real money.
+`gamefactory-backup.timer` runs daily and keeps the last 14 copies:
+
+```bash
+python3 server/backup_db.py --keep 14      # manual run
+systemctl --user list-timers gamefactory-backup.timer
+```
+
+It uses sqlite3's online backup API, not `cp` — copying a live database can capture a
+half-written transaction, and that corruption only surfaces on the day you need it. Each
+backup is re-opened and checked for its tables before older copies are pruned.
+
+**Always back up before a deploy.** Restarting the process is a few seconds of downtime;
+the client queues scores and receipts through it, but a bad migration is not recoverable
+without a copy.

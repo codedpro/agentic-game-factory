@@ -1,0 +1,41 @@
+[Unit]
+Description=Game Factory scoreboard, accounts and receipt validation
+Documentation=https://github.com/codedpro/agentic-game-factory
+After=network-online.target
+Wants=network-online.target
+# 0 disables the start-rate limit entirely: a backend that keeps crashing must keep
+# being restarted, not be given up on after five tries.
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=/home/claude/godot/server
+ExecStart=/usr/bin/python3 /home/claude/godot/server/scoreboard.py
+Environment=PYTHONUNBUFFERED=1
+Environment=PORT=3000
+Environment=SCOREBOARD_DB=/home/claude/godot/server/scores.db
+Environment=MYKET_KEY_FILE=/home/claude/tools/secrets/myket_access_key.txt
+Environment=BAZAAR_OAUTH_FILE=/home/claude/tools/secrets/bazaar_oauth.json
+
+# Come back from a crash, and keep coming back. Without StartLimitIntervalSec=0 a
+# repeatedly-crashing service gives up permanently after a few tries, which is the
+# opposite of what a game backend needs.
+Restart=always
+RestartSec=3
+
+# The process takes untrusted input from the internet; give it as little as it needs.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/claude/godot/server /home/claude/tools/secrets
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=scoreboard
+
+[Install]
+WantedBy=default.target

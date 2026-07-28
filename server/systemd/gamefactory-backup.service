@@ -1,0 +1,15 @@
+[Unit]
+Description=Back up the scoreboard database
+Documentation=https://github.com/codedpro/agentic-game-factory
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /home/claude/godot/server/backup_db.py --keep 14
+Environment=PYTHONUNBUFFERED=1
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/home/claude/tools/secrets
+SyslogIdentifier=scoreboard-backup
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,63 @@
+# Run:  docker compose up -d      (from the server/ directory)
+#
+# Persistence is the whole point of this file. Two things must outlive the container:
+#   * the database — real player accounts, scores and paid receipts
+#   * the secrets  — store credentials, which must NEVER be baked into an image
+# Both are mounts, so `docker compose down` and a rebuild lose nothing.
+
+services:
+  scoreboard:
+    build: .
+    image: gamefactory/scoreboard:latest
+    container_name: gamefactory-scoreboard
+
+    # Survive crashes AND host reboots. "unless-stopped" restarts the container on
+    # boot and after any non-zero exit, but respects a deliberate `docker stop`.
+    restart: unless-stopped
+
+    # Bound to localhost: nginx terminates TLS and proxies to it. Publishing on
+    # 0.0.0.0 would expose the plaintext HTTP port to the internet, letting anyone
+    # bypass TLS and send passwords in the clear.
+    ports:
+      - "127.0.0.1:3000:3000"
+
+    volumes:
+      # Named volume for the database — survives container removal and image rebuilds.
+      - scoreboard-data:/data
+      # Secrets from the host. NOT read-only: the one-time Bazaar OAuth consent writes
+      # the refresh token back to bazaar_oauth.json. Keep the directory at mode 700 and
+      # the files at 600; the container reads them as uid 10001, so that uid needs write
+      # access to bazaar_oauth.json specifically.
+      - ${SECRETS_DIR:-/home/claude/tools/secrets}:/secrets
+
+    environment:
+      SCOREBOARD_DB: /data/scores.db
+      MYKET_KEY_FILE: /secrets/myket_access_key.txt
+      BAZAAR_OAUTH_FILE: /secrets/bazaar_oauth.json
+      PORT: "3000"
+
+    # Defence in depth: the process writes only to /data and one secrets file, so the
+    # rest of the filesystem is read-only and privilege escalation is dropped outright.
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    tmpfs:
+      - /tmp:size=16m
+
+    # A runaway request loop must not take the whole host down with it.
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  scoreboard-data:
+    name: gamefactory-scoreboard-data

@@ -1,0 +1,12 @@
+[Unit]
+Description=Daily backup of the scoreboard database
+
+[Timer]
+OnCalendar=daily
+# Run on boot if the machine was off at the scheduled time — a missed backup is the
+# one that matters when a disk dies.
+Persistent=true
+RandomizedDelaySec=15m
+
+[Install]
+WantedBy=timers.target
