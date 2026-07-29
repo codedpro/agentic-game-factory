@@ -17,8 +17,16 @@ SIGNER="$ANDROID_HOME/build-tools/34.0.0/apksigner"
 cd "$GAME"
 
 fail=0
-build() {   # preset, GF_STORE value, output file, permission that MUST be present ("" = none)
-	local preset="$1" store="$2" out="$3" want="$4"
+# Output filename comes from the preset's own export_path — no per-game hardcoding.
+apk_for() {
+	awk -F'"' -v p="$1" '$0 ~ "^name=" {n=$2} n==p && /export_path/ {print $2}' \
+		export_presets.cfg | xargs basename
+}
+
+build() {   # preset, GF_STORE value, permission that MUST be present ("" = none)
+	local preset="$1" store="$2" want="$3"
+	local out
+	out="$(apk_for "$preset")"
 	echo -e "\n=== $preset (GF_STORE=$store)"
 	GF_STORE="$store" timeout 900 $GODOT --headless --path . --export-release "$preset" \
 		> "/tmp/build_${SLUG}_${preset}.log" 2>&1
@@ -46,10 +54,10 @@ build() {   # preset, GF_STORE value, output file, permission that MUST be prese
 	echo "ok: $(du -h "$OUT/$out" | cut -f1)  $(grep -c . <<<"$perms") permissions"
 }
 
-build "Android"       none    "MergeDrop-release.apk"       ""
-build "AndroidTest"   none    "MergeDrop-test-emulator.apk" ""
-build "AndroidBazaar" bazaar  "MergeDrop-bazaar-iap.apk"    "PAY_THROUGH_BAZAAR"
-build "AndroidMyket"  myket   "MergeDrop-myket.apk"         "mservices.market.BILLING"
+build "Android"       none    ""
+build "AndroidTest"   none    ""
+build "AndroidBazaar" bazaar  "PAY_THROUGH_BAZAAR"
+build "AndroidMyket"  myket   "mservices.market.BILLING"
 
 echo -e "\n=== RESULT"
 [ $fail -eq 0 ] && echo "ALL STORE BUILDS OK" || echo "STORE BUILDS FAILED"

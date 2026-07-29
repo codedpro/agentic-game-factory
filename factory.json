@@ -1,7 +1,7 @@
 {
   "$comment": "The factory's only switchboard. Change values here — never fork a doc.",
 
-  "markets": ["international"],
+  "markets": ["iran"],
   "$markets": {
     "purpose": "Which store ecosystems a game targets. Drives store specs, billing SDK, listing rules, localisation and cultural design.",
     "default": ["international"],

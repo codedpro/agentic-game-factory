@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="ir.mservices.market.BILLING" />
+    <!-- Android 11+ package visibility: without this the bind silently fails. -->
+    <queries>
+        <package android:name="ir.mservices.market" />
+        <intent>
+            <action android:name="ir.mservices.market.InAppBillingService.BIND" />
+            <data android:mimeType="*/*" />
+        </intent>
+    </queries>
+</manifest>

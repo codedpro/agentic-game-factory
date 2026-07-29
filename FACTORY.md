@@ -84,6 +84,13 @@ Machine-local paths this toolchain expects:
   layout-overlap fix + regression tests, 56 GUT tests, store screenshot pipeline
   (`pipeline/make_screenshots.py` — also serves as a layout oracle), Bazaar/Myket asset pack and
   `releases/mergedrop/SUBMISSION.md`.
+- 2026-07-29: **«مثلستان» (masalestan) v1.0 milestone build done.** Game #2: آمیرزا-style
+  letter-wheel word game where every level is a verified Persian proverb (113 levels,
+  2-of-3 model consensus; 525-word bonus dictionary). Campaign + shared daily + timed rush,
+  treasury, full feature baseline reused from the factory. 123 GUT tests green (35k asserts),
+  autoplay bot drives the real UI through all three modes. 4 store APKs built and verified
+  (billing separation proven by dex scan), screenshots + header/promo + SUBMISSION.md ready.
+  Awaiting user milestone test.
 - 2026-07-25: **MergeDrop v1.0 milestone build done.** Persian-only drop-merge puzzle.
   21 GUT tests green (incl. 120 bot-played games, 755k asserts); headless autoplay through real UI OK.
   Release-signed APK + Linux + Windows in `releases/mergedrop/`, AI-generated icon,

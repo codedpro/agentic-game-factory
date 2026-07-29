@@ -1,0 +1,163 @@
+extends Node
+## Autoload "Missions" — three date-seeded daily missions with coin rewards.
+
+signal mission_done(mission: Dictionary)
+
+const POOL := [
+	{"id": "m_words", "targets": [8, 14, 22], "reward": 500},         # solve N target words today
+	{"id": "m_bonus", "targets": [2, 4, 6], "reward": 700},           # find N hidden bonus words
+	{"id": "m_levels", "targets": [2, 3, 5], "reward": 600},          # complete N proverbs
+	{"id": "m_daily", "targets": [1, 1, 1], "reward": 800},           # finish today's proverb
+	{"id": "m_chain", "targets": [2, 3, 4], "reward": 700},           # chain of X in a race
+	{"id": "m_rush", "targets": [300, 500, 800], "reward": 600},      # score X in one race
+]
+
+# state = {"date": "yyyymmdd", "list": [{id, target, progress, reward, done}]}
+var state: Dictionary = {}
+
+
+func ensure_today() -> void:
+	var today := Time.get_date_string_from_system().replace("-", "")
+	if state.get("date", "") == today:
+		return
+	# archive the day that just ended before replacing it, so the player can look back
+	if state.has("date") and state.has("list"):
+		_archive(state)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = int(today)
+	var pool := POOL.duplicate()
+	var list: Array = []
+	for i in 3:
+		var pick: Dictionary = pool.pop_at(rng.randi() % pool.size())
+		var tier: int = rng.randi() % pick.targets.size()
+		list.append({"id": pick.id, "target": pick.targets[tier],
+			"progress": 0, "reward": pick.reward, "done": false})
+	state = {"date": today, "list": list}
+	Store.save_soon()
+
+
+## Keep a rolling record of past days: date, how many were completed, and what they were.
+func _archive(day: Dictionary) -> void:
+	var date: String = str(day.get("date", ""))
+	if date == "":
+		return
+	for e in Store.mission_history:
+		if str(e.get("d", "")) == date:
+			return                      # already archived
+	var list: Array = day.get("list", [])
+	var done := 0
+	var items: Array = []
+	for mn in list:
+		if mn.get("done", false):
+			done += 1
+		items.append({"id": mn.get("id", ""), "target": mn.get("target", 0),
+			"progress": mn.get("progress", 0), "done": mn.get("done", false)})
+	Store.mission_history.append({"d": date, "done": done, "total": list.size(), "items": items})
+	if Store.mission_history.size() > 60:
+		Store.mission_history = Store.mission_history.slice(Store.mission_history.size() - 60)
+
+
+## Past days, newest first.
+func history() -> Array:
+	var h: Array = Store.mission_history.duplicate()
+	h.reverse()
+	return h
+
+
+## Which icon represents a mission type.
+func icon_for(id: String) -> String:
+	match id:
+		"m_words": return "play"
+		"m_bonus": return "coin"
+		"m_levels": return "records"
+		"m_daily": return "daily"
+		"m_chain": return "rank"
+		"m_rush": return "streak"
+	return "tasks"
+
+
+func list_today() -> Array:
+	ensure_today()
+	return state.list
+
+
+## The mission day is captured once per run so a session crossing local midnight
+## keeps its missions instead of re-rolling and discarding in-flight progress.
+var run_key := ""
+
+
+func begin_run() -> void:
+	ensure_today()
+	run_key = state.get("date", "")
+
+
+## Report a gameplay event; completes any missions it satisfies.
+## kinds: word (+n solved targets), bonus (+n hidden words), level (+n proverbs),
+##        daily (+1 daily finished), chain (value=chain length), rush (value=race score)
+func report(kind: String, value: int) -> void:
+	if run_key == "" or state.get("date", "") != run_key:
+		ensure_today()
+		if run_key == "":
+			run_key = state.get("date", "")
+	for mn in state.list:
+		if mn.done:
+			continue
+		var hit := false
+		match [kind, mn.id]:
+			["word", "m_words"]:
+				mn.progress += value
+				hit = mn.progress >= mn.target
+			["bonus", "m_bonus"]:
+				mn.progress += value
+				hit = mn.progress >= mn.target
+			["level", "m_levels"]:
+				mn.progress += value
+				hit = mn.progress >= mn.target
+			["daily", "m_daily"]:
+				mn.progress += value
+				hit = mn.progress >= mn.target
+			["chain", "m_chain"]:
+				mn.progress = maxi(mn.progress, value)
+				hit = mn.progress >= mn.target
+			["rush", "m_rush"]:
+				mn.progress = maxi(mn.progress, value)
+				hit = mn.progress >= mn.target
+		if hit:
+			mn.done = true
+			mn.progress = mn.target
+			Store.add_coins(mn.reward)
+			mission_done.emit(mn)
+	Store.save_soon()
+
+
+## Swap one of today's missions for a different one (costs a "reroll" consumable).
+func reroll(index: int) -> bool:
+	ensure_today()
+	if index < 0 or index >= state.list.size() or state.list[index].done:
+		return false
+	if not Economy.use_item("reroll"):
+		return false
+	var used: Array = state.list.map(func(m): return m.id)
+	var choices := POOL.filter(func(p): return not p.id in used)
+	if choices.is_empty():
+		choices = POOL
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	var pick: Dictionary = choices[rng.randi() % choices.size()]
+	var tier: int = rng.randi() % pick.targets.size()
+	state.list[index] = {"id": pick.id, "target": pick.targets[tier],
+		"progress": 0, "reward": pick.reward, "done": false}
+	Store.save()
+	return true
+
+
+func desc(mn: Dictionary) -> String:
+	var t: String = I18n.digits(mn.target)
+	match mn.id:
+		"m_words": return I18n.t("m_words") % t
+		"m_bonus": return I18n.t("m_bonus") % t
+		"m_levels": return I18n.t("m_levels") % t
+		"m_daily": return I18n.t("m_daily")
+		"m_chain": return I18n.t("m_chain") % t
+		"m_rush": return I18n.t("m_rush") % t
+	return mn.id

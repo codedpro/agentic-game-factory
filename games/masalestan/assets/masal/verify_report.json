@@ -1,0 +1,2719 @@
+{
+ "m001": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m002": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m003": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m004": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m005": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m006": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m007": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "صورت صحیح: دیگ به دیگ می‌گوید رویت سیاه، کتری به دیگ می‌گوید رویت سیاه"
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m008": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": true,
+    "note": "صورت رایج و اصیل این مثل «کبوتر با کبوتر، باز با باز، کند همجنس با همجنس پرواز» نیست؛ بخش آخر معمولاً در منابع معتبر وجود ندارد و صورت درست آن تا «باز با باز» است."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m009": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m010": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m011": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m012": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m013": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": true,
+    "note": "صورت رایج و اصیل: «آشپز که دو تا شد، آش یا شور می‌شود یا بی‌نمک» نیست؛ صورت درست: «آشپز که دو تا شد، آش یا شور می‌شود یا بی‌نمک» یا «آشپز که دو تا شد، آش یا شور می‌شود یا بی‌نمک» نیست. صورت رایج: «آشپز که دو تا شد، آش یا شور می‌شود یا بی‌نمک» یا «آشپز که دو تا شد، آش شور یا بی‌نمک می‌شود»."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m014": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m015": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m016": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m017": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m018": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m019": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m020": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": false,
+  "drop_reason": "only 1 playable targets"
+ },
+ "m021": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m022": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m023": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m024": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m025": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m026": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m027": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m028": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m029": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m030": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m031": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m032": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m033": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m034": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m035": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m036": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m037": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m038": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "صورت صحیح: 'مار گزیده از ریسمان سیاه و سفید می‌ترسد'"
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m039": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m040": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m041": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m042": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "صورت صحیح: «چاه مکن بهر کسی، اول خودت دوم کسی» نیست. صورت رایج: «چاه مکن بهر کسی، اول خودت بعد کسی»"
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": false,
+    "meaning": true,
+    "note": "صورت رایج‌تر این مثل «چاه مکن بهر کسی، اول خودت می‌افتی» است. صورت داده‌شده رایج نیست."
+   }
+  ],
+  "kept": false
+ },
+ "m043": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m044": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": true,
+    "note": "صورت رایج و اصیل: «ماهی را هر وقت از آب بگیری تازه‌ست» یا «ماهی را هر وقت از آب بگیری تازه است»؛ اما صورت داده‌شده هم بسیار رایج است."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m045": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m046": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "صورت صحیح: «یک سوزن به خودت بزن، یک جوالدوز به مردم» نیست. صورت رایج: «یک سوزن به دیگران بزن، یک جوالدوز به خودت»"
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m047": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m048": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m049": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m050": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m051": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m052": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m053": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m054": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m055": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m056": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m057": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m058": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m059": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m060": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m061": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m062": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m063": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m064": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m065": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m066": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m067": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m068": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m069": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m070": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m071": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m072": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m073": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m074": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m075": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m076": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m077": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m078": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": false,
+  "drop_reason": "only 1 playable targets"
+ },
+ "m079": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m080": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m081": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m082": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m083": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": true,
+    "note": "صورت رایج و اصیل: «آنچه را پیر در خشت خام بیند، جوان در آینه نبیند» یا مشابه آن است."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m084": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m085": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m086": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m087": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m088": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m089": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m090": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": true,
+    "note": "صورت درست و رایج: «بزک نمیر بهار میاد، کمبزه با خیار میاد» یا «بزک نمیر بهار میاد، خربزه و خیار میاد» است؛ «کمبزه» واژه‌ای نادرست یا کم‌کاربرد است."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m091": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m092": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m093": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m094": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m095": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m096": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m097": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m098": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m099": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m100": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m101": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": false,
+  "drop_reason": "only 1 playable targets"
+ },
+ "m102": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m103": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m104": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m105": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m106": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m107": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m108": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m109": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m110": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m111": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m112": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m113": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m114": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m115": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m116": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m117": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "این مثل به صورت 'دیر رسیدن بهتر از هرگز نرسیدن' رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": true,
+    "note": "این جمله بیشتر ترجمهٔ تحت‌اللفظی ضرب‌المثل انگلیسی است و در فارسی به این صورت رایج و اصیل نیست."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": false
+ },
+ "m118": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ }
+}

@@ -111,8 +111,38 @@ def frame(_d=None):
     return _finish(im)
 
 
+def bulb(_d=None):
+    """Hint: a light bulb — dome, filament notch, screw base."""
+    im, d = _canvas()
+    u = S * SS / 100.0
+    d.ellipse([26 * u, 12 * u, 74 * u, 60 * u], fill=W)
+    d.polygon([(34 * u, 50 * u), (66 * u, 50 * u), (60 * u, 68 * u), (40 * u, 68 * u)],
+              fill=W)
+    for i in range(3):
+        y = (70 + i * 7) * u
+        d.rounded_rectangle([38 * u, y, 62 * u, y + 4.5 * u], radius=int(2 * u), fill=W)
+    # rays
+    for x0, y0, x1, y1 in [(14, 30, 22, 33), (78, 33, 86, 30), (18, 10, 25, 16),
+                           (75, 16, 82, 10)]:
+        d.line([(x0 * u, y0 * u), (x1 * u, y1 * u)], fill=W, width=int(5 * u))
+    return _finish(im)
+
+
+def rush(_d=None):
+    """Race mode: a stopwatch with a lightning bolt inside."""
+    im, d = _canvas()
+    u = S * SS / 100.0
+    d.ellipse([18 * u, 26 * u, 82 * u, 90 * u], outline=W, width=int(9 * u))
+    d.rounded_rectangle([42 * u, 12 * u, 58 * u, 22 * u], radius=int(3 * u), fill=W)
+    d.line([(50 * u, 22 * u), (50 * u, 28 * u)], fill=W, width=int(8 * u))
+    d.line([(68 * u, 20 * u), (76 * u, 28 * u)], fill=W, width=int(7 * u))
+    d.polygon([(54 * u, 40 * u), (40 * u, 62 * u), (50 * u, 62 * u), (46 * u, 78 * u),
+               (62 * u, 54 * u), (52 * u, 54 * u)], fill=W)
+    return _finish(im)
+
+
 ICONS = {"heart": heart, "cart": cart, "shield": shield, "key": key, "dice": dice,
-         "undo": undo, "frame": frame}
+         "undo": undo, "frame": frame, "bulb": bulb, "rush": rush}
 
 
 def main() -> int:
