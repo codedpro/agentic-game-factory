@@ -141,9 +141,9 @@
   "votes": [
    {
     "model": "gpt-4o",
-    "wording": false,
-    "meaning": false,
-    "note": "صورت صحیح: دیگ به دیگ می‌گوید رویت سیاه، کتری به دیگ می‌گوید رویت سیاه"
+    "wording": true,
+    "meaning": true,
+    "note": ""
    },
    {
     "model": "gpt-4.1",
@@ -172,7 +172,7 @@
     "model": "gpt-4.1",
     "wording": false,
     "meaning": true,
-    "note": "صورت رایج و اصیل این مثل «کبوتر با کبوتر، باز با باز، کند همجنس با همجنس پرواز» نیست؛ بخش آخر معمولاً در منابع معتبر وجود ندارد و صورت درست آن تا «باز با باز» است."
+    "note": "صورت رایج و اصیل این مثل «کبوتر با کبوتر، باز با باز، کند همجنس با همجنس پرواز» نیست؛ بخش پایانی آن ساختگی و افزوده است. صورت درست: «کبوتر با کبوتر، باز با باز» یا «کند همجنس با همجنس پرواز»."
    },
    {
     "model": "gemini-2.5-flash",
@@ -287,7 +287,7 @@
     "model": "gpt-4.1",
     "wording": false,
     "meaning": true,
-    "note": "صورت رایج و اصیل: «آشپز که دو تا شد، آش یا شور می‌شود یا بی‌نمک» نیست؛ صورت درست: «آشپز که دو تا شد، آش یا شور می‌شود یا بی‌نمک» یا «آشپز که دو تا شد، آش یا شور می‌شود یا بی‌نمک» نیست. صورت رایج: «آشپز که دو تا شد، آش یا شور می‌شود یا بی‌نمک» یا «آشپز که دو تا شد، آش شور یا بی‌نمک می‌شود»."
+    "note": "صورت رایج و اصیل: «آشپز که دو تا شد، آش یا شور می‌شود یا بی‌نمک» نیست؛ صورت درست: «آشپز که دو تا شد، آش یا شور می‌شود یا بی‌نمک» نیست، بلکه «آشپز که دو تا شد، آش یا شور می‌شود یا بی‌نمک» صورت نادرست و ساختگی است. صورت رایج: «آشپز که دو تا شد، آش یا شور می‌شود یا بی‌نمک» نیست، بلکه «آشپز که دو تا شد، آش یا شور می‌شود یا بی‌نمک» است."
    },
    {
     "model": "gemini-2.5-flash",
@@ -857,7 +857,7 @@
     "model": "gpt-4o",
     "wording": false,
     "meaning": false,
-    "note": "صورت صحیح: 'مار گزیده از ریسمان سیاه و سفید می‌ترسد'"
+    "note": "صورت صحیح: 'مار از یک سوراخ دو بار گزیده نمی‌شود'"
    },
    {
     "model": "gpt-4.1",
@@ -960,8 +960,8 @@
    {
     "model": "gemini-2.5-flash",
     "wording": false,
-    "meaning": true,
-    "note": "صورت رایج‌تر این مثل «چاه مکن بهر کسی، اول خودت می‌افتی» است. صورت داده‌شده رایج نیست."
+    "meaning": false,
+    "note": "صورت رایج این ضرب‌المثل «چاه مکن بهر کسی، که خود در چاه افتی» است. بخش «اول خودت دوم کسی» صورت رایج و اصیل این ضرب‌المثل نیست و معنی آن نیز با این بخش همخوانی ندارد."
    }
   ],
   "kept": false
@@ -1891,15 +1891,15 @@
   "votes": [
    {
     "model": "gpt-4o",
-    "wording": true,
-    "meaning": true,
-    "note": ""
+    "wording": false,
+    "meaning": false,
+    "note": "صورت صحیح: آنچه پیر در خشت بیند، جوان در آینه نبیند."
    },
    {
     "model": "gpt-4.1",
     "wording": false,
     "meaning": true,
-    "note": "صورت رایج و اصیل: «آنچه را پیر در خشت خام بیند، جوان در آینه نبیند» یا مشابه آن است."
+    "note": "صورت رایج و اصیل: «آنچه را که پیر در خشت خام بیند، جوان در آینه نبیند» یا مشابه آن است."
    },
    {
     "model": "gemini-2.5-flash",
@@ -1908,7 +1908,7 @@
     "note": ""
    }
   ],
-  "kept": true
+  "kept": false
  },
  "m084": {
   "votes": [
@@ -2060,7 +2060,7 @@
     "model": "gpt-4.1",
     "wording": false,
     "meaning": true,
-    "note": "صورت درست و رایج: «بزک نمیر بهار میاد، کمبزه با خیار میاد» یا «بزک نمیر بهار میاد، خربزه و خیار میاد» است؛ «کمبزه» واژه‌ای نادرست یا کم‌کاربرد است."
+    "note": "صورت رایج: «بزک نمیر بهار میاد، کمبزه با خیار میاد» یا «بزک نمیر بهار میاد، خربزه و خیار میاد» است؛ «کمبزه» واژه‌ای نادرست یا کم‌کاربرد است."
    },
    {
     "model": "gemini-2.5-flash",
@@ -2674,15 +2674,107 @@
   "votes": [
    {
     "model": "gpt-4o",
-    "wording": false,
-    "meaning": false,
-    "note": "این مثل به صورت 'دیر رسیدن بهتر از هرگز نرسیدن' رایج نیست."
+    "wording": true,
+    "meaning": true,
+    "note": ""
    },
    {
     "model": "gpt-4.1",
     "wording": false,
     "meaning": true,
-    "note": "این جمله بیشتر ترجمهٔ تحت‌اللفظی ضرب‌المثل انگلیسی است و در فارسی به این صورت رایج و اصیل نیست."
+    "note": "این جمله بیشتر ترجمهٔ تحت‌اللفظی ضرب‌المثل انگلیسی است و در فارسی رایج و اصیل نیست."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m118": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m119": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m120": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m121": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": true,
+    "note": "این مثل به این صورت رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": true,
+    "note": "صورت رایج و اصیل این مثل «همه‌جا را گشتم، زیر سرم بود» نیست؛ صورت درست: «زیر سر خودم بود» یا «همه‌جا را گشتم، زیر سر خودم بود» یا «همه‌جا را گشتم، زیر سرم بود» رایج نیست."
    },
    {
     "model": "gemini-2.5-flash",
@@ -2693,7 +2785,3123 @@
   ],
   "kept": false
  },
- "m118": {
+ "m122": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": true,
+    "note": "این مثل به این صورت رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": true,
+    "note": "این جمله به عنوان ضرب‌المثل رایج و اصیل فارسی شناخته نمی‌شود."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": false,
+    "meaning": false,
+    "note": "این یک ضرب‌المثل رایج و اصیل فارسی نیست. معنی داده‌شده نیز برداشت متعارفی از این عبارت نیست."
+   }
+  ],
+  "kept": false
+ },
+ "m123": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m124": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m125": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m126": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": true,
+    "note": "این مثل به این صورت رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": true,
+    "note": "این جمله به عنوان ضرب‌المثل رایج و اصیل فارسی وجود ندارد."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": false,
+    "meaning": true,
+    "note": "این عبارت به صورت یک ضرب‌المثل یا اصطلاح رایج و اصیل فارسی شناخته نمی‌شود، بلکه بیشتر یک جمله کنایه‌آمیز یا طنزآمیز است. اما معنی داده‌شده می‌تواند برداشت درستی از کاربرد کنایه‌آمیز آن باشد."
+   }
+  ],
+  "kept": false
+ },
+ "m127": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": true,
+    "note": "این جمله به این صورت ضرب‌المثل رایج نیست؛ اما مضمون آن در فرهنگ عامه وجود دارد."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m128": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m129": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m130": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m131": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m132": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": false,
+    "note": "معنی درست: باید با کسی یا چیزی که ممکن است بعداً مشکل‌ساز شود، از همان ابتدا قاطعانه برخورد کرد."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m133": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": false,
+    "note": "معنی داده شده نادرست است. این اصطلاح برای زمانی به کار می‌رود که کسی سزاوار مشکلی باشد یا مجبور به تحمل آن باشد و هیچ همدردی با او وجود ندارد."
+   }
+  ],
+  "kept": true
+ },
+ "m134": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": false,
+    "note": "معنی داده شده دقیق نیست. این مثل بیشتر به این معنی است که تلاش انسان پیش‌نیاز برکت و یاری الهی است، نه لزوماً همراهی دیگران."
+   }
+  ],
+  "kept": true
+ },
+ "m135": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m136": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m137": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m138": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m139": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m140": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m141": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m142": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "این مثل رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": false,
+    "note": "این مثل رایج و اصیل نیست و معنی آن نیز برداشت متعارفی ندارد."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": false,
+    "meaning": false,
+    "note": "این یک ضرب‌المثل یا اصطلاح رایج و اصیل فارسی نیست. عبارت «خاک بر سر» یک نفرین رایج است، اما ادامهٔ «کسی که در قبرش آب برود» بخشی از یک ضرب‌المثل یا اصطلاح شناخته‌شده نیست و معنای داده‌شده نیز برداشت متعارف از یک مثل نیست."
+   }
+  ],
+  "kept": false
+ },
+ "m143": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m144": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m145": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m146": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m147": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "این مثل رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": false,
+    "note": "این صورت مثل رایج نیست؛ صورت درست: «اشک کباب باعث طغیان آتش است» وجود ندارد."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": false,
+    "meaning": false,
+    "note": "این یک ضرب‌المثل یا اصطلاح رایج و اصیل فارسی نیست. این عبارت توصیف یک پدیدهٔ فیزیکی است و کاربرد استعاری رایجی به عنوان ضرب‌المثل ندارد."
+   }
+  ],
+  "kept": false
+ },
+ "m148": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": false,
+    "meaning": false,
+    "note": "این یک ضرب‌المثل یا اصطلاح رایج و اصیل فارسی نیست. اصطلاح رایج برای نامشخص بودن «نه سر دارد نه ته» است. عبارت «نه به دار است نه به بار» در فارسی رایج نیست."
+   }
+  ],
+  "kept": true
+ },
+ "m149": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m150": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m151": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": false,
+    "meaning": false,
+    "note": "صورت فعل در اصطلاح اشتباه است. صورت صحیح «ناز شست کسی را گفتن» است."
+   }
+  ],
+  "kept": true
+ },
+ "m152": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m153": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": false,
+  "drop_reason": "only 1 playable targets"
+ },
+ "m154": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m155": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": false,
+    "note": "معنی درست: کسی که قدر خوبی‌هایش را نمی‌دانند یا کسی که به دیگران خوبی می‌کند اما آن‌ها ناسپاس‌اند. ربطی به برکت ندارد."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m156": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m157": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m158": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m159": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m160": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m161": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m162": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": false,
+    "note": "معنی درست: وضعیتی که از هر طرف به نفع است."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": false,
+    "meaning": false,
+    "note": "صورت رایج این اصطلاح برای معنی داده‌شده «چوب دو سر نجس» یا «چوب دو سر گُه» است که به معنی وضعیتی است که از هر دو طرف ضرر دارد. «چوب دو سر طلا» اصطلاح رایجی با این معنی نیست و متناقض به نظر می‌رسد."
+   }
+  ],
+  "kept": false
+ },
+ "m163": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m164": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m165": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m166": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m167": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "این یک اصطلاح رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": false,
+    "note": "«خوش‌خیال بودن» اصطلاح رایج عامیانه است اما ضرب‌المثل نیست و معنای داده‌شده هم دقیقاً متعارف نیست."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": false,
+    "note": "معنی «خوش‌خیال بودن» بیشتر به داشتن افکار یا امیدهای غیرواقع‌بینانه و بیش از حد خوش‌بینانه اشاره دارد که اغلب با ساده‌لوحی یا نادیده گرفتن واقعیت همراه است. معنی داده‌شده (بی‌دغدغه و بی‌فکر درباره مشکلات بودن) بخشی از پیامد خوش‌خیالی است، اما معنی اصلی و کامل آن نیست."
+   }
+  ],
+  "kept": false
+ },
+ "m168": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m169": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m170": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m171": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m172": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m173": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m174": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m175": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m176": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m177": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m178": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m179": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m180": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m181": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m182": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m183": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m184": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m185": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m186": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m187": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m188": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m189": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": false,
+    "note": "صورت رایج این مثل «حرف مفت خریدار ندارد» یا «حرف مفت بی‌مشتری است» است و صورت داده‌شده متداول نیست. همچنین معنی آن بیشتر به این اشاره دارد که حرف بی‌ارزش کسی را جذب نمی‌کند، نه لزوماً بی‌منطق بودن."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m190": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m191": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m192": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": false,
+    "note": "معنی درست: فردی که دردسرساز یا دردسرآفرین است، یا نشانه‌ای از دردسر دارد."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m193": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m194": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m195": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "این مثل به این صورت رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": false,
+    "note": "این صورت مثل رایج و اصیل نیست و معنی هم متعارف نیست."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": false,
+    "meaning": true,
+    "note": "صورت رایج‌تر این مثل «قلم پا نداری، هر جا نرو» یا «قلم پا نداری، هر جا نگذاری» (بدون حرف اضافه «به») است."
+   }
+  ],
+  "kept": false
+ },
+ "m196": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m197": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m198": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m199": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m200": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m201": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m202": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": false,
+    "meaning": false,
+    "note": "این عبارت به صورت یک ضرب‌المثل یا اصطلاح رایج و اصیل فارسی در این شکل خاص شناخته‌شده نیست. بیشتر یک جمله توصیفی است که می‌تواند به صورت استعاری به کار رود، اما نه به عنوان یک ضرب‌المثل یا اصطلاح ثابت."
+   }
+  ],
+  "kept": true
+ },
+ "m203": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m204": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m205": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m206": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": false,
+    "note": "این صورتِ مثل رایج و اصیل نیست و ساختگی به نظر می‌رسد."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m207": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "این مثل رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m208": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m209": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m210": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m211": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m212": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m213": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m214": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m215": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m216": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "این مثل به این صورت رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": false,
+    "note": "این جمله به عنوان ضرب‌المثل رایج و اصیل فارسی شناخته نمی‌شود و صورت آن نیز رایج نیست."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": false
+ },
+ "m217": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "این مثل به این صورت رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": false,
+    "note": "این جمله به این صورت ضرب‌المثل رایج نیست؛ صورت درست و رایج آن 'پای مرغ به یک پا بند نیست' یا 'مرغ یک پا دارد' است."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": false,
+    "meaning": false,
+    "note": "این عبارت یک ضرب‌المثل یا اصطلاح رایج و اصیل فارسی نیست."
+   }
+  ],
+  "kept": false
+ },
+ "m218": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": false,
+    "note": "صورت درست و رایج این ضرب‌المثل 'چشم و گوش بسته و این همه ادعا' یا مشابه آن است؛ این صورت رایج نیست."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m219": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m220": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m221": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "این مثل به این صورت رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": false
+ },
+ "m222": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m223": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m224": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "صورت رایج این مثل 'چاه نکن بهر کسی، اول خودت دوم کسی' است."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": false,
+    "note": "صورت درست: 'چاه‌کن، ته چاه است' یا 'چاه مکن بهر کسی، اول خودت، دوم کسی'. صورت داده‌شده رایج نیست و معنی هم دقیق نیست."
+   }
+  ],
+  "kept": false
+ },
+ "m225": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m226": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m227": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m228": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "این جمله بخشی از یک شعر است و به عنوان ضرب‌المثل رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": false
+ },
+ "m229": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "این جمله بخشی از یک شعر است و به عنوان ضرب‌المثل رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": false
+ },
+ "m230": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "این مثل به این صورت رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": false,
+    "note": "این جمله به این صورت ضرب‌المثل رایج فارسی نیست و معنی آن هم برداشت متعارف از هیچ مثل شناخته‌شده‌ای نیست."
+   }
+  ],
+  "kept": false
+ },
+ "m231": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m232": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m233": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "این مثل به این صورت رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": false,
+    "note": "صورت رایج و اصیل این مثل «مال مردم، مال سگ است» یا «مال مردم خوراک سگ است» نیست و معنی هم دقیقاً این نیست؛ بلکه بیشتر به این معناست که مال مردم به صاحبش نمی‌رسد یا به هدر می‌رود."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": false
+ },
+ "m234": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m235": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m236": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "این مثل به این صورت رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m237": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "این مثل به این صورت رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": false,
+    "note": "این جمله به صورت ضرب‌المثل رایج نیست و معنای داده‌شده هم برداشت متعارفی از هیچ مثل شناخته‌شده‌ای نیست."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": false,
+    "meaning": false,
+    "note": "این عبارت به عنوان یک ضرب‌المثل یا اصطلاح رایج و اصیل فارسی شناخته‌شده نیست."
+   }
+  ],
+  "kept": false
+ },
+ "m238": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "این مثل به این صورت رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": false,
+    "note": "صورت رایج این مثل «می‌سوزد و می‌سازد» است و معنای داده‌شده هم فقط تا حدی درست است؛ اصل مثل دربارهٔ کسی است که با وجود رنج، تحمل می‌کند و می‌سازد."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": false
+ },
+ "m239": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m240": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m241": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m242": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m243": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": false,
+    "meaning": false,
+    "note": "این مثل به این صورت رایج نیست."
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": false,
+    "meaning": false,
+    "note": "این یک ضرب‌المثل یا اصطلاح رایج و اصیل فارسی نیست. صورت‌های مشابهی با 'سنگ' یا 'نان' وجود دارد، اما 'ریگ انداختن به دهن سگ' رایج نیست."
+   }
+  ],
+  "kept": false
+ },
+ "m244": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m245": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m246": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m247": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m248": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m249": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m250": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": false,
+  "drop_reason": "only 1 playable targets"
+ },
+ "m251": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m252": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m253": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m254": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m255": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m256": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m257": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": false,
+    "note": "معنی رایج این مثل این است که کسی که در کار خود ماهر است یا به دیگران کمک می‌کند، خودش دچار مشکل یا گرفتاری می‌شود، نه اینکه کسی که دیگران را فریب می‌دهد، خودش فریب بخورد."
+   }
+  ],
+  "kept": true
+ },
+ "m258": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m259": {
+  "votes": [
+   {
+    "model": "gpt-4o",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   },
+   {
+    "model": "gpt-4.1",
+    "wording": false,
+    "meaning": false,
+    "note": "این جمله به این صورت ضرب‌المثل رایج و اصیل فارسی نیست و معنای داده‌شده هم برداشت متعارف از هیچ مثل شناخته‌شده‌ای نیست."
+   },
+   {
+    "model": "gemini-2.5-flash",
+    "wording": true,
+    "meaning": true,
+    "note": ""
+   }
+  ],
+  "kept": true
+ },
+ "m260": {
   "votes": [
    {
     "model": "gpt-4o",

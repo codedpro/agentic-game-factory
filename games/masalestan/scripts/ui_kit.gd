@@ -1,25 +1,32 @@
 extends Node
 ## Autoload "UI" — themes, fonts, juiced widget factories, responsive metrics.
 
+## Four theme identities designed for THIS game's fiction (L69), not recolours of
+## game #1: lapis tilework, Yalda night, an old manuscript, a Persian garden.
+## bg→bg2 is a vertical gradient; "ink" is the ornament/pattern tint.
 const THEMES := {
-	"classic": {
-		"bg": Color("1c202e"), "panel": Color("272c3d"), "accent": Color("4f8cf0"),
-		"tile": Color("3a4160"), "tile_hot": Color("4f8cf0"), "slot": Color("222738"),
+	"classic": {   # کاشی لاجورد — lapis tilework, turquoise + gold on deep blue
+		"bg": Color("141b33"), "bg2": Color("0c1024"), "panel": Color("1e2747"),
+		"accent": Color("31b8ac"), "tile": Color("28325c"), "tile_hot": Color("31b8ac"),
+		"slot": Color("18203f"), "ink": Color("f2c230"),
 	},
-	"sunset": {
-		"bg": Color("241a26"), "panel": Color("342331"), "accent": Color("ff8c5a"),
-		"tile": Color("55374a"), "tile_hot": Color("ff8c5a"), "slot": Color("2c202e"),
+	"sunset": {    # شب یلدا — pomegranate night, warm reds and candle gold
+		"bg": Color("2b1220"), "bg2": Color("190912"), "panel": Color("3d1c2c"),
+		"accent": Color("e4485c"), "tile": Color("4e2436"), "tile_hot": Color("e4485c"),
+		"slot": Color("2f1522"), "ink": Color("f0a24e"),
 	},
-	"neon": {
-		"bg": Color("0a0e14"), "panel": Color("131a24"), "accent": Color("00e5ff"),
-		"tile": Color("1c2836"), "tile_hot": Color("00e5ff"), "slot": Color("101722"),
+	"neon": {      # نسخهٔ خطی — manuscript: sepia ground, ink and illumination
+		"bg": Color("241c12"), "bg2": Color("15100a"), "panel": Color("35291a"),
+		"accent": Color("d8a545"), "tile": Color("46371f"), "tile_hot": Color("d8a545"),
+		"slot": Color("2a2014"), "ink": Color("e8d9b0"),
 	},
-	"garden": {
-		"bg": Color("15241c"), "panel": Color("1f3328"), "accent": Color("6fcf6f"),
-		"tile": Color("2a4434"), "tile_hot": Color("6fcf6f"), "slot": Color("1a2c21"),
+	"garden": {    # باغ ایرانی — cypress green, rosewater and gold
+		"bg": Color("122419"), "bg2": Color("0a170f"), "panel": Color("1c3527"),
+		"accent": Color("58c47c"), "tile": Color("27452f"), "tile_hot": Color("58c47c"),
+		"slot": Color("162b1d"), "ink": Color("e8b7c8"),
 	},
 }
-const MUTED := Color("8b93b0")
+const MUTED := Color("9aa3bd")
 const GOLD := Color("f2c230")
 
 var font_reg: FontFile
@@ -277,7 +284,37 @@ func icon_button(icon_name: String, text: String, cb: Callable, box: Vector2,
 
 
 ## Soft drifting glow blobs — call on any screen for a living background.
+## Theme-gradient backdrop + a sparse row of ornament glyphs in the theme's ink.
+## Every screen calls this, so the four themes read differently everywhere (L69).
+func themed_backdrop(parent: Control) -> void:
+	var v := vp()
+	var grad := Gradient.new()
+	grad.colors = PackedColorArray([theme().bg, theme().get("bg2", theme().bg)])
+	var gt := GradientTexture2D.new()
+	gt.gradient = grad
+	gt.fill_from = Vector2(0, 0)
+	gt.fill_to = Vector2(0, 1)
+	var tex := TextureRect.new()
+	tex.texture = gt
+	tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	tex.set_anchors_preset(Control.PRESET_FULL_RECT)
+	tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tex.z_index = -2
+	parent.add_child(tex)
+	var ink: Color = theme().get("ink", GOLD)
+	var rngl := RandomNumberGenerator.new()
+	rngl.seed = hash(Store.theme_active)
+	for i in 7:
+		var orn := label("۞", int(v.y * rngl.randf_range(0.02, 0.05)), true,
+			Color(ink, 0.05 + rngl.randf() * 0.05))
+		orn.position = Vector2(rngl.randf_range(0, v.x - 40), rngl.randf_range(0, v.y - 40))
+		orn.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		orn.z_index = -1
+		parent.add_child(orn)
+
+
 func animate_bg(parent: Control, count := 5) -> void:
+	themed_backdrop(parent)
 	var v := vp()
 	var rngl := RandomNumberGenerator.new()
 	for i in count:

@@ -35,6 +35,12 @@ var _daily_clean: Array = []     # per-target true=no hint, in solve order (shar
 var _shake_tw: Tween
 var _toasts: Array = []
 var _rush_paused := false
+var _mascot: TextureRect
+var _bubble: Panel
+var _last_say := -1e9
+var _wrong_streak := 0
+var _hurry_said := false
+var _just_solved := ""           # the word whose slots celebrate on this render (L73)
 
 
 func _ready() -> void:
@@ -93,6 +99,11 @@ func _process(delta: float) -> void:
 		return                    # the bot advances time itself, deterministically
 	rush.advance(delta)
 	_update_timer()
+	if rush.time_left < 15.0 and not _hurry_said and not rush.game_over:
+		_hurry_said = true
+		_mascot_say("char_g_hurry", true)
+	elif rush.time_left > 25.0:
+		_hurry_said = false
 	if rush.game_over:
 		_on_rush_over()
 
@@ -129,11 +140,72 @@ func relayout() -> void:
 
 	over_panel = null
 	card_panel = null
+	_build_mascot()
 	_render_proverb()
 	_render_wheel()
 	_render_preview()
 	if mode == "rush" and rush and rush.game_over:
 		_build_over_panel()
+	if Masal.has_image(str(puzzle.level.get("id", ""))) and not _autoplay:
+		_mascot_say("char_g_pic")
+
+
+## شکرک lives in the game too (L70): docked at the lower-left of the proverb panel,
+## reacting to real events through _mascot_say (priority = whoever calls, throttled).
+func _build_mascot() -> void:
+	_mascot = null
+	_bubble = null
+	var portrait := Char.portrait(false)
+	if portrait == null:
+		return
+	var v := UI.vp()
+	var mh: float = clampf(v.y * 0.085, 56, 104)
+	_mascot = TextureRect.new()
+	_mascot.texture = portrait
+	_mascot.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_mascot.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
+	_mascot.size = Vector2(mh * 0.8, mh)
+	_mascot.position = Vector2(m.margin - 2, m.proverb_y + m.proverb_h - mh + 6)
+	_mascot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_mascot.z_index = 5
+	add_child(_mascot)
+	var bob := _mascot.create_tween().set_loops()
+	bob.tween_property(_mascot, "position:y", _mascot.position.y - 4, 1.8)\
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	bob.tween_property(_mascot, "position:y", _mascot.position.y, 1.8)\
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+
+func _mascot_say(key: String, force := false) -> void:
+	if _mascot == null or not is_instance_valid(_mascot) or _autoplay:
+		return
+	var now := Time.get_ticks_msec() / 1000.0
+	if not force and now - _last_say < 6.0:
+		return
+	_last_say = now
+	if _bubble and is_instance_valid(_bubble):
+		_bubble.queue_free()
+	var v := UI.vp()
+	var fs := int(clampf(v.y * 0.017, 13, 20))
+	var txt := I18n.t(key)
+	var bw: float = minf(UI.font_bold.get_string_size(txt,
+		HORIZONTAL_ALIGNMENT_CENTER, -1, fs).x + fs * 2.2, v.x * 0.6)
+	_bubble = UI.panel(Color("2b3350"), 12)
+	_bubble.size = Vector2(bw, fs * 2.4)
+	_bubble.position = Vector2(_mascot.position.x + _mascot.size.x * 0.7,
+		_mascot.position.y - fs * 2.0)
+	_bubble.z_index = 6
+	add_child(_bubble)
+	var l := UI.label(txt, fs, false)
+	l.name = "OwlSays"           # dialogue node: emoji exempt from the chrome test
+	l.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_bubble.add_child(l)
+	_bubble.modulate.a = 0.0
+	var tw := _bubble.create_tween()
+	tw.tween_property(_bubble, "modulate:a", 1.0, 0.15)
+	tw.tween_interval(2.4)
+	tw.tween_property(_bubble, "modulate:a", 0.0, 0.3)
+	tw.tween_callback(_bubble.queue_free)
 
 
 func _build_hud(v: Vector2) -> void:
@@ -251,13 +323,31 @@ func _render_proverb() -> void:
 	var margin: float = m.margin + 6
 	var line_h: float = box + 14
 	var lines := _count_lines(fs, box, gap, margin, v)
-	var x := v.x - margin          # RTL: start at the right edge
-	var y: float = m.proverb_y + maxf(16.0, (m.proverb_h - lines * line_h) / 2.0)
-
 	var panel := UI.panel(Color(UI.panel_color(), 0.65), 20)
 	panel.position = Vector2(m.margin - 6, m.proverb_y)
 	panel.size = Vector2(v.x - (m.margin - 6) * 2, m.proverb_h)
 	proverb_root.add_child(panel)
+
+	# picture-guess levels: the illustration IS the clue, drawn above the slots
+	var img_h := 0.0
+	var img := Masal.image(str(puzzle.level.get("id", "")))
+	if img != null:
+		img_h = minf(m.proverb_h - lines * line_h - 28, m.proverb_h * 0.62)
+		if img_h > 70:
+			var tr := TextureRect.new()
+			tr.texture = img
+			tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			tr.size = Vector2(panel.size.x - 24, img_h - 8)
+			tr.position = Vector2(panel.position.x + 12, m.proverb_y + 10)
+			tr.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			proverb_root.add_child(tr)
+		else:
+			img_h = 0.0
+
+	var x := v.x - margin          # RTL: start at the right edge
+	var y: float = m.proverb_y + img_h \
+		+ maxf(12.0, (m.proverb_h - img_h - lines * line_h) / 2.0)
 
 	for tok in puzzle.display_tokens():
 		var widgets: Array = []      # [[width, Control-builder args], ...] for this token
@@ -290,6 +380,8 @@ func _render_proverb() -> void:
 			else:
 				_word_slot(wd.s, wd.solved, Vector2(x, y), box, gap, fs)
 		x -= 10
+	# one-shot: a resize re-render must not re-celebrate (renderers stay idempotent, L30)
+	_just_solved = ""
 
 
 ## Dry-run of the wrap loop: how many lines will the proverb occupy?
@@ -312,8 +404,11 @@ func _count_lines(fs: int, box: float, gap: float, margin: float, v: Vector2) ->
 
 
 ## One hidden/solved word as letter boxes, first letter at the RIGHT.
+## A freshly solved word celebrates: per-letter pop + staggered colour bursts (L73).
 func _word_slot(word: String, solved: bool, pos: Vector2, box: float, gap: float, fs: int) -> void:
 	var shown: int = int(puzzle.revealed.get(word, 0))
+	var celebrate := solved and word == _just_solved
+	var fx_colors := [UI.accent(), UI.GOLD, UI.theme().get("ink", UI.GOLD)]
 	for i in word.length():
 		var bx := pos.x + (word.length() - 1 - i) * (box + gap)
 		var cell := UI.panel(UI.accent().darkened(0.25) if solved else UI.theme().slot, 8)
@@ -326,6 +421,27 @@ func _word_slot(word: String, solved: bool, pos: Vector2, box: float, gap: float
 			l.position = Vector2(bx, pos.y)
 			l.size = Vector2(box, box)
 			proverb_root.add_child(l)
+			if celebrate:
+				l.pivot_offset = Vector2(box / 2, box / 2)
+				l.scale = Vector2(0.2, 0.2)
+				var lt := l.create_tween()
+				lt.tween_interval(i * 0.05)
+				lt.tween_property(l, "scale", Vector2(1.3, 1.3), 0.12)\
+					.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+				lt.tween_property(l, "scale", Vector2.ONE, 0.1)
+		if celebrate:
+			cell.pivot_offset = Vector2(box / 2, box / 2)
+			cell.scale = Vector2(1.25, 1.25)
+			var ct := cell.create_tween()
+			ct.tween_interval(i * 0.05)
+			ct.tween_property(cell, "scale", Vector2.ONE, 0.16)\
+				.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			var burst_at := Vector2(bx + box / 2, pos.y + box / 2)
+			var bt := create_tween()
+			bt.tween_interval(i * 0.05)
+			bt.tween_callback(func():
+				if fx_root and is_instance_valid(fx_root):
+					UI.burst(fx_root, burst_at, fx_colors[i % fx_colors.size()], 10))
 
 
 # ---------- wheel ----------
@@ -465,6 +581,9 @@ func _select_tile(i: int) -> void:
 		return
 	_sel.append(i)
 	_paint_tile(i, true)
+	# tactile spark right under the finger (L73)
+	if fx_root and is_instance_valid(fx_root) and i < _tiles.size() and is_instance_valid(_tiles[i]):
+		UI.burst(fx_root, _tiles[i].position + Vector2(m.tile, m.tile) / 2.0, UI.accent(), 5)
 	Sfx.play("ui")
 	_render_preview()
 
@@ -511,6 +630,9 @@ func _submit_word(word: String) -> void:
 		res = puzzle.submit(word)
 	match int(res.kind):
 		Puzzle.HIT_TARGET:
+			_wrong_streak = 0
+			_just_solved = word
+			_float_label("✓ " + word, UI.GOLD)
 			Sfx.play_merge(2, 64)
 			Sfx.vibrate(25)
 			Store.words_total += 1
@@ -525,16 +647,26 @@ func _submit_word(word: String) -> void:
 				if int(res.chain) >= 2:
 					_combo_banner(int(res.chain))
 					Missions.report("chain", int(res.chain))
+					if int(res.chain) >= 3:
+						_mascot_say("char_g_chain")
 				if res.level_done:
 					Missions.report("level", 1)
 			_update_hud()
 			if mode != "rush" and res.level_done:
+				_mascot_say("char_g_done", true)
+				_fx_celebrate()
 				_on_level_done()
 			elif mode != "rush" and res.round_done:
+				_mascot_say("char_g_round")
 				_next_round_flourish()
 			else:
 				_render_proverb()
+			if mode == "rush" and res.level_done:
+				_fx_celebrate()
 		Puzzle.HIT_BONUS:
+			_wrong_streak = 0
+			_mascot_say("char_g_bonus")
+			_fx_coins(int(res.coins))
 			Sfx.play("coin")
 			Store.bonus_total += 1
 			Store.add_coins(int(res.coins))
@@ -552,6 +684,10 @@ func _submit_word(word: String) -> void:
 				Sfx.play("stone")
 				shake(4.0)
 				_toast(I18n.t("not_a_word"), 0.9)
+				_wrong_streak += 1
+				if _wrong_streak >= 3:
+					_wrong_streak = 0
+					_mascot_say("char_g_wrong3")
 	_busy = false
 
 
@@ -818,6 +954,7 @@ func _on_hint() -> void:
 		return
 	Economy.use_item("hint")
 	Sfx.play("coin")
+	_mascot_say("char_g_hint")
 	_toast(I18n.t("hint_used"), 0.9)
 	if mode == "daily":
 		if puzzle.solved.has(w) and not was_solved.has(w):
@@ -832,10 +969,61 @@ func _on_hint() -> void:
 		hint_btn.text = "💡 " + I18n.digits(Economy.count("hint"))
 
 
+## Floating feedback label rising from the preview row.
+func _float_label(txt: String, color: Color) -> void:
+	if fx_root == null or not is_instance_valid(fx_root):
+		return
+	var v := UI.vp()
+	var fs := int(clampf(v.y * 0.026, 20, 32))
+	var l := UI.label(txt, fs, true, color)
+	l.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.8))
+	l.add_theme_constant_override("outline_size", 5)
+	l.position = Vector2(v.x / 2 - 200, m.wheel_cy - m.wheel_d / 2.0 - m.preview_h - fs * 2.2)
+	l.size = Vector2(400, fs * 1.6)
+	l.z_index = 12
+	fx_root.add_child(l)
+	var tw := l.create_tween().set_parallel(true)
+	tw.tween_property(l, "position:y", l.position.y - fs * 2.4, 0.7)\
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.tween_property(l, "modulate:a", 0.0, 0.7).set_delay(0.25)
+	tw.chain().tween_callback(l.queue_free)
+
+
+## Bonus coins: golden sparkles at the preview + a flying reward label toward the HUD.
+func _fx_coins(coins: int) -> void:
+	if fx_root == null or not is_instance_valid(fx_root):
+		return
+	var at := Vector2(UI.vp().x / 2.0, m.wheel_cy - m.wheel_d / 2.0 - m.preview_h * 0.5)
+	UI.burst(fx_root, at, UI.GOLD, 16)
+	UI.burst(fx_root, at + Vector2(30, -10), Color("ffe08a"), 10)
+	_float_label("🪙 +" + I18n.digits(coins), UI.GOLD)
+
+
+## Proverb complete: layered colour bursts sweeping the proverb panel + shake.
+func _fx_celebrate() -> void:
+	if fx_root == null or not is_instance_valid(fx_root):
+		return
+	var v := UI.vp()
+	var cols := [UI.accent(), UI.GOLD, UI.theme().get("ink", UI.GOLD),
+		Color("ff8c5a"), Color("c39bf5")]
+	for i in 5:
+		var at := Vector2(v.x * (0.2 + 0.15 * i),
+			m.proverb_y + m.proverb_h * (0.3 + 0.12 * (i % 3)))
+		var tw := create_tween()
+		tw.tween_interval(i * 0.07)
+		tw.tween_callback(func():
+			if fx_root and is_instance_valid(fx_root):
+				UI.burst(fx_root, at, cols[i % cols.size()], 18))
+	shake(6.0)
+	Sfx.vibrate(45)
+
+
 func _combo_banner(chain: int) -> void:
 	var v := UI.vp()
+	# the chain heats up: gold → orange → red → violet → cyan
+	var heat := [UI.GOLD, Color("ffa14e"), Color("ff5e5e"), Color("c96bff"), Color("55e0ff")]
 	var l := UI.label(I18n.t("combo") % I18n.digits(chain),
-		int(clampf(v.y * 0.04, 30, 52)), true, UI.GOLD)
+		int(clampf(v.y * 0.04, 30, 52)), true, heat[clampi(chain - 1, 0, heat.size() - 1)])
 	l.position = Vector2(v.x / 2 - 250, m.proverb_y + m.proverb_h * 0.4)
 	l.size = Vector2(500, 70)
 	l.pivot_offset = Vector2(250, 35)

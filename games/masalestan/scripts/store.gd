@@ -163,6 +163,9 @@ func save() -> void:
 		DirAccess.copy_absolute(PATH, PATH + ".bak")
 	DirAccess.rename_absolute(tmp, PATH)
 	_dirty = false
+	# best-effort cloud backup; throttled inside, no-op signed out (L72)
+	if has_node("/root/CloudSave"):
+		get_node("/root/CloudSave").push_soon()
 
 
 ## Coalesce many rapid writes (missions fire several per drop) into one flush.

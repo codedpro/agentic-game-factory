@@ -61,7 +61,7 @@ func relayout() -> void:
 	col.add_theme_constant_override("separation", 6)
 	scroll.add_child(col)
 	var ifs := int(clampf(v.y * 0.017, 13, 21))
-	for section in [["about", "about_text"], ["privacy", "privacy_text"], ["credits", "credits_text"]]:
+	for section in [["about", "about_text"], ["support_contact", "support_text"], ["privacy", "privacy_text"], ["credits", "credits_text"]]:
 		var h := UI.label(I18n.t(section[0]), ifs + 3, true, UI.accent())
 		h.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		h.custom_minimum_size = Vector2(bw, ifs * 2.0)

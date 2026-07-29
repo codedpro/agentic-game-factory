@@ -490,3 +490,39 @@ a reset link is an account-takeover primitive, so there can be no password reset
 **RULE:** when a product decision removes a capability users expect, state it in the UI at
 the moment of the decision — here, above the password field, before it is chosen — not in
 a FAQ. Ship a test asserting the warning is present on the sign-up form.
+
+## L69 — A second game must not read as a reskin of the first (2026-07-29, user feedback)
+Masalestan v1 reused mergedrop's menu layout (chips, hero title, missions panel, 2-col
+button grid) and the user immediately asked for a different interface and dashboard.
+**RULE:** each game gets its own shell IDENTITY — layout structure, navigation pattern and
+theme palettes — even when it reuses the widget factories underneath. Reuse `ui_kit`
+primitives, never whole screens. Themes must be designed for the game's fiction, not
+carried over as recolors.
+
+## L70 — The companion must live where the player plays (2026-07-29, user feedback)
+The mascot only appeared on the menu with a speech bubble; the user asked for an active
+character. A menu-only companion reads as decoration, not a companion.
+**RULE:** the mascot appears during gameplay and REACTS to real events (bonus word, wrong
+word, proverb complete, timer critical), throttled so it never spams, plus idle blinks/bobs.
+Reactions are picked by event priority, never at random.
+
+## L71 — "Impossible" is not a support policy (2026-07-29, user feedback)
+The sign-up form said passwords are unrecoverable (a deliberate consequence of no email
+verification, L68). The user rejected the dead end: say "contact the admin" instead.
+**RULE:** when a security tradeoff removes self-service recovery, the UI must offer a human
+fallback (support contact) rather than declaring the thing impossible — and the backend must
+actually give the admin a safe manual path for it.
+
+## L72 — An account should back up progress, but never gate it (2026-07-29, user feedback)
+**RULE:** signing in enables best-effort cloud backup of progress (save-blob sync with
+merge-by-max semantics); the game stays 100% playable offline and signed out. Sync failures
+are silent, never block play, and a fresh device restores from the account on sign-in.
+
+## L73 — Matching must FEEL like matching (2026-07-29, user feedback)
+Solving a word only repainted the slots; the user asked for "matching effects, colorful
+stuff, soul". Functional feedback is not emotional feedback.
+**RULE:** every successful match fires a visible celebration at the exact place it happened:
+per-letter particle bursts + pop-scale on the solved word, a floating reward label, coin
+sparkles for bonuses, layered multi-colour bursts on level completion, and colour that
+escalates with chains. Selection itself must feel tactile (spark on touch). Effects ride the
+theme palette so each theme celebrates in its own colours.

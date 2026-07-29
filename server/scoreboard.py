@@ -35,6 +35,7 @@ from urllib.parse import urlparse, parse_qs
 import accounts
 import bazaar
 import purchases
+import saves
 
 DB_PATH = os.environ.get("SCOREBOARD_DB", os.path.join(os.path.dirname(__file__), "scores.db"))
 PORT = int(os.environ.get("PORT", "3000"))
@@ -43,7 +44,8 @@ NICK_RE = re.compile(r"^[\w؀-ۿ][\w؀-ۿ ._-]{1,18}$", re.UNICODE)
 RATE_WINDOW = 60
 RATE_MAX = 60
 # Android package per game slug — needed to ask a store about a receipt.
-PACKAGES = {"mergedrop": "ir.gamefactory.mergedrop"}
+PACKAGES = {"mergedrop": "ir.gamefactory.mergedrop",
+            "masalestan": "ir.gamefactory.masalestan"}
 
 _lock = threading.Lock()
 _hits: dict[str, list[float]] = {}
@@ -81,6 +83,7 @@ def init_db():
                 ON scores(game, mode, score DESC);
             """
         )
+        saves.init_db(conn)
         accounts.init_db(conn)
         purchases.init_db(conn)
 
@@ -115,10 +118,10 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
-    def _body(self) -> dict:
+    def _body(self, limit: int = 8192) -> dict:
         try:
             n = int(self.headers.get("Content-Length", "0"))
-            if n <= 0 or n > 8192:
+            if n <= 0 or n > limit:
                 return {}
             return json.loads(self.rfile.read(n).decode("utf-8"))
         except Exception:
@@ -146,6 +149,8 @@ class Handler(BaseHTTPRequestHandler):
             with db() as conn:
                 code, payload = accounts.account(conn, parts[1], q.get("token", [""])[0])
             return self._send(code, payload)
+        if len(parts) == 3 and parts[0] == "api" and parts[2] == "save":
+            return self.get_save(parts[1], q)
         if len(parts) == 3 and parts[0] == "api" and parts[2] == "purchases":
             with db() as conn:
                 owner = accounts.session_owner(conn, parts[1], q.get("token", [""])[0])
@@ -163,6 +168,8 @@ class Handler(BaseHTTPRequestHandler):
             return self.claim_nickname(parts[1])
         if len(parts) == 3 and parts[0] == "api" and parts[2] == "score":
             return self.submit_score(parts[1])
+        if len(parts) == 3 and parts[0] == "api" and parts[2] == "save":
+            return self.put_save(parts[1])
         if len(parts) == 3 and parts[0] == "api" and parts[2] in (
                 "register", "login", "logout", "verify_purchase"):
             return self.account_route(parts[1], parts[2])
@@ -317,6 +324,19 @@ class Handler(BaseHTTPRequestHandler):
                 "SELECT COUNT(*) AS c FROM scores WHERE game=? AND mode=?", (game, mode)
             ).fetchone()["c"]
         self._send(200, {"mode": mode, "total": total, "top": top, "you": you})
+
+    # ---------- cloud save (L72: backup, never a gate) ----------
+    def get_save(self, game: str, q: dict):
+        with db() as conn:
+            code, payload = saves.get_save(conn, game, q.get("token", [""])[0])
+        self._send(code, payload)
+
+    def put_save(self, game: str):
+        body = self._body(limit=saves.MAX_BLOB + 2048)
+        with db() as conn:
+            code, payload = saves.put_save(conn, game, str(body.get("token", "")),
+                                           body.get("save"))
+        self._send(code, payload)
 
     def me(self, game: str, q: dict):
         device = q.get("device_id", [""])[0]

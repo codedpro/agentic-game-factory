@@ -396,5 +396,64 @@ class _FakeBody:
         return self._t
 
 
+
+
+class CloudSaves(unittest.TestCase):
+    def setUp(self):
+        import saves
+        self.saves = saves
+        self.conn = memdb()
+        saves.init_db(self.conn)
+        accounts.reset_throttle()
+        _, payload = accounts.register(
+            self.conn, "masalestan",
+            {"email": "c@e.com", "password": "goodpassword1", "device_id": "d"}, "2.2.2.2")
+        self.token = payload["token"]
+
+    def test_roundtrip(self):
+        code, _ = self.saves.put_save(self.conn, "masalestan", self.token,
+                                      {"coins": 500, "treasury": ["m001"]})
+        self.assertEqual(code, 200)
+        code, payload = self.saves.get_save(self.conn, "masalestan", self.token)
+        self.assertEqual(code, 200)
+        self.assertEqual(payload["save"]["coins"], 500)
+
+    def test_upsert_replaces(self):
+        self.saves.put_save(self.conn, "masalestan", self.token, {"coins": 1})
+        self.saves.put_save(self.conn, "masalestan", self.token, {"coins": 2})
+        _, payload = self.saves.get_save(self.conn, "masalestan", self.token)
+        self.assertEqual(payload["save"]["coins"], 2)
+
+    def test_requires_a_valid_token(self):
+        code, _ = self.saves.put_save(self.conn, "masalestan", "garbage", {"coins": 1})
+        self.assertEqual(code, 401)
+        code, _ = self.saves.get_save(self.conn, "masalestan", "garbage")
+        self.assertEqual(code, 401)
+
+    def test_no_save_is_404_not_an_empty_save(self):
+        code, _ = self.saves.get_save(self.conn, "masalestan", self.token)
+        self.assertEqual(code, 404)
+
+    def test_non_dict_blob_rejected(self):
+        code, _ = self.saves.put_save(self.conn, "masalestan", self.token, "junk")
+        self.assertEqual(code, 400)
+
+    def test_oversized_blob_rejected(self):
+        big = {"x": "y" * 30000}
+        code, _ = self.saves.put_save(self.conn, "masalestan", self.token, big)
+        self.assertEqual(code, 413)
+
+    def test_saves_are_per_game_and_per_account(self):
+        self.saves.put_save(self.conn, "masalestan", self.token, {"coins": 9})
+        code, _ = self.saves.get_save(self.conn, "othergame", self.token)
+        self.assertEqual(code, 401, "a token belongs to one game only")
+        accounts.reset_throttle()
+        _, other = accounts.register(
+            self.conn, "masalestan",
+            {"email": "other@e.com", "password": "goodpassword1", "device_id": "d2"}, "3.3.3.3")
+        code, _ = self.saves.get_save(self.conn, "masalestan", other["token"])
+        self.assertEqual(code, 404, "another account must not see my save")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

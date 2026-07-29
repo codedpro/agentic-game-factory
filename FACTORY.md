@@ -84,6 +84,11 @@ Machine-local paths this toolchain expects:
   layout-overlap fix + regression tests, 56 GUT tests, store screenshot pipeline
   (`pipeline/make_screenshots.py` — also serves as a layout oracle), Bazaar/Myket asset pack and
   `releases/mergedrop/SUBMISSION.md`.
+- 2026-07-29: **«مثلستان» v1.1 milestone build done** (user feedback round 1 → L69–L73):
+  pool 113→234 verified levels; 46 picture-guess levels with AI illustrations; new home
+  dashboard + 4 Persian theme identities (distinct from game #1); mascot active in gameplay
+  with event reactions; match-effect juice pass; cloud save (server `saves.py` deployed,
+  offline-first client merge); support-contact recovery copy. 131 GUT tests, 44 server tests.
 - 2026-07-29: **«مثلستان» (masalestan) v1.0 milestone build done.** Game #2: آمیرزا-style
   letter-wheel word game where every level is a verified Persian proverb (113 levels,
   2-of-3 model consensus; 525-word bonus dictionary). Campaign + shared daily + timed rush,

@@ -22,6 +22,7 @@ Economy="*res://scripts/economy.gd"
 Online="*res://scripts/online.gd"
 Account="*res://scripts/account.gd"
 Purchases="*res://scripts/purchases.gd"
+CloudSave="*res://scripts/cloudsave.gd"
 Char="*res://scripts/character.gd"
 Notify="*res://scripts/notify.gd"
 

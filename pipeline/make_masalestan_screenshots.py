@@ -26,10 +26,10 @@ F_REG = f"{GAME}/assets/fonts/Vazirmatn-Regular.ttf"
 F_BOLD = f"{GAME}/assets/fonts/Vazirmatn-Bold.ttf"
 FA_DIGITS = "۰۱۲۳۴۵۶۷۸۹"
 
-# mirrors ui_kit.gd THEMES.classic
-BG, PANEL, ACCENT = "#1c202e", "#272c3d", "#4f8cf0"
-TILE_C, TILE_HOT, SLOT = "#3a4160", "#4f8cf0", "#222738"
-MUTED, GOLD = "#8b93b0", "#f2c230"
+# mirrors ui_kit.gd THEMES.classic («کاشی لاجورد»)
+BG, BG2, PANEL, ACCENT = "#141b33", "#0c1024", "#1e2747", "#31b8ac"
+TILE_C, TILE_HOT, SLOT = "#28325c", "#31b8ac", "#18203f"
+MUTED, GOLD, INK = "#9aa3bd", "#f2c230", "#f2c230"
 
 STOP = {"که","از","به","را","و","در","با","بر","تا","هر","چه","اگر","ولی","اما","یا",
         "هم","نه","ای","است","بود","شد","می","نمی","خود","او","آن","این","ما","تو",
@@ -80,8 +80,23 @@ def rounded(d, box, radius, fill=None, outline=None, width=1):
 
 
 def base():
+    """Vertical bg→bg2 gradient + sparse ۞ ornaments (mirrors UI.themed_backdrop)."""
     im = Image.new("RGB", (S(W), S(H)), BG)
-    return im, ImageDraw.Draw(im)
+    d = ImageDraw.Draw(im)
+    c1 = tuple(int(BG[i:i+2], 16) for i in (1, 3, 5))
+    c2 = tuple(int(BG2[i:i+2], 16) for i in (1, 3, 5))
+    for y in range(S(H)):
+        t = y / S(H)
+        d.line([(0, y), (S(W), y)],
+               fill=tuple(int(a + (b - a) * t) for a, b in zip(c1, c2)))
+    import random
+    rnd = random.Random(42)
+    ink = tuple(int(b + (g - b) * 0.08) for b, g in zip(c1, (242, 194, 48)))
+    for _ in range(7):
+        fsz = int(H * rnd.uniform(0.02, 0.05))
+        ctr(d, (S(rnd.uniform(30, W - 30)), S(rnd.uniform(30, H - 30))), "۞",
+            font(F_BOLD, fsz), ink)
+    return im, d
 
 
 def letter_tile(d, x, y, size, ch, hot=False):
@@ -112,7 +127,7 @@ def sub_words(tok):
 
 
 def draw_game(level_id, solved, sel_word, mode="campaign", rush_pct=0.55,
-              revealed=None):
+              revealed=None, with_image=False):
     lvl = LEVELS[level_id]
     m = metrics()
     im, d = base()
@@ -189,8 +204,25 @@ def draw_game(level_id, solved, sel_word, mode="campaign", rush_pct=0.55,
         if x - tw < margin:
             x, nlines = W - margin, nlines + 1
         x -= tw
+    # picture-guess levels: the illustration above the slots (mirrors _render_proverb)
+    img_h = 0
+    img_p = f"{GAME}/assets/masal/img/{level_id}.jpg"
+    if with_image and os.path.exists(img_p):
+        img_h = min(m["proverb_h"] - nlines * line_h - 28, m["proverb_h"] * 0.62)
+        pic = Image.open(img_p).convert("RGB")
+        side = int(min((img_h - 8) * SS, (W - m["margin"] * 2 - 24) * SS))
+        pic = pic.resize((side, side))
+        im.paste(pic, (S(W / 2) - side // 2, S(m["proverb_y"] + 10)))
     x = W - margin
-    y = m["proverb_y"] + max(16, (m["proverb_h"] - nlines * line_h) / 2)
+    y = m["proverb_y"] + img_h + max(12, (m["proverb_h"] - img_h - nlines * line_h) / 2)
+    # mascot dock at the panel's lower-left (mirrors _build_mascot)
+    mdh = max(56, min(104, H * 0.085))
+    mdp = f"{GAME}/assets/art/mascot.png"
+    if os.path.exists(mdp):
+        mi = Image.open(mdp).convert("RGBA")
+        r2 = mdh * SS / mi.height
+        mi = mi.resize((int(mi.width * r2), int(mdh * SS)))
+        im.paste(mi, (S(m["margin"] - 2), S(m["proverb_y"] + m["proverb_h"] - mdh + 6)), mi)
     for tok in lvl["text"].split(" "):
         subs = [s for s in sub_words(tok) if s in targets]
         parts = []
@@ -345,84 +377,107 @@ def draw_card(level_id):
     return im
 
 
-# ---------- menu mirror (proportions of menu_screen.gd) ----------
+# ---------- home mirror (menu_screen.gd v2: daily card hero + journey + dock) ----------
 def draw_menu():
     im, d = base()
-    hero = f"{GAME}/assets/art/hero_bg.png"
-    if os.path.exists(hero):
-        hb = Image.open(hero).convert("RGB")
-        scale = max(S(W) / hb.width, S(H) / hb.height)
-        hb = hb.resize((int(hb.width * scale), int(hb.height * scale)))
-        im.paste(hb, ((S(W) - hb.width) // 2, (S(H) - hb.height) // 2))
-        ov = Image.new("RGBA", im.size, (28, 32, 46, 140))
-        im = Image.alpha_composite(im.convert("RGBA"), ov).convert("RGB")
-        d = ImageDraw.Draw(im)
     fs = max(15, min(25, H * 0.02))
-    # chips
-    ch_h, ch_w = fs * 2.2, min(W * 0.27, 165)
-    for x0, wdt, txt in [(14, ch_w, digits(3150)), (14 + ch_w + 8, ch_w * 0.76, digits(6))]:
-        rounded(d, (x0, 16, x0 + wdt, 16 + ch_h), 12, fill="#161b28")
-        ctr(d, (S(x0 + wdt / 2), S(16 + ch_h / 2)), txt, font(F_BOLD, fs), "white")
-    y = 16 + ch_h + 8
-    ctr(d, (S(W / 2), S(y + H * 0.036)), "مثلستان", font(F_BOLD, max(36, min(70, H * 0.05))), "white")
-    y += max(52, min(90, H * 0.072))
-    ctr(d, (S(W / 2), S(y + fs)), "رکورد: " + digits(38980), font(F_BOLD, max(16, min(28, H * 0.022))), GOLD)
-    y += fs * 2.0
-    # mascot + bubble
-    owl_h = max(100, min(200, H * 0.14))
+    cx = W / 2
+    # ornamental header
+    ts = max(30, min(56, H * 0.042))
+    ctr(d, (S(cx), S(H * 0.022 + ts * 0.7)), "۞  مثلستان  ۞", font(F_BOLD, ts), INK)
+    bs = fs * 2.1
+    for x0 in (12, W - bs - 12):
+        rounded(d, (x0, H * 0.03, x0 + bs, H * 0.03 + bs), 14, fill=PANEL)
+    paste_icon(im, "settings", 12 + bs * 0.2, H * 0.03 + bs * 0.2, bs * 0.6)
+    paste_icon(im, "heart", W - bs - 12 + bs * 0.2, H * 0.03 + bs * 0.2, bs * 0.6,
+               (224, 138, 168))
+    chip_y = H * 0.022 + ts * 1.5
+    chip_w, chip_h = min(W * 0.24, 150), fs * 1.9
+    for x0, wdt, txt, icon in [(cx - chip_w - 6, chip_w, digits(3150), "coin"),
+                               (cx + 6, chip_w, digits(6), "streak")]:
+        rounded(d, (x0, chip_y, x0 + wdt, chip_y + chip_h), 12, fill=(0, 0, 0))
+        ctr(d, (S(x0 + wdt * 0.45), S(chip_y + chip_h / 2)), txt, font(F_BOLD, fs), "white")
+        paste_icon(im, icon, x0 + wdt - chip_h * 0.78, chip_y + chip_h * 0.22,
+                   chip_h * 0.56, (242, 194, 48))
+    y = chip_y + chip_h + H * 0.014
+
+    # daily scroll card with mascot
+    card_w = min(W - 28, 560)
+    card_h = max(150, min(220, H * 0.21))
+    cx0 = cx - card_w / 2
+    rounded(d, (cx0, y, cx0 + card_w, y + card_h), 22, fill=PANEL)
+    rounded(d, (cx0, y, cx0 + card_w, y + card_h), 22, outline=INK, width=2)
+    mh = card_h * 0.92
     mp = f"{GAME}/assets/art/mascot.png"
-    owl_w = 0
+    mw = 0
     if os.path.exists(mp):
         mi = Image.open(mp).convert("RGBA")
-        r = min(owl_h * 0.95 * SS / mi.width, owl_h * SS / mi.height)
-        mi = mi.resize((int(mi.width * r), int(mi.height * r)))
-        owl_w = mi.width / SS
-        im.paste(mi, (S(W) - mi.width - S(10), S(y)), mi)
-    bw2 = max(160, W - owl_w - 36)
-    rounded(d, (14, y + owl_h * 0.14, 14 + bw2, y + owl_h * 0.14 + owl_h * 0.66), 16,
-            fill="#2b3350")
-    ctr(d, (S(14 + bw2 / 2), S(y + owl_h * 0.14 + owl_h * 0.33)),
-        "سلام! من شِکَرَکم. بزن بریم!", font(F_REG, fs), "white")
-    y += owl_h + 8
-    # missions panel
-    mp_w = max(300, min(552, W * 0.92))
-    mfs = max(14, min(22, H * 0.018))
-    head = mfs * 2.6
-    row_h = mfs * 2.5
-    mp_h = head + row_h * 3 + mfs * 0.7
-    mx = (W - mp_w) / 2
-    rounded(d, (mx, y, mx + mp_w, y + mp_h), 18, fill="#1a2030")
-    rtl(d, (S(mx + mp_w - mfs * 2.6), S(y + mfs * 0.8)), "مأموریت‌های امروز",
-        font(F_BOLD, mfs + 2), "white")
-    rows = [("۸ واژه حل کن (۵/۸)", 0.62, False), ("مثلِ امروز را تمام کن (۰/۱)", 0.0, False),
-            ("۲ واژهٔ پنهان پیدا کن (۲/۲)", 1.0, True)]
-    my = y + head
-    for txt, pct, done in rows:
-        rounded(d, (mx + mfs * 0.8, my, mx + mp_w - mfs * 0.8, my + row_h - mfs * 0.55),
-                10, fill="#0f131e")
-        if pct > 0:
-            fill_w = (mp_w - mfs * 1.6) * pct
-            rounded(d, (mx + mfs * 0.8, my, mx + mfs * 0.8 + fill_w, my + row_h - mfs * 0.55),
-                    10, fill="#2e7d5b" if done else ACCENT)
-        rtl(d, (S(mx + mp_w - mfs * 1.6), S(my + mfs * 0.5)), txt, font(F_BOLD, mfs), "white")
-        my += row_h
-    y += mp_h + max(10, min(24, H * 0.018))
-    # actions
-    bw3 = max(250, min(380, W * 0.7))
-    avail = max(220, H - y - 24)
-    bh3 = max(54, min(96, avail * 0.2))
-    rounded(d, ((W - bw3) / 2, y, (W + bw3) / 2, y + bh3), 16, fill=ACCENT)
-    ctr(d, (S(W / 2), S(y + bh3 / 2)), "سفرِ مثل‌ها", font(F_BOLD, int(bh3 * 0.38)), "white")
-    y += bh3 + 14
-    gw = (bw3 - 12) / 2
-    gh = max(42, min(84, (avail - bh3 - 24) / 4 - 10))
-    labels = ["مثل امروز", "مسابقه", "گنجینهٔ مثل‌ها", "جدول جهانی",
-              "فروشگاه", "رکوردها", "تنظیمات", "حساب کاربری"]
-    for i2, lab in enumerate(labels):
-        x0 = (W - bw3) / 2 + (i2 % 2) * (gw + 12)
-        y0 = y + (i2 // 2) * (gh + 10)
-        rounded(d, (x0, y0, x0 + gw, y0 + gh), 16, fill="#232a3d")
-        ctr(d, (S(x0 + gw / 2), S(y0 + gh / 2)), lab, font(F_BOLD, int(min(gh * 0.34, 22))), "white")
+        r = mh * SS / mi.height
+        mi = mi.resize((int(mi.width * r), int(mh * SS)))
+        mw = mi.width / SS
+        im.paste(mi, (S(cx0 - 8), S(y - mh * 0.28)), mi)
+    pad = fs * 0.9
+    tx = mw * 0.55 + pad
+    rtl(d, (S(cx0 + card_w - pad), S(y + pad * 0.7)), "مثلِ امروز 🗓".replace("🗓 ", ""),
+        font(F_BOLD, fs + 4), GOLD)
+    paste_icon(im, "daily", cx0 + card_w - pad - (fs + 4) * 6.2, y + pad * 0.7,
+               (fs + 4) * 1.1, (242, 194, 48))
+    rtl(d, (S(cx0 + card_w - pad), S(y + pad * 0.7 + fs * 1.9)), "سه‌شنبه ۷ مرداد",
+        font(F_REG, fs - 2), MUTED)
+    rtl(d, (S(cx0 + card_w - pad), S(y + pad * 0.7 + fs * 3.4)),
+        "سلام! من شِکَرَکم. بزن بریم!", font(F_REG, fs - 1), "white")
+    bw = card_w * 0.52
+    bh = max(44, min(62, H * 0.052))
+    rounded(d, (cx0 + card_w - bw - pad, y + card_h - bh - pad * 0.7,
+                cx0 + card_w - pad, y + card_h - pad * 0.7), 16, fill=ACCENT)
+    ctr(d, (S(cx0 + card_w - pad - bw / 2), S(y + card_h - pad * 0.7 - bh / 2)),
+        "مثل امروز", font(F_BOLD, int(bh * 0.38)), "white")
+    chw = card_w - bw - pad * 2.4
+    rounded(d, (cx0 + pad * 0.7, y + card_h - bh * 0.82 - pad * 0.8,
+                cx0 + pad * 0.7 + chw, y + card_h - pad * 0.8), 14, fill=(0, 0, 0))
+    ctr(d, (S(cx0 + pad * 0.7 + chw / 2), S(y + card_h - pad * 0.8 - bh * 0.41)),
+        "۱ از ۳ انجام شد", font(F_BOLD, int(fs * 0.9)), ACCENT)
+    y += card_h + H * 0.016
+
+    # journey band
+    band_h = max(100, min(150, H * 0.14))
+    rounded(d, (14, y, W - 14, y + band_h), 18, fill=(0, 0, 0))
+    rtl(d, (S(W - 28), S(y + 8)), "سفرِ مثل‌ها", font(F_BOLD, fs + 1), "white")
+    med = band_h * 0.44
+    gap = med * 0.42
+    row_w = 5 * med + 4 * gap
+    x0 = (W + row_w) / 2 - med
+    my = y + band_h * 0.36
+    for k in range(5):
+        li = 7 - 1 + k
+        mx = x0 - k * (med + gap)
+        col = ACCENT if k == 1 else ("#3a6a48" if k == 0 else (14, 18, 34))
+        rounded(d, (mx, my, mx + med, my + med), med / 2, fill=col)
+        ctr(d, (S(mx + med / 2), S(my + med / 2)), digits(li + 1),
+            font(F_BOLD, int(med * 0.42)), "white" if k <= 1 else MUTED)
+    rtl(d, (S(W - 28), S(y + band_h - fs * 1.7)), "۷ / ۲۳۴", font(F_REG, fs - 2), MUTED)
+    y += band_h + H * 0.016
+
+    # mode buttons + dock
+    avail = H - y - 20
+    bw3 = min(W - 28, 560)
+    bh3 = max(52, min(86, avail * 0.30))
+    half = (bw3 - 12) / 2
+    rounded(d, (cx + 6, y, cx + 6 + half, y + bh3), 16, fill="#7a3b4d")
+    ctr(d, (S(cx + 6 + half / 2), S(y + bh3 / 2)), "مسابقه",
+        font(F_BOLD, int(bh3 * 0.32)), (255, 178, 127))
+    rounded(d, (cx - half - 6, y, cx - 6, y + bh3), 16, fill=PANEL)
+    ctr(d, (S(cx - 6 - half / 2), S(y + bh3 / 2)), "گنجینهٔ مثل‌ها (۴۲)",
+        font(F_BOLD, int(bh3 * 0.26)), (195, 155, 245))
+    dy = y + bh3 + max(8, min(18, avail * 0.06))
+    dw = (bw3 - 24) / 3
+    dh = max(46, min(74, avail * 0.24))
+    for i2, (lab, icon) in enumerate([("جدول جهانی", "board"), ("فروشگاه", "shop"),
+                                      ("رکوردها", "records")]):
+        x1 = cx - bw3 / 2 + i2 * (dw + 12)
+        rounded(d, (x1, dy, x1 + dw, dy + dh), 16, fill=(0, 0, 0))
+        ctr(d, (S(x1 + dw / 2), S(dy + dh / 2)), lab, font(F_BOLD, int(min(dh * 0.3, 20))),
+            "white")
     return im
 
 
@@ -494,6 +549,15 @@ def main():
     save(caption(draw_menu(), "هر روز یک مثل تازه برای همهٔ ایران"), "04_menu")
     # shot 5: treasury
     save(caption(draw_treasury(), "گنجینهٔ ضرب‌المثل‌هایت را کامل کن"), "05_treasury")
+    # shot 6: a picture-guess level, using the first generated illustration
+    img_dir = f"{GAME}/assets/masal/img"
+    if os.path.isdir(img_dir):
+        ready = sorted(f[:-4] for f in os.listdir(img_dir)
+                       if f.endswith(".jpg") and f[:-4] in LEVELS)
+        if ready:
+            lid = ready[0]
+            save(caption(draw_game(lid, solved=[], sel_word="", with_image=True),
+                 "مثل را از تصویر حدس بزن!"), "06_picture")
     print("done →", OUT)
 
 

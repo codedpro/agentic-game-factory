@@ -7,16 +7,16 @@ Store rules per [`markets/iran.md`](../../markets/iran.md) (verified July 2026).
 
 | Requirement | Spec | Prepared file | Status |
 |---|---|---|---|
-| Package | APK ≤150 MB, targetSdk ≥32 (Myket: ≥34 from 23 Oct 2026) | `Masalestan-release.apk` (58 MB, v1.0 code 1, targetSdk 36, arm-only) | ✅ |
-| Emulator test build | not for stores | `Masalestan-test-emulator.apk` (83 MB, adds x86_64) | ✅ |
-| **Bazaar build** | Gradle + Poolakey billing + reminders + leaderboard | `Masalestan-bazaar-iap.apk` (59 MB) — carries `PAY_THROUGH_BAZAAR`, verified: Poolakey present (17 SDK refs), **zero** Myket refs | ✅ |
-| **Myket build** | same game, no Bazaar billing | `Masalestan-myket.apk` (59 MB) — carries `ir.mservices.market.BILLING`, verified: our MIT Myket client present, **zero** Poolakey refs | ✅ |
+| Package | APK ≤150 MB, targetSdk ≥32 (Myket: ≥34 from 23 Oct 2026) | `Masalestan-release.apk` (v1.1 code 2, targetSdk 36, arm-only) | ✅ |
+| Emulator test build | not for stores | `Masalestan-test-emulator.apk` (adds x86_64) | ✅ |
+| **Bazaar build** | Gradle + Poolakey billing + reminders + leaderboard | `Masalestan-bazaar-iap.apk` — carries `PAY_THROUGH_BAZAAR`, verified: Poolakey present (17 SDK refs), **zero** Myket refs | ✅ |
+| **Myket build** | same game, no Bazaar billing | `Masalestan-myket.apk` — carries `ir.mservices.market.BILLING`, verified: our MIT Myket client present, **zero** Poolakey refs | ✅ |
 | Signing | same key forever | release keystore, SHA-256 `1269074d…fb242` — **identical to بریز و بساز** (one studio key) | ✅ |
 | Launcher icon | adaptive on Android 8+ | `icon_adaptive_fg/bg.png` (432²) bundled | ✅ |
 | Store icon | PNG ≥512², ≤3 MB, plain square, = launcher icon | `../../games/masalestan/icon_store_1024.png` | ✅ |
 | Header (سرصفحه) | PNG 5:2 ≥720×288 ≤1 MB | `screenshots/header_720x288.png` (226 KB) | ✅ |
 | Promo | JPG 16:9 ≥1152×648 ≤1 MB | `screenshots/promo_1152x648.jpg` (151 KB) | ✅ |
-| Screenshots | ≥1 (5–6 recommended) ≤1 MB each | `screenshots/01..05_*.jpg` (1080×1920, ≤290 KB) | ✅ |
+| Screenshots | ≥1 (5–6 recommended) ≤1 MB each | `screenshots/01..06_*.jpg` (1080×1920, ≤160 KB) | ✅ |
 | Persian name | ≤16 chars on device, = APK label | «مثلستان» (7) — matches `application-label` | ✅ |
 | Short description | **≤60 chars** | «بازی کلمات با ضرب‌المثل‌های فارسی؛ هر روز یک مثل تازه» (52) | ✅ |
 | Full description | — | `store_listing_fa.md` | ✅ |
@@ -44,12 +44,13 @@ Store rules per [`markets/iran.md`](../../markets/iran.md) (verified July 2026).
 
 | Asset | Source / licence |
 |---|---|
-| ضرب‌المثل‌ها و معنی‌ها | Persian folk heritage (public domain); wording + meanings passed a 2-of-3 independent-model consensus (116/118 kept, 113 shipped) |
+| ضرب‌المثل‌ها و معنی‌ها | Persian folk heritage (public domain); wording + meanings passed a 2-of-3 independent-model consensus (234 shipped from 260 drafted) |
 | Bonus-word dictionary | curated for this project; every word passed a 2-model validity check |
 | Vazirmatn / Noto Emoji fonts | SIL OFL 1.1 |
 | Godot Engine 4.7 | MIT |
 | Music & SFX | generated from scratch (`pipeline/gen_masalestan_audio.py`) — no samples |
 | Icon & art | AI-generated for this project + PIL composition; no third-party assets |
+| Picture-level illustrations (46) | AI-generated for this project, depicting folk proverbs literally |
 | Bazaar billing | Poolakey plugin (DexterFstone, MIT), vendored |
 | Myket billing | self-authored MIT client (`addons/myket`), source in repo |
 

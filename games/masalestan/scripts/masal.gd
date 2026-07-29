@@ -139,3 +139,13 @@ func grant_milestone() -> Dictionary:
 
 func collected_count() -> int:
 	return Store.masal_collected.size()
+
+
+## ~20% of levels ship a literal illustration of their proverb (picture-guess levels).
+func has_image(id: String) -> bool:
+	return ResourceLoader.exists("res://assets/masal/img/%s.jpg" % id)
+
+
+func image(id: String) -> Texture2D:
+	var path := "res://assets/masal/img/%s.jpg" % id
+	return load(path) if ResourceLoader.exists(path) else null

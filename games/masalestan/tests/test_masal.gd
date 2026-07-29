@@ -106,3 +106,20 @@ func test_milestone_grants_uncollected_then_empty():
 	assert_true(Masal.grant_milestone().is_empty(), "full treasury grants nothing")
 	Store.masal_collected = saved
 	Store.save()
+
+
+func test_picture_levels_map_to_real_ids():
+	var dir := DirAccess.open("res://assets/masal/img")
+	if dir == null:
+		pass_test("no picture levels bundled yet")
+		return
+	var n := 0
+	dir.list_dir_begin()
+	var f := dir.get_next()
+	while f != "":
+		if f.ends_with(".jpg"):
+			n += 1
+			assert_true(Masal.by_id.has(f.get_basename()),
+				"picture %s has no matching level" % f)
+		f = dir.get_next()
+	assert_gt(n, 0, "img dir exists but is empty")
