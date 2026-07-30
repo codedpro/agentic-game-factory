@@ -1,13 +1,15 @@
 extends Node
-## Autoload "IAP" — Cafe Bazaar billing (Poolakey), behind a safe abstraction.
+## Autoload "IAP" — store billing behind a safe abstraction (Poolakey / Myket).
 ##
-## The Poolakey addon is loaded DYNAMICALLY: referencing the `Poolakey` class directly
-## would make this script fail to parse in any build without the addon, and the plugin
-## only functions in a Gradle (custom build template) export anyway. With no plugin —
-## desktop, headless CI, or the plain-template APK — `available()` is false and the shop
-## still lists every pack but disables the buy buttons and prints the reason from
-## `unavailable_reason()`. Hiding the tab instead reads to a player as "this game has no
-## way to buy coins", which is exactly the report that prompted this design.
+## Store plugins are loaded DYNAMICALLY: a direct `class_name` reference would make this
+## script fail to parse in any build without the addon, and the plugins only function in
+## a Gradle (custom build template) export anyway.
+##
+## With no plugin — desktop, headless CI, the plain-template APK — `implemented()` is
+## false and the shop HIDES the coins tab completely. It used to show the packs with
+## disabled buttons and a "not available yet" note; Myket rejected release 5.4 for
+## exactly that, and they were right: advertising a feature the build cannot deliver is
+## worse than not mentioning it (LESSONS L69).
 ##
 ## Setup that only the account owner can do (see releases/mergedrop/SUBMISSION.md):
 ##   1. Upload a signed release build to Pishkhan → app → «پرداخت درون‌برنامه‌ای».
@@ -23,9 +25,8 @@ signal ready_changed
 const BAZAAR_ADDON := "res://addons/poolakey/poolakey.gd"
 const MYKET_ADDON := "res://addons/myket/myket.gd"
 
-## RSA public keys are issued per store, only after a build has been uploaded to that panel.
-## Drop them in these files (or set the consts) — with no key the packs are still listed,
-## but buying is disabled and the shop says why.
+## RSA public keys are issued per store, only after a build has been uploaded to that
+## panel. With no key there is no billing backend, so the coins tab does not appear.
 const KEY_FILES := {
 	"bazaar": "user://iap_key_bazaar.txt",
 	"myket": "user://iap_key_myket.txt",
@@ -109,16 +110,28 @@ func available() -> bool:
 	return _api != null and _connected
 
 
-## Why purchases are not possible right now — drives the message shown in the shop, so a
-## player is never left wondering where the buy button went.
-func unavailable_reason() -> String:
+## The store this build ships to, named for the player. NEVER hard-code a store name in
+## a string: each APK goes to exactly one store, and naming a competitor inside it is a
+## rejection (Myket rejected 5.4 for exactly that). Falls back to a neutral phrase.
+func store_name() -> String:
+	return StoreBrand.name_for_locale()
+
+
+## True when this build genuinely ships a billing implementation. False means the coins
+## tab must be HIDDEN, not disabled: a store will reject a visible feature that says it
+## is not available yet.
+func implemented() -> bool:
 	if OS.get_name() != "Android":
-		return "not_android"
-	if _api == null and not ResourceLoader.exists(BAZAAR_ADDON) \
-			and not ResourceLoader.exists(MYKET_ADDON):
-		return "no_plugin"
-	if _public_key() == "":
-		return "no_key"
+		return false
+	return _api != null
+
+
+## Why a purchase cannot happen RIGHT NOW, given that billing is implemented at all.
+## Only consulted when implemented() is true, so it never has to explain the absence of
+## a feature — only a temporary problem the player can actually fix.
+func unavailable_reason() -> String:
+	if not implemented():
+		return "no_billing"        # the caller must hide the coin UI entirely
 	if not _connected:
 		return "no_store_app"
 	return ""

@@ -28,6 +28,8 @@ build() {   # preset, GF_STORE value, permission that MUST be present ("" = none
 	local out
 	out="$(apk_for "$preset")"
 	echo -e "\n=== $preset (GF_STORE=$store)"
+	# Bake in ONLY this store's display name, so no rival name exists in the APK.
+	python3 "$FACTORY/pipeline/gen_store_brand.py" "$GAME" "${store:-none}" || { fail=1; return; }
 	GF_STORE="$store" timeout 900 $GODOT --headless --path . --export-release "$preset" \
 		> "/tmp/build_${SLUG}_${preset}.log" 2>&1
 	if [ ! -f "$OUT/$out" ]; then
@@ -51,6 +53,14 @@ build() {   # preset, GF_STORE value, permission that MUST be present ("" = none
 	if [ -f "$GAME/scripts/online.gd" ] && ! grep -q "android.permission.INTERNET" <<<"$perms"; then
 		echo "MISSING android.permission.INTERNET — networking will silently fail"; fail=1
 	fi
+	# No APK may NAME a competing store to the player. Myket rejected 5.4 because a
+	# hard-coded "کافه‌بازار" shipped inside the Myket build (LESSONS L69). The check
+	# reads the exported script bytecode, which Godot stores zstd-compressed.
+	if [ "$store" = "myket" ] || [ "$store" = "bazaar" ]; then
+		if ! python3 "$FACTORY/pipeline/check_store_names.py" "$OUT/$out" "$store"; then
+			fail=1
+		fi
+	fi
 	echo "ok: $(du -h "$OUT/$out" | cut -f1)  $(grep -c . <<<"$perms") permissions"
 }
 
@@ -58,6 +68,10 @@ build "Android"       none    ""
 build "AndroidTest"   none    ""
 build "AndroidBazaar" bazaar  "PAY_THROUGH_BAZAAR"
 build "AndroidMyket"  myket   "mservices.market.BILLING"
+
+# Leave the working tree store-neutral: the generated brand is build output, and a
+# stale one makes test runs depend on whichever export happened to go last.
+python3 "$FACTORY/pipeline/gen_store_brand.py" "$GAME" none >/dev/null
 
 echo -e "\n=== RESULT"
 [ $fail -eq 0 ] && echo "ALL STORE BUILDS OK" || echo "STORE BUILDS FAILED"

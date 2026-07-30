@@ -3,7 +3,11 @@ extends Node
 ## Two share objects: a GIFT (your fal, how Iranians actually pass Hafez around)
 ## and a BRAG (daily-challenge result with a spoiler-free board grid).
 
-const STORE_LINE := "بازی «بریز و بساز» را از بازار یا مایکت بگیر"
+## Shared text must never name a store other than the one this build ships to — a
+## rival's name inside an APK is a rejection (LESSONS L69). Naming the player's OWN
+## store is also better copy: whoever receives this already has that app installed.
+func store_line() -> String:
+	return I18n.t("share_store_line") % IAP.store_name()
 
 # board value -> emoji tier for the shared grid (never rendered in-app, only copied)
 const TIER := {0: "⬜", -1: "⬛", 2: "🟦", 4: "🟧", 8: "🟥", 16: "🟪", 32: "🟩", 64: "🟫"}
@@ -18,7 +22,7 @@ func fal_text(poem: Dictionary) -> String:
 	lines.append("")
 	lines.append("تعبیر: " + poem.interp)
 	lines.append("")
-	lines.append("فال امروزت را هم بگیر ✨ " + STORE_LINE)
+	lines.append("فال امروزت را هم بگیر ✨ " + store_line())
 	return "\n".join(lines)
 
 
@@ -38,7 +42,7 @@ func daily_text(grid: Array, score: int, streak: int) -> String:
 	if streak > 1:
 		lines.append("🔥 " + I18n.digits(streak) + " روز پیاپی")
 	lines.append("چیدمان امروز برای همه یکی است — تو چند می‌گیری؟")
-	lines.append(STORE_LINE)
+	lines.append(store_line())
 	return "\n".join(lines)
 
 

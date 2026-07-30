@@ -138,7 +138,10 @@ func test_playing_never_requires_an_account():
 	assert_true(Fal.grant_milestone().size() >= 0, "the fal must not need an account")
 
 
-func test_the_coin_tab_offers_sign_in_rather_than_hiding_itself():
+## The account prompt belongs to the coins tab, which only exists in a build that can
+## actually sell something (Myket rejected 5.4 for advertising an inactive purchase
+## section). So this asserts the prompt is wired to billing, not that it always shows.
+func test_the_account_prompt_lives_with_the_coins_tab():
 	get_tree().root.size = Vector2i(720, 1280)
 	var sh = load("res://scripts/main.gd").new()
 	add_child(sh)
@@ -150,8 +153,13 @@ func test_the_coin_tab_offers_sign_in_rather_than_hiding_itself():
 	await wait_process_frames(2)
 	var texts: Array = []
 	_texts(sh.current, texts)
-	assert_true("\n".join(texts).contains(I18n.t("account_needed_to_buy")),
-		"a signed-out player must be told what to do, not shown a dead button")
+	var joined := "\n".join(texts)
+	if IAP.implemented():
+		assert_true(joined.contains(I18n.t("account_needed_to_buy")),
+			"with billing available, a signed-out player must be told what to do")
+	else:
+		assert_false(joined.contains(I18n.t("account_needed_to_buy")),
+			"with nothing to sell, the game must not ask for an account")
 	sh.free()
 
 

@@ -16,7 +16,18 @@ $GODOT --headless --import . >>"$REPORT" 2>&1 || { echo IMPORT-FAILED | tee -a "
 
 step "UNIT TESTS"
 $GODOT --headless --path . -s addons/gut/gut_cmdln.gd -gdir=res://tests -ginclude_subdirs -gexit 2>&1 | tee -a "$REPORT" | tail -6
-grep -q "All tests passed" "$REPORT" || { echo TESTS-FAILED | tee -a "$REPORT"; fail=1; }
+# Gate on the FAILING count, not on GUT's "All tests passed" banner: that banner is
+# withheld whenever any test is pending, so a deliberately-skipped test (e.g. a coin-card
+# geometry check in a build with no billing) would read as a failure.
+tests_failing=$(grep -oE "Failing Tests[[:space:]]+[0-9]+" "$REPORT" | tail -1 | grep -oE "[0-9]+$")
+tests_passing=$(grep -oE "Passing Tests[[:space:]]+[0-9]+" "$REPORT" | tail -1 | grep -oE "[0-9]+$")
+if [ -z "$tests_passing" ]; then
+	echo "TESTS-DID-NOT-RUN" | tee -a "$REPORT"; fail=1
+elif [ "${tests_failing:-0}" -gt 0 ]; then
+	echo "TESTS-FAILED: $tests_failing" | tee -a "$REPORT"; fail=1
+else
+	echo "tests ok: $tests_passing passing, ${tests_failing:-0} failing" | tee -a "$REPORT"
+fi
 
 step "HEADLESS SMOKE RUN (600 frames)"
 # benign exit-time leak warnings excluded; real script/runtime errors still fail

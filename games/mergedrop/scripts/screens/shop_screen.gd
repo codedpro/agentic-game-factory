@@ -50,8 +50,14 @@ func relayout() -> void:
 		add_child(sup)
 
 	# --- tabs ---
-	var tabs := [["items", I18n.t("tab_items")], ["themes", I18n.t("tab_themes")],
-		["coins", I18n.t("tab_coins")]]
+	# The coins tab appears ONLY when this build ships real billing. A store rejects a
+	# visible purchase section that explains it is not available yet (Myket, 1405/05/07),
+	# and it is honest anyway: on desktop and plain-template builds there is nothing to sell.
+	var tabs := [["items", I18n.t("tab_items")], ["themes", I18n.t("tab_themes")]]
+	if IAP.implemented():
+		tabs.append(["coins", I18n.t("tab_coins")])
+	if _tab == "coins" and not IAP.implemented():
+		_tab = "items"
 	var tw: float = minf((v.x - 40) / tabs.size() - 8, 190)
 	var tx: float = cx - (tabs.size() * (tw + 8) - 8) / 2.0
 	var ty: float = v.y * 0.035 + 56 + fs * 3.4
@@ -173,13 +179,16 @@ func _build_themes(col: VBoxContainer, v: Vector2, fs: int) -> void:
 ## plain explanation, because an invisible tab reads as "there is no way to buy coins".
 func _build_coins(col: VBoxContainer, v: Vector2, fs: int) -> void:
 	var w := v.x - 40
+	# Only reachable with billing implemented, so `reason` can only be a temporary
+	# connection problem — never "this feature does not exist".
 	var reason := IAP.unavailable_reason()
+	var store := IAP.store_name()
 	if reason != "":
 		var warn := UI.panel(Color("2a2230"), 14)
 		warn.custom_minimum_size = Vector2(w, fs * 4.2)
 		col.add_child(warn)
-		var wl := UI.label("%s\n%s" % [I18n.t("iap_unavailable"), I18n.t("iap_" + reason)],
-			fs - 2, false, Color("ffc76f"))
+		var wl := UI.label("%s\n%s" % [I18n.t("iap_unavailable") % store,
+			I18n.t("iap_no_store_app") % store], fs - 2, false, Color("ffc76f"))
 		wl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		wl.set_anchors_preset(Control.PRESET_FULL_RECT)
 		warn.add_child(wl)
@@ -263,7 +272,7 @@ func _build_coins(col: VBoxContainer, v: Vector2, fs: int) -> void:
 			bl.set_anchors_preset(Control.PRESET_FULL_RECT)
 			bb.add_child(bl)
 
-	var note := UI.label(I18n.t("iap_note"), fs - 3, false, UI.MUTED)
+	var note := UI.label(I18n.t("iap_note") % store, fs - 3, false, UI.MUTED)
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	note.custom_minimum_size = Vector2(w, fs * 3)
 	col.add_child(note)
@@ -273,7 +282,7 @@ func _build_coins(col: VBoxContainer, v: Vector2, fs: int) -> void:
 ## server-side. Nothing else in the game does — earned coins spend fine signed out.
 func _buy_sku(sku: String) -> void:
 	if IAP.unavailable_reason() != "":
-		_toast(I18n.t("iap_unavailable"), true)
+		_toast(I18n.t("iap_unavailable") % IAP.store_name(), true)
 		return
 	if not Account.signed_in():
 		_toast(I18n.t("account_needed_to_buy"))

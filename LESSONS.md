@@ -526,3 +526,33 @@ per-letter particle bursts + pop-scale on the solved word, a floating reward lab
 sparkles for bonuses, layered multi-colour bursts on level completion, and colour that
 escalates with chains. Selection itself must feel tactile (spark on touch). Effects ride the
 theme palette so each theme celebrates in its own colours.
+
+
+## L69 — Never name a store inside an app; never advertise billing you did not ship (2026-07-30, Myket rejection)
+Myket rejected release 5.4 for two separate reasons, both self-inflicted:
+1. The shop showed a coin section that said «خرید هنوز فعال نیست» — advertising a
+   feature the build could not deliver. Stores require an unimplemented section to be
+   **removed**, not disabled with an apology.
+2. The string «پرداخت از طریق کافه‌بازار انجام می‌شود» was hard-coded in `i18n.gd`, so
+   the *Myket* APK shipped a rival's name. A share message naming «بازار یا مایکت» had
+   the same defect in the other direction and would have failed Bazaar's review too.
+**RULES:**
+* `implemented()` decides whether purchase UI exists at all. If a build cannot sell,
+  the tab is absent — not visible-and-disabled. `unavailable_reason()` then only ever
+  explains a *temporary* problem the player can fix (store app missing, signed out).
+* A store's display name is **generated at build time** into `store_brand.gd` from
+  `GF_STORE`, so a rival's name is absent from the binary rather than merely unused.
+  Putting every store's name in the i18n table fails this: all of them ship.
+* `pipeline/check_store_names.py` fails any build whose player-facing strings name
+  another store. It must decompress Godot's zstd `.gdc` bytecode — a plain grep over
+  the APK finds nothing and gives a false all-clear.
+* Generated build artifacts must be reset after a build, or the working tree (and the
+  test run) depends on whichever export happened to go last.
+
+## L70 — Gate CI on the failure COUNT, not on a "everything passed" banner (2026-07-30)
+`check_game.sh` looked for GUT's "All tests passed" line. GUT withholds that banner when
+any test is *pending*, so deliberately skipping one inapplicable test turned the whole
+pipeline red with no failing test anywhere.
+**RULE:** parse the actual numbers — fail when `Failing Tests > 0`, and fail separately
+when the count is missing entirely (tests did not run). A skipped test is information,
+not a failure, and a green run that checked nothing is worse than either.

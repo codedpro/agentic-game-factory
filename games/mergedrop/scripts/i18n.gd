@@ -154,7 +154,9 @@ const T := {
 	"bought": {"en": "Purchased!", "fa": "خریداری شد!"},
 	"purchase_failed": {"en": "Purchase failed", "fa": "خرید انجام نشد"},
 	"items_hint": {"en": "Items are unlimited — buy as many as you like.", "fa": "ابزارها محدودیت ندارند؛ هر چند بار که بخواهی می‌توانی بخری."},
-	"iap_note": {"en": "Purchases go through Cafe Bazaar.", "fa": "پرداخت از طریق کافه‌بازار انجام می‌شود. سکه‌ها بلافاصله به حساب تو اضافه می‌شوند."},
+	"iap_note": {"en": "Purchases go through %s.", "fa": "پرداخت از طریق %s انجام می‌شود. سکه‌ها بلافاصله به حساب تو اضافه می‌شوند."},
+	"share_store_line": {"en": "Get \"Beriz o Besaz\" on %s",
+		"fa": "بازی «بریز و بساز» را از %s بگیر"},
 	"supporter_badge": {"en": "Supporter ×%s", "fa": "حامی بازی ×%s"},
 	"item_undo": {"en": "Undo pack", "fa": "بستهٔ برگرد"},
 	"item_undo_icon": {"en": "undo", "fa": "undo"},
@@ -228,11 +230,12 @@ const T := {
 	"tag_best": {"en": "Best value", "fa": "بهترین ارزش"},
 	"tag_support": {"en": "Thank you ❤", "fa": "سپاس از تو ❤"},
 	"buy_now": {"en": "Buy", "fa": "خرید"},
-	"iap_unavailable": {"en": "Purchases are not available yet.", "fa": "خرید هنوز فعال نیست."},
-	"iap_no_plugin": {"en": "This build has no store billing.", "fa": "این نسخه از بازی پرداخت فروشگاهی ندارد."},
-	"iap_no_key": {"en": "Purchases activate after the store release.", "fa": "خرید بعد از انتشار در فروشگاه فعال می‌شود."},
-	"iap_no_store_app": {"en": "Install and sign in to the store app first.", "fa": "اول برنامهٔ فروشگاه را نصب کن و وارد حسابت شو."},
-	"iap_not_android": {"en": "Purchases work on the phone version.", "fa": "خرید فقط در نسخهٔ گوشی کار می‌کند."},
+	# Shown only when billing EXISTS but the phone cannot reach it right now (the store
+	# app is missing or signed out). A build with no billing hides the tab instead —
+	# advertising a feature that is not implemented is a store rejection.
+	"iap_unavailable": {"en": "Cannot connect to %s right now.", "fa": "الان به %s وصل نمی‌شویم."},
+	"iap_no_store_app": {"en": "Install %s and sign in to buy.", "fa": "برای خرید، برنامهٔ %s را نصب کن و وارد حسابت شو."},
+	"iap_retry": {"en": "Try again", "fa": "دوباره امتحان کن"},
 	"shield_saved": {"en": "A shield saved your streak!", "fa": "سپرت زنجیرهٔ روزهای پیاپی را نجات داد! 🛡"},
 	"undo_extra": {"en": "Extra undo used", "fa": "از بستهٔ برگرد استفاده شد"},
 	# achievements
