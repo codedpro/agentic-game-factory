@@ -24,40 +24,67 @@ const STREAK_HOUR_OFFSET := 1    # streak warnings land a bit later than the gen
 const MAX_HOUR := 22
 
 var _plugin: Node = null           # NotificationScheduler instance
+var _init_tried := false           # lazy init runs once, even when it fails
 var _data_cls: GDScript = null
 var _channel_cls: GDScript = null
 
 
+## Deliberately does NOTHING. Touching the scheduler plugin during startup is what put a
+## navy clear-colour screen in front of Myket's testers: on Android 12+ an exact alarm
+## without SCHEDULE_EXACT_ALARM throws, and a permission dialog at boot competes with the
+## first frame. The plugin is created lazily, after the UI exists (LESSONS L71).
 func _ready() -> void:
+	pass
+
+
+## Create the plugin on first real use. Safe to call repeatedly; never called before the
+## menu is on screen. Returns true when a usable scheduler exists.
+func _ensure_plugin() -> bool:
+	if _plugin != null:
+		return true
+	if _init_tried:
+		return false
+	_init_tried = true
 	if OS.get_name() != "Android" or not ResourceLoader.exists(SCHEDULER_PATH):
-		return
+		return false
 	var scheduler_cls: GDScript = load(SCHEDULER_PATH)
 	_data_cls = load(DATA_PATH)
 	_channel_cls = load(CHANNEL_PATH)
 	if scheduler_cls == null or _data_cls == null or _channel_cls == null:
-		return
+		return false
 	_plugin = scheduler_cls.new()
 	add_child(_plugin)
 	_plugin.initialize()
 	if not _plugin.has_method("schedule"):
 		_plugin = null
-		return
+		return false
 	# Android 8+ refuses to post a notification without a channel.
 	var ch = _channel_cls.new().set_id(CHANNEL_ID) \
 		.set_name(I18n.t("notifications")) \
 		.set_importance(_channel_cls.Importance.DEFAULT)
 	_plugin.create_notification_channel(ch)
-	request_permission()
-	sync()
+	return true
 
 
 func available() -> bool:
 	return _plugin != null
 
 
+## Android 12 made exact alarms a permission, and 13+ stops granting it by default.
+## Scheduling without it throws a SecurityException out of the plugin, so treat a missing
+## permission as "no reminders" rather than risking the exception. Settings →
+## «یادآوری‌ها نمی‌رسند؟» is where the player grants it.
+func can_schedule_exact() -> bool:
+	if _plugin == null:
+		return false
+	if not _plugin.has_method("has_schedule_exact_alarm_permission"):
+		return true          # older plugin/OS: no permission concept, scheduling is allowed
+	return bool(_plugin.has_schedule_exact_alarm_permission())
+
+
 ## Ask for POST_NOTIFICATIONS (Android 13+). Denial simply means no reminders — never an error.
 func request_permission() -> void:
-	if _plugin == null:
+	if not _ensure_plugin():
 		return
 	if _plugin.has_method("has_post_notifications_permission") \
 			and not _plugin.has_post_notifications_permission():
@@ -160,12 +187,14 @@ func _body(kind: String) -> String:
 ## Push the current plan to the OS. Safe to call often; it replaces what was scheduled.
 ## There is no bulk cancel, but plan() uses deterministic ids so we can clear the range.
 func sync() -> void:
-	if not available():
+	if not _ensure_plugin():
 		return
 	for day in range(0, DAYS_AHEAD + 1):
 		_plugin.cancel(1000 + day)
 	if not Store.notify_on:
 		return
+	if not can_schedule_exact():
+		return          # would throw on Android 12+; the player can enable it in Settings
 	var now := int(Time.get_unix_time_from_system())
 	for r in plan():
 		var delay: int = int(r.at) - now
@@ -186,8 +215,9 @@ func sync() -> void:
 ## fixable only by the user, through system dialogs. This is why the build declares the
 ## SCHEDULE_EXACT_ALARM and battery-optimization permissions; it is the only place they are used.
 func fix_delivery() -> void:
-	if _plugin == null:
+	if not _ensure_plugin():
 		return
+	request_permission()
 	if _plugin.has_method("has_schedule_exact_alarm_permission") \
 			and not _plugin.has_schedule_exact_alarm_permission():
 		_plugin.request_schedule_exact_alarm_permission()

@@ -153,7 +153,10 @@ const T := {
 	"bought": {"en": "Purchased!", "fa": "خریداری شد!"},
 	"purchase_failed": {"en": "Purchase failed", "fa": "خرید انجام نشد"},
 	"items_hint": {"en": "Items are unlimited — buy as many as you like.", "fa": "ابزارها محدودیت ندارند؛ هر چند بار که بخواهی می‌توانی بخری."},
-	"iap_note": {"en": "Purchases go through the store.", "fa": "پرداخت از طریق فروشگاه (بازار یا مایکت) انجام می‌شود. سکه‌ها بلافاصله به حساب تو اضافه می‌شوند."},
+	# %s is filled from StoreBrand — the ONE store this build ships to. Naming a rival
+	# inside an APK is a rejection, so no store name may live in this table (L69).
+	"iap_note": {"en": "Purchases go through %s. Coins are added to your account immediately.",
+		"fa": "پرداخت از طریق %s انجام می‌شود. سکه‌ها بلافاصله به حساب تو اضافه می‌شوند."},
 	"supporter_badge": {"en": "Supporter ×%s", "fa": "حامی بازی ×%s"},
 	"item_hint": {"en": "Hint pack", "fa": "بستهٔ راهنما"},
 	"item_hint_icon": {"en": "bulb", "fa": "bulb"},
@@ -229,11 +232,10 @@ const T := {
 	"tag_best": {"en": "Best value", "fa": "بهترین ارزش"},
 	"tag_support": {"en": "Thank you ❤", "fa": "سپاس از تو ❤"},
 	"buy_now": {"en": "Buy", "fa": "خرید"},
-	"iap_unavailable": {"en": "Purchases are not available yet.", "fa": "خرید هنوز فعال نیست."},
-	"iap_no_plugin": {"en": "This build has no store billing.", "fa": "این نسخه از بازی پرداخت فروشگاهی ندارد."},
-	"iap_no_key": {"en": "Purchases activate after the store release.", "fa": "خرید بعد از انتشار در فروشگاه فعال می‌شود."},
-	"iap_no_store_app": {"en": "Install and sign in to the store app first.", "fa": "اول برنامهٔ فروشگاه را نصب کن و وارد حسابت شو."},
-	"iap_not_android": {"en": "Purchases work on the phone version.", "fa": "خرید فقط در نسخهٔ گوشی کار می‌کند."},
+	# These explain a TEMPORARY, player-fixable problem only. A build that cannot sell
+	# hides the coin UI outright, so there is no "not available yet" apology to show (L69).
+	"iap_unavailable": {"en": "Cannot connect to %s right now.", "fa": "الان به %s وصل نمی‌شویم."},
+	"iap_no_store_app": {"en": "Install %s and sign in to buy.", "fa": "برای خرید، برنامهٔ %s را نصب کن و وارد حسابت شو."},
 	"shield_saved": {"en": "A shield saved your streak!", "fa": "سپرت زنجیرهٔ روزهای پیاپی را نجات داد! 🛡"},
 	"hint_used": {"en": "A letter revealed", "fa": "یک حرف نمایان شد"},
 	"no_hints": {"en": "No hints left — get more in the shop", "fa": "راهنما نداری — از فروشگاه بگیر"},

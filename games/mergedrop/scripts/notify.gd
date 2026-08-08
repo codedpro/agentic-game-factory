@@ -28,7 +28,16 @@ var _data_cls: GDScript = null
 var _channel_cls: GDScript = null
 
 
+## Autoload init must stay cheap and safe: this runs before a single pixel is drawn, so
+## anything that throws here takes the whole app down before the menu exists. The Android
+## work is deferred to `setup()`, which the shell calls only after the first screen is up.
 func _ready() -> void:
+	setup.call_deferred()
+
+
+func setup() -> void:
+	if _plugin != null:
+		return
 	if OS.get_name() != "Android" or not ResourceLoader.exists(SCHEDULER_PATH):
 		return
 	var scheduler_cls: GDScript = load(SCHEDULER_PATH)
@@ -47,12 +56,25 @@ func _ready() -> void:
 		.set_name(I18n.t("notifications")) \
 		.set_importance(_channel_cls.Importance.DEFAULT)
 	_plugin.create_notification_channel(ch)
-	request_permission()
+	# Deliberately NOT requesting permission here. A permission dialog thrown up before
+	# the player has seen the game reads as a broken app to a store reviewer, and the
+	# answer is worthless anyway until they know what the reminders are for. It is asked
+	# when reminders are switched on in Settings instead.
 	sync()
 
 
 func available() -> bool:
 	return _plugin != null
+
+
+## True when the OS will accept an exact alarm. False is normal on Android 14+ until the
+## player grants it through fix_delivery(); reminders are simply not scheduled.
+func can_schedule_exact() -> bool:
+	if _plugin == null:
+		return false
+	if not _plugin.has_method("has_schedule_exact_alarm_permission"):
+		return true              # older plugin/OS: exact alarms were always allowed
+	return bool(_plugin.has_schedule_exact_alarm_permission())
 
 
 ## Ask for POST_NOTIFICATIONS (Android 13+). Denial simply means no reminders — never an error.
@@ -159,12 +181,21 @@ func _body(kind: String) -> String:
 
 ## Push the current plan to the OS. Safe to call often; it replaces what was scheduled.
 ## There is no bulk cancel, but plan() uses deterministic ids so we can clear the range.
+## Re-plan every reminder. Safe to call at any time; a no-op without the plugin.
 func sync() -> void:
 	if not available():
 		return
+	# Clearing old alarms is always safe and must happen even when we cannot schedule new
+	# ones, or a reminder the player switched off would keep firing.
 	for day in range(0, DAYS_AHEAD + 1):
 		_plugin.cancel(1000 + day)
 	if not Store.notify_on:
+		return
+	# Android 14 stopped auto-granting SCHEDULE_EXACT_ALARM to apps with a modern
+	# targetSdk, and setExactAndAllowWhileIdle() THROWS when it is missing. Scheduling
+	# before checking is how a reminder feature crashes an app on launch. Without it we
+	# simply schedule nothing; fix_delivery() walks the player through granting it.
+	if not can_schedule_exact():
 		return
 	var now := int(Time.get_unix_time_from_system())
 	for r in plan():

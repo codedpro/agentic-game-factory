@@ -556,3 +556,38 @@ pipeline red with no failing test anywhere.
 **RULE:** parse the actual numbers — fail when `Failing Tests > 0`, and fail separately
 when the count is missing entirely (tests did not run). A skipped test is information,
 not a failure, and a green run that checked nothing is worse than either.
+
+
+## L71 — Nothing may run before the first screen (2026-08-08, Myket rejection)
+Myket rejected 5.5: on a Poco X5 (Android 14) and a Galaxy A51 (Android 12) the app drew
+«صفحه سرمه‌ای» — our own background colour — and nothing else. That symptom is precise:
+`main._ready()` created the background ColorRect, then aborted before `show_screen()`.
+Everything between those two lines was platform work: `Notify.on_app_open()` → `sync()` →
+AlarmManager. Worse, the `Notify` AUTOLOAD did its whole Android setup in `_ready()` —
+instantiating the plugin, creating a channel, and popping a permission dialog — all before
+a single frame was drawn. GDScript has no try/catch, so anything that throws down there
+takes the UI with it and leaves a blank screen with no error a user can report.
+**RULES:**
+* The first screen renders BEFORE any platform call. Defer notifications, billing,
+  permissions and anything else that crosses into the OS with `call_deferred()`.
+* An autoload's `_ready()` runs before the first frame. Keep it to pure data. Give it a
+  `setup()` the shell calls once the UI is up.
+* Never request a runtime permission at launch. A dialog before the player has seen the
+  game reads as broken to a reviewer, and the answer is meaningless without context —
+  ask when the feature is switched on.
+* Android 14 stopped auto-granting `SCHEDULE_EXACT_ALARM` to apps with a modern
+  targetSdk, and `setExactAndAllowWhileIdle()` THROWS without it. Check the permission
+  before scheduling; schedule nothing rather than crash.
+* Ship `tests/test_startup.gd`: assert the first screen draws real controls at three
+  sizes, and assert at SOURCE level that no platform call precedes `show_screen()`.
+  Unit tests, the desktop release build and the APK export were all green while this
+  bug shipped — only ordering guards catch it.
+
+## L72 — Get a device log before theorising (2026-08-08)
+Diagnosing this from the source cost several wrong guesses (a hung addon load that turned
+out to be my own broken probe calling a nonexistent function). A single logcat would have
+named the throwing call immediately.
+**RULE:** `pipeline/device_log.sh <slug> [variant]` uninstalls, reinstalls, launches and
+captures 20s of logcat, filtered for FATAL/Exception/SCRIPT ERROR. Run it before forming
+a theory. And when a probe "hangs", check whether the probe itself errored and simply
+never reached `quit()` — a SceneTree script that fails keeps the main loop running forever.

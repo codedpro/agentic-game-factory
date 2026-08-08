@@ -18,6 +18,11 @@ var current: Control
 var bg: ColorRect
 
 
+## Boot order is a store-compliance matter, not a style choice: Myket rejected a build
+## that showed only the navy clear colour on Android 12/14 because startup did platform
+## work (exact alarms, permission dialogs) BEFORE any UI existed, and a failure there
+## aborted _ready() with nothing on screen. The menu is therefore built first and every
+## platform side-effect is deferred to a later frame (LESSONS L71).
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	bg = ColorRect.new()
@@ -26,12 +31,21 @@ func _ready() -> void:
 	add_child(bg)
 	get_viewport().size_changed.connect(_on_resize)
 	get_tree().set_auto_accept_quit(false)
-	Notify.on_app_open()
-	_grant_daily_login_gift()
-	show_screen("menu")
 	if "--autoplay" in OS.get_cmdline_user_args():
 		show_screen("game", {"autoplay": true})
 		current.start_autoplay()
+		return
+	show_screen("menu")          # playable UI exists before anything can fail
+	_post_boot.call_deferred()
+
+
+## Everything that touches the platform or persistence, run one frame AFTER the menu is
+## on screen. Each step is independent: one failing must never blank the app.
+func _post_boot() -> void:
+	_grant_daily_login_gift()
+	Notify.on_app_open()
+	if current and is_instance_valid(current) and current.has_method("relayout"):
+		current.relayout()       # reflect any coins the login gift just granted
 
 
 ## Repaint chrome that lives outside the screens (theme purchases change it).

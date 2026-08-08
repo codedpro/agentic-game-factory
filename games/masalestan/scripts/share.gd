@@ -3,7 +3,9 @@ extends Node
 ## Two share objects: a GIFT (today's proverb with its meaning — something you pass
 ## to someone) and a BRAG (daily-challenge result as a spoiler-free square grid).
 
-const STORE_LINE := "بازی «مثلستان» را از بازار یا مایکت بگیر"
+## No store is named here: a shared message travels far beyond the store it came from,
+## and «از بازار یا مایکت بگیر» ships a rival's name in both builds (L69).
+const STORE_LINE := "بازی «مثلستان» را جست‌وجو کن و رایگان نصب کن"
 
 
 func masal_text(level: Dictionary) -> String:

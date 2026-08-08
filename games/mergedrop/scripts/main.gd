@@ -26,9 +26,15 @@ func _ready() -> void:
 	add_child(bg)
 	get_viewport().size_changed.connect(_on_resize)
 	get_tree().set_auto_accept_quit(false)
-	Notify.on_app_open()
+	# The daily gift is pure GDScript over Store, so it is safe to run before the menu
+	# and the menu needs its result to show the right coin count.
 	_grant_daily_login_gift()
+	# THE FIRST SCREEN COMES UP BEFORE ANY PLATFORM WORK. Notifications, alarms and
+	# permission dialogs all reach into Android, and anything that throws there would
+	# abort _ready() and leave the player staring at the bare background — which is
+	# exactly how Myket saw this build: "صفحه سرمه‌ای" and no content (LESSONS L71).
 	show_screen("menu")
+	Notify.on_app_open.call_deferred()
 	if "--autoplay" in OS.get_cmdline_user_args():
 		show_screen("game", {"autoplay": true})
 		current.start_autoplay()

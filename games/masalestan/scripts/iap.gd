@@ -109,16 +109,26 @@ func available() -> bool:
 	return _api != null and _connected
 
 
-## Why purchases are not possible right now — drives the message shown in the shop, so a
-## player is never left wondering where the buy button went.
-func unavailable_reason() -> String:
+## Does this BUILD sell anything at all? Decides whether purchase UI exists, rather than
+## whether it is enabled. Myket rejects a section that advertises «خرید هنوز فعال نیست»:
+## an unimplemented feature must be absent, not disabled with an apology (LESSONS L69).
+func implemented() -> bool:
 	if OS.get_name() != "Android":
-		return "not_android"
-	if _api == null and not ResourceLoader.exists(BAZAAR_ADDON) \
-			and not ResourceLoader.exists(MYKET_ADDON):
-		return "no_plugin"
-	if _public_key() == "":
-		return "no_key"
+		return false
+	return _api != null
+
+
+## The store's own display name, baked in at build time so no rival name ships.
+func store_name() -> String:
+	return StoreBrand.name_for_locale()
+
+
+## Why a purchase cannot happen RIGHT NOW, given that billing is implemented at all.
+## Only consulted when implemented() is true, so it never explains the absence of a
+## feature — only a temporary problem the player can actually fix.
+func unavailable_reason() -> String:
+	if not implemented():
+		return "no_billing"        # the caller must hide the coin UI entirely
 	if not _connected:
 		return "no_store_app"
 	return ""
